@@ -117,16 +117,16 @@ export default class FilterbarButtons extends Vue {
         key: 'b6',
         type: 'object',
         data: { type: 'danger', icon: 'el-icon-delete', text: 'danger' }
-      },
-      {
-        key: 'b7',
-        type: 'jsx',
-        data: [
-          '<div>',
-          '  <el-button type="primary" size="small">按钮</el-button>',
-          '  <el-button type="primary" size="small">按钮</el-button>',
-          '</div>'
-        ].join('\n')
+        // },
+        // {
+        //   key: 'b7',
+        //   type: 'jsx',
+        //   data: [
+        //     '<div>',
+        //     '  <el-button type="primary" size="small">按钮</el-button>',
+        //     '  <el-button type="primary" size="small">按钮</el-button>',
+        //     '</div>'
+        //   ].join('\n')
       }
     ]
   }

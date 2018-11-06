@@ -27,7 +27,8 @@
       </div>
 
       <div class="field__content">
-        <keep-alive>
+        <!-- 排除 2 个 select 类型以让内部选项编辑器不保留状态重新渲染 -->
+        <keep-alive :exclude="['EditorSelect', 'EditorMultipleSelect']">
           <component
             :is="fieldEditor"
             ref="fieldEditor"
@@ -95,10 +96,10 @@ export default class FilterFieldDialog extends Vue {
   @Prop({ type: Object, default: null })
   public editModel!: any
 
+  public $refs: any
   public fieldTypes = fieldTypes
   public allFieldConfig: AllFieldConfig = {}
   public fieldType = ''
-  public $refs: any
 
   get fieldEditor() {
     return editorMaps[_.camelCase(this.fieldType)]

@@ -161,6 +161,7 @@ import { jsonToString } from '@/utils'
   }
 })
 export default class DataSource extends Vue {
+  public $refs: any
   public model: {
     [k: string]: any
   } = {
@@ -168,7 +169,6 @@ export default class DataSource extends Vue {
       'https://easy-mock.com/mock/5aee142c96e73977996d13b6/listview/list',
     requestMethod: 'post'
   }
-
   public fetchUrlLoading = false
   public testMapLoading = false
   public responseBody = null
@@ -177,8 +177,6 @@ export default class DataSource extends Vue {
   public contentDataResult = null
   public useValidateResponse = false
   public useResolveResponseErrorMessage = false
-
-  public $refs: any
 
   async fetchUrl() {
     const url = this.model.requestUrl

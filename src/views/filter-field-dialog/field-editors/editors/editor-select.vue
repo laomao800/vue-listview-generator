@@ -38,10 +38,5 @@ import fieldEditorMixin from './field-editor-mixin'
     OptionsEditList
   }
 })
-export default class EditorSelect extends mixins(fieldEditorMixin) {
-  @Watch('optionsEditForm.data')
-  onDataChanged(value: string) {
-    this.$set(this.fieldConfig, 'options', value) // .filter(option => option.label)
-  }
-}
+export default class EditorSelect extends mixins(fieldEditorMixin) {}
 </script>

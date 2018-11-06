@@ -41,14 +41,14 @@
                   <el-input
                     v-model="option.label"
                     size="mini"
-                    @input="() => (index === internalOptions.length -1) && addOption()"
+                    @input="() => (index === internalOptions.length -1) && addEmptyOption()"
                   />
                 </td>
                 <td class="col-value">
                   <el-input
                     v-model="option.value"
                     size="mini"
-                    @input="() => (index === internalOptions.length -1) && addOption()"
+                    @input="() => (index === internalOptions.length -1) && addEmptyOption()"
                   />
                 </td>
                 <td class="col-action">
@@ -71,7 +71,7 @@
         <div class="options-editor-json">
           <ace-editor
             ref="jsonEditor"
-            :content="optionsString"
+            :content="optionJSONString"
             height="240"
             lang="json"
           />
@@ -101,31 +101,23 @@ export default class OptionsEditList extends Vue {
   @Prop({ type: Array, default: () => [] })
   public options!: OptionType[]
 
+  public $refs: any
   public activeName = 'list'
   public internalOptions: OptionType[] = []
-  public optionsString = ''
-  public $refs: any
+  public optionJSONString = ''
 
   @Watch('internalOptions', { deep: true })
   WatchInterOptions() {
-    this.syncOptions()
-  }
-
-  mounted() {
-    // this.activeName = 'list'
-    this.updateOptions(this.options)
-    this.addOption()
-  }
-
-  updateOptions(options: OptionType[]) {
-    this.internalOptions = _.cloneDeep(options)
-  }
-
-  syncOptions() {
+    // 删除最后一个用于触发添加操作的辅助空数据后返回
     this.$emit('update:options', this.internalOptions.slice(0, -1))
   }
 
-  addOption() {
+  mounted() {
+    this.internalOptions = _.cloneDeep(this.options)
+    this.addEmptyOption()
+  }
+
+  addEmptyOption() {
     this.internalOptions.push({
       label: '',
       value: ''
@@ -134,35 +126,25 @@ export default class OptionsEditList extends Vue {
 
   deleteOption(index: number) {
     this.internalOptions.splice(index, 1)
-    this.updateOptions(this.internalOptions)
-    this.syncOptions()
   }
 
   tabBeforeLeave(activeName: string, oldActiveName: string) {
+    // debugger
     switch (activeName) {
       case 'list':
         const options = this.parseOptionsJSON()
         if (!options) {
           return false
         }
-        this.updateOptions(options)
-        this.addOption()
-        this.syncOptions()
-        this.optionsString = ''
+        this.internalOptions = options
+        this.addEmptyOption()
+        this.optionJSONString = ''
         break
       case 'json':
-        this.optionsString = jsonToString(this.internalOptions.slice(0, -1))
+        this.optionJSONString = jsonToString(this.internalOptions.slice(0, -1))
         break
     }
     return true
-  }
-
-  validOptionJSON(option: OptionType) {
-    return (
-      _.isPlainObject(option) &&
-      typeof option.label === 'string' &&
-      option.hasOwnProperty('value')
-    )
   }
 
   parseOptionsJSON(): OptionType[] | void {
@@ -181,6 +163,14 @@ export default class OptionsEditList extends Vue {
         this.$message.error(error.toString())
       }
     }
+  }
+
+  validOptionJSON(option: OptionType) {
+    return (
+      _.isPlainObject(option) &&
+      typeof option.label === 'string' &&
+      option.hasOwnProperty('value')
+    )
   }
 }
 </script>

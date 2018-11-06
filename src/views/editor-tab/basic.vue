@@ -174,6 +174,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 @Component
 export default class Basic extends Vue {
+  public $refs: any
   public model: {
     [k: string]: any
   } = {
@@ -193,8 +194,6 @@ export default class Basic extends Vue {
   public useContentMessage = false
   public contentMessage: string | null =
     '初次打开页面不加载数据，请组合条件进行搜索。'
-
-  public $refs: any
 
   get inputPageSizes() {
     return this.model.pageSizes
