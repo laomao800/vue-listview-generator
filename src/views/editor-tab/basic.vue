@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="12">
+    <el-col :span="8">
       <div class="editor__header">
         <div class="editor__title">标题栏配置</div>
       </div>
@@ -91,7 +91,7 @@
       </el-form-item>
     </el-col>
 
-    <el-col :span="12">
+    <el-col :span="8">
       <div class="editor__header">
         <div class="editor__title">其他配置</div>
       </div>

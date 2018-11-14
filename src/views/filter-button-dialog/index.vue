@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     title="添加操作按钮"
     width="800px"
   >

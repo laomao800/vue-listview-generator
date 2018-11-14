@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     title="添加搜索字段"
     width="1000px"
   >

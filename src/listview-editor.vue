@@ -48,7 +48,7 @@ import './listview-editor.less'
   }
 })
 export default class ListviewEditor extends Vue {
-  public configActiveTab = 'filterbar'
+  public configActiveTab = 'content'
   public configModel = {}
 }
 </script>
