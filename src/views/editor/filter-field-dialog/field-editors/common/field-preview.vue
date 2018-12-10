@@ -1,11 +1,11 @@
 <template>
   <div class="preview-area">
-    <ElForm
+    <el-form
       :inline="true"
       size="small"
     >
-      <ElFormItem style="margin:0">
-        <Transition
+      <el-form-item style="margin:0">
+        <transition
           v-if="field.label"
           name="label-trans"
         >
@@ -15,8 +15,8 @@
           >
             {{ field.label }}
           </div>
-        </Transition>
-        <Component
+        </transition>
+        <component
           :is="fieldCmpName"
           :model="model"
           :field="field"
@@ -25,8 +25,8 @@
             style: field.width ? { width: `${field.width}px` } : null
           }"
         />
-      </ElFormItem>
-    </ElForm>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 

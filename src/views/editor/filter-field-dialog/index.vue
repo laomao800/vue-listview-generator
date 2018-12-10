@@ -1,17 +1,17 @@
 <template>
-  <ElDialog
+  <el-dialog
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     title="添加搜索字段"
     width="1000px"
   >
     <div slot="footer" class="dialog-footer">
-      <ElButton @click="hideDialog">
+      <el-button @click="hideDialog">
         取 消
-      </ElButton>
-      <ElButton type="primary" @click="formSubmit">
+      </el-button>
+      <el-button type="primary" @click="formSubmit">
         确 定
-      </ElButton>
+      </el-button>
     </div>
 
     <div class="field-editor">
@@ -33,17 +33,17 @@
 
       <div class="field__content">
         <!-- 排除 2 个 select 类型以让内部选项编辑器不保留状态重新渲染 -->
-        <KeepAlive :exclude="['EditorSelect', 'EditorMultipleSelect']">
-          <Component
+        <keep-alive :exclude="['EditorSelect', 'EditorMultipleSelect']">
+          <component
             :is="fieldEditor"
             ref="fieldEditor"
             :field-type="fieldType"
             :field-config="fieldConfig"
           />
-        </KeepAlive>
+        </keep-alive>
       </div>
     </div>
-  </ElDialog>
+  </el-dialog>
 </template>
 
 <script lang="ts">

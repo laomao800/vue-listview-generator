@@ -1,32 +1,32 @@
 <template>
-  <ElRow :gutter="20">
-    <ElCol :span="8">
+  <el-row :gutter="20">
+    <el-col :span="8">
       <div class="editor__header">
         <div class="editor__title">
           标题栏配置
         </div>
       </div>
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           列表标题
           <span class="editor__label-param">
             headerTitle
           </span>
         </div>
-        <ElInput v-model="model.headerTitle" />
+        <el-input v-model="model.headerTitle" />
         <div class="tips">
           显示于顶部面包屑左侧的列表标题
         </div>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           面包屑
           <span class="editor__label-param">
             headerNav
           </span>
         </div>
-        <ElTag
+        <el-tag
           v-for="(nav, index) in model.headerNav"
           :key="index"
           closable
@@ -35,8 +35,8 @@
           @close="removeHeaderNav(index)"
         >
           {{ nav.text }}
-        </ElTag>
-        <ElInput
+        </el-tag>
+        <el-input
           v-if="navInputVisible"
           ref="navInput"
           v-model.trim="navText"
@@ -46,60 +46,63 @@
           @keyup.enter.native="addHeaderNav"
           @blur="addHeaderNav"
         />
-        <ElButton
+        <el-button
           v-else
           size="small"
           @click="showNavInput"
         >
           + 新增子项
-        </ElButton>
+        </el-button>
         <div class="tips">
           面包屑同时支持 <code>to</code> 属性设置路由跳转对象，可在生成后的配置中添加，同 vue-router 的 <code>to</code> 。
         </div>
-      </ElFormItem>
+      </el-form-item>
 
       <div class="editor__header">
         <div class="editor__title">
           布局配置
         </div>
       </div>
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           拉伸高度
           <span class="editor__label-param">
             fullHeight
           </span>
         </div>
-        <ElSwitch v-model="model.fullHeight" />
+        <el-switch v-model="model.fullHeight" />
         <div class="tips">
           全屏效果，开启后 <code>&lt;listview /&gt;</code> 会从渲染起始位置开始往下占满剩余所有的屏幕高度，并会在重设浏览器窗体大小后继续保持铺满状态。
         </div>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem v-show="!model.fullHeight">
+      <el-form-item v-show="!model.fullHeight">
         <div slot="label">
           指定高度
           <span class="editor__label-param">
             height
           </span>
         </div>
-        <ElInput v-model="model.height" style="width:120px" />
+        <el-input
+          v-model="model.height"
+          style="width:120px"
+        />
         <div class="tips-inline">
           e.g. 300, 300px, 50%
         </div>
         <div class="tips">
           设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。
         </div>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem v-show="!model.fullHeight">
+      <el-form-item v-show="!model.fullHeight">
         <div slot="label">
           内容最小高度
           <span class="editor__label-param">
             contentMinHeight
           </span>
         </div>
-        <ElInputNumber
+        <el-input-number
           v-model="model.contentMinHeight"
           :min="0"
           controls-position="right"
@@ -108,101 +111,107 @@
         <div class="tips">
           在没有开启拉伸高度和没有指定高度时， <code>&lt;listview /&gt;</code> 高度随内容变化，该值可用于限制内容区域的最小高度，默认值 160 。
         </div>
-      </ElFormItem>
-    </ElCol>
+      </el-form-item>
+    </el-col>
 
-    <ElCol :span="8">
+    <el-col :span="8">
       <div class="editor__header">
         <div class="editor__title">
           其他配置
         </div>
       </div>
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           数据自动加载
           <span class="editor__label-param">
             autoload
           </span>
         </div>
-        <ElSwitch v-model="model.autoload" />
+        <el-switch v-model="model.autoload" />
         <div class="tips-inline">
           进入页面是否自动加载第一页数据
         </div>
-      </ElFormItem>
+      </el-form-item>
 
       <div v-show="!model.autoload">
-        <ElFormItem>
+        <el-form-item>
           <div slot="label">
             初始文案
             <span class="editor__label-param">
               contentMessage
             </span>
           </div>
-          <ElSwitch v-model="useContentMessage" />
+          <el-switch v-model="useContentMessage" />
           <div class="tips-inline">
             是否使用自定义初始文案，默认显示“暂无数据”。
           </div>
-          <div v-show="useContentMessage" style="padding-top:10px;">
-            <ElInput v-model="contentMessage" placeholder="初始文案" />
+          <div
+            v-show="useContentMessage"
+            style="padding-top:10px;"
+          >
+            <el-input
+              v-model="contentMessage"
+              placeholder="初始文案"
+            />
           </div>
-        </ElFormItem>
+        </el-form-item>
       </div>
 
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           使用分页
           <span class="editor__label-param">
             usePage
           </span>
         </div>
-        <ElSwitch v-model="model.usePage" />
-      </ElFormItem>
+        <el-switch v-model="model.usePage" />
+      </el-form-item>
 
       <div v-show="model.usePage">
-        <ElFormItem>
+        <el-form-item>
           <div slot="label">
             默认分页
             <span class="editor__label-param">
               pageSize
             </span>
           </div>
-          <ElRadioGroup
+          <el-radio-group
             v-model="model.pageSize"
             class="pages-group"
           >
-            <ElRadio
+            <el-radio
               v-for="(size, index) in inputPageSizes"
               :key="index"
               :label="size"
             />
-          </ElRadioGroup>
-        </ElFormItem>
-        <ElFormItem>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
           <div slot="label">
             可选分页
             <span class="editor__label-param">
               pageSizes
             </span>
           </div>
-          <ElCheckboxGroup
+          <el-checkbox-group
             v-model="inputPageSizes"
             :min="1"
             class="pages-group"
           >
-            <ElCheckbox
+            <el-checkbox
               v-for="(val, index) in 10"
               :key="index"
               :value="val*10"
               :label="val*10"
             />
-          </ElCheckboxGroup>
+          </el-checkbox-group>
           <div class="tips">
             用于在分页“每页数量”可选值，至少保留一项。
           </div>
-        </ElFormItem>
+        </el-form-item>
       </div>
-    </ElCol>
-  </ElRow>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">

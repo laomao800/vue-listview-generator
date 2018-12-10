@@ -1,22 +1,22 @@
 <template>
-  <ElRow :gutter="20">
-    <ElCol :span="14">
-      <ElFormItem label="数据接口">
+  <el-row :gutter="20">
+    <el-col :span="14">
+      <el-form-item label="数据接口">
         <div class="request-url">
-          <ElInput
+          <el-input
             v-model="model.requestUrl"
             placeholder="请求接口地址"
             class="input-with-select"
           >
-            <ElSelect
+            <el-select
               slot="prepend"
               v-model="model.requestMethod"
             >
-              <ElOption label="GET" value="get" />
-              <ElOption label="POST" value="post" />
-            </ElSelect>
-          </ElInput>
-          <ElButton
+              <el-option label="GET" value="get" />
+              <el-option label="POST" value="post" />
+            </el-select>
+          </el-input>
+          <el-button
             :loading="fetchUrlLoading"
             type="primary"
             class="test-url"
@@ -25,12 +25,12 @@
             @click="fetchUrl"
           >
             测试接口
-          </ElButton>
+          </el-button>
         </div>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem label="测试参数">
-        <AceEditor
+      <el-form-item label="测试参数">
+        <ace-editor
           ref="requestDataEditor"
           :content="jsonToString({
             page_index: 1,
@@ -39,10 +39,10 @@
           height="100px"
           lang="javascript"
         />
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem label="响应值映射">
-        <ElSwitch v-model="useContentDataMap" />
+      <el-form-item label="响应值映射">
+        <el-switch v-model="useContentDataMap" />
         <div class="tips-inline">
           数据接口响应内容属性映射，在接口响应格式与默认映射格式不一致时使用。
         </div>
@@ -50,14 +50,14 @@
           <div class="tips">
             如果使用默认表格视图，<strong>必须</strong>提供的 2 个必要属性： <code>items(object[])</code> 用于表格数据 和 <code>total(number)</code> 用于分页组件。
           </div>
-          <ElRow :gutter="10">
-            <ElCol :span="8">
+          <el-row :gutter="10">
+            <el-col :span="8">
               <div class="editor__header" style="margin-bottom:5px">
                 <span class="editor__title">
                   映射配置
                 </span>
               </div>
-              <AceEditor
+              <ace-editor
                 ref="contentDataMapEditor"
                 :content="jsonToString({
                   items: 'result.items',
@@ -66,10 +66,10 @@
                 height="200px"
                 lang="javascript"
               />
-            </ElCol>
-            <ElCol :span="16">
+            </el-col>
+            <el-col :span="16">
               <div class="editor__header" style="margin-bottom:5px">
-                <ElButton
+                <el-button
                   :loading="testMapLoading"
                   type="primary"
                   size="mini"
@@ -77,76 +77,76 @@
                   @click="testContentDataMap"
                 >
                   测试映射结果
-                </ElButton>
+                </el-button>
                 <span class="editor__title">
                   映射数据
                 </span>
               </div>
-              <AceEditor
+              <ace-editor
                 v-loading="testMapLoading"
                 :content="jsonToString(contentDataResult)"
                 :readonly="true"
                 height="200px"
                 lang="javascript"
               />
-            </ElCol>
-          </ElRow>
+            </el-col>
+          </el-row>
         </template>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem label="响应验证">
-        <ElSwitch v-model="useValidateResponse" />
+      <el-form-item label="响应验证">
+        <el-switch v-model="useValidateResponse" />
         <div class="tips-inline">
           验证接口响应是否成功。若接口响应格式字段有差异，可修改该配置，如果无需错误处理可直接返回 <code>true</code> 。
         </div>
         <template v-if="useValidateResponse">
           <div>validateResponse</div>
         </template>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem label="解析响应错误">
-        <ElSwitch v-model="useResolveResponseErrorMessage" />
+      <el-form-item label="解析响应错误">
+        <el-switch v-model="useResolveResponseErrorMessage" />
         <div class="tips-inline">
           在 <code>validateResponse</code> 返回 <code>false</code> 表示请求失败后，会调用 <code>resolveResponseErrorMessage</code> 解析错误提示信息。
         </div>
         <template v-if="useResolveResponseErrorMessage">
           <div>resolveResponseErrorMessage</div>
         </template>
-      </ElFormItem>
+      </el-form-item>
 
-      <ElFormItem label="其他">
+      <el-form-item label="其他">
         <del>
           requestConfig,
           requestHandler,
           transformRequestData,
           transformResponseData
         </del>
-      </ElFormItem>
+      </el-form-item>
 
       <!-- <el-form-item label="">request-transform</el-form-item>
       <el-form-item label="">response-transform</el-form-item>
       <el-form-item label="">response-data-map</el-form-item>
       <el-form-item label="">request-config</el-form-item> -->
-    </ElCol>
-    <ElCol :span="10">
-      <ElTabs v-loading="fetchUrlLoading" class="response__tabs">
-        <ElTabPane label="Response body">
-          <AceEditor
+    </el-col>
+    <el-col :span="10">
+      <el-tabs v-loading="fetchUrlLoading" class="response__tabs">
+        <el-tab-pane label="Response body">
+          <ace-editor
             :content="jsonToString(responseBody)"
             :readonly="true"
             lang="javascript"
           />
-        </ElTabPane>
-        <ElTabPane label="Response headers">
-          <AceEditor
+        </el-tab-pane>
+        <el-tab-pane label="Response headers">
+          <ace-editor
             :content="jsonToString(responseHeaders)"
             :readonly="true"
             lang="javascript"
           />
-        </ElTabPane>
-      </ElTabs>
-    </ElCol>
-  </ElRow>
+        </el-tab-pane>
+      </el-tabs>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ListviewEditor from './listview-editor.vue'
+import ListviewEditor from '@/views/editor/index.vue'
 import './common.less'
 
 @Component({

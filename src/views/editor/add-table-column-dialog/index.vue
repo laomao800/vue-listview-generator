@@ -1,19 +1,19 @@
 <template>
-  <ElDialog
+  <el-dialog
     :visible.sync="dialogVisible"
     title="添加操作按钮"
     width="640px"
   >
     <div slot="footer" class="dialog-footer">
-      <ElButton @click="hideDialog">
+      <el-button @click="hideDialog">
         取 消
-      </ElButton>
-      <ElButton type="primary" @click="formSubmit">
+      </el-button>
+      <el-button type="primary" @click="formSubmit">
         确 定
-      </ElButton>
+      </el-button>
     </div>
 
-    <ElForm
+    <el-form
       ref="form"
       :model="model"
       label-width="120px"
@@ -26,8 +26,8 @@
       formatter
       render
       children
-    </ElForm>
-  </ElDialog>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script>

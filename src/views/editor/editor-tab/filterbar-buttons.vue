@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editor__header">
-      <ElButton
+      <el-button
         type="success"
         size="mini"
         icon="el-icon-plus"
@@ -9,19 +9,19 @@
         @click="dialogVisible = true"
       >
         添加操作按钮
-      </ElButton>
+      </el-button>
       <div class="editor__title">
         操作按钮
         <small>filterButtons</small>
       </div>
     </div>
 
-    <Draggable
+    <draggable
       v-model="buttons"
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-buttons-list"
     >
-      <DragItem
+      <drag-item
         v-for="(item, index) in buttons"
         :key="item.key"
       >
@@ -30,17 +30,17 @@
           :class="{[`config-content--${item.type}`]: item.type}"
         >
           <template v-if="item.type === 'object'">
-            <ElButton
+            <el-button
               size="small"
               :type="item.data.type"
               :plain="item.data.plain"
               :icon="item.data.icon"
             >
               {{ item.data.text }}
-            </ElButton>
+            </el-button>
           </template>
           <template v-else-if="item.type === 'jsx'">
-            <ElPopover
+            <el-popover
               placement="right"
               trigger="hover"
             >
@@ -51,25 +51,25 @@
                 自定义 (JSX)
               </div>
               <pre style="margin:0;font-size:12px;">{{ item.data }}</pre>
-            </ElPopover>
+            </el-popover>
           </template>
         </div>
         <div slot="right">
-          <ElButton
+          <el-button
             type="text"
             icon="el-icon-edit"
             @click="edit(index)"
           />
-          <ElButton
+          <el-button
             type="text"
             icon="el-icon-delete"
             @click="remove(index)"
           />
         </div>
-      </DragItem>
-    </Draggable>
+      </drag-item>
+    </draggable>
 
-    <FilterButtonDialog
+    <filter-button-dialog
       :visible.sync="dialogVisible"
       :edit-model="editModel"
       @submit="save"

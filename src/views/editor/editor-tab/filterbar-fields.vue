@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editor__header">
-      <ElButton
+      <el-button
         type="success"
         size="mini"
         icon="el-icon-plus"
@@ -9,19 +9,19 @@
         @click="dialogVisible = true"
       >
         添加搜索字段
-      </ElButton>
+      </el-button>
       <div class="editor__title">
         搜索字段
         <small>filterFields</small>
       </div>
     </div>
 
-    <Draggable
+    <draggable
       v-model="fields"
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-fields-list"
     >
-      <DragItem
+      <drag-item
         v-for="(item, index) in fields"
         :key="item.key"
       >
@@ -49,21 +49,21 @@
           </template>
         </div>
         <div slot="right">
-          <ElButton
+          <el-button
             type="text"
             icon="el-icon-edit"
             @click="edit(index)"
           />
-          <ElButton
+          <el-button
             type="text"
             icon="el-icon-delete"
             @click="remove(index)"
           />
         </div>
-      </DragItem>
-    </Draggable>
+      </drag-item>
+    </draggable>
 
-    <FilterFieldDialog
+    <filter-field-dialog
       :visible.sync="dialogVisible"
       :edit-model="editModel"
       @submit="save"

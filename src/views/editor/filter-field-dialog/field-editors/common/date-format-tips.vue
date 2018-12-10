@@ -1,6 +1,6 @@
 <template functional>
-  <ElCollapse accordion>
-    <ElCollapseItem>
+  <el-collapse accordion>
+    <el-collapse-item>
       <template slot="title">
         <div style="font-size:14px;color:#666;">
           <i class="header-icon el-icon-date" />
@@ -30,8 +30,8 @@
           <tr><td><code>timestamp</code></td><td>JS时间戳</td><td>仅“提交格式”可用；<br>组件绑定值为<code>number</code>类型</td><td>1483326245000</td></tr>
         </tbody>
       </table>
-    </ElCollapseItem>
-  </ElCollapse>
+    </el-collapse-item>
+  </el-collapse>
 </template>
 
 <style lang="less" scoped>

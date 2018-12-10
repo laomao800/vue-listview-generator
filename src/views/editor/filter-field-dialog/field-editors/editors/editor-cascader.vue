@@ -1,22 +1,22 @@
 <template>
-  <ElForm
+  <el-form
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <FieldPreview
+    <field-preview
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <EditorCommonFormItem
+    <editor-common-form-item
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="180"
     />
-  </ElForm>
+  </el-form>
 </template>
 
 <script lang="ts">

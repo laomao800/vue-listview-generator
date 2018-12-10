@@ -6,7 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Listview from '@laomao800/vue-listview'
 import Draggable from 'vuedraggable'
-import DragItem from '@/components/drag-item.vue'
+import DragItem from '@/views/components/drag-item.vue'
 import AceEditor from '@/components/ace-editor'
 
 Vue.config.productionTip = false

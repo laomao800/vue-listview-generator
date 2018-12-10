@@ -14,8 +14,12 @@
             <thead>
               <tr>
                 <th class="col-handle" />
-                <th class="col-label">显示文本</th>
-                <th class="col-value">选项值</th>
+                <th class="col-label">
+                  显示文本
+                </th>
+                <th class="col-value">
+                  选项值
+                </th>
                 <th class="col-action" />
               </tr>
             </thead>
@@ -36,7 +40,9 @@
                   'last-row': index === internalOptions.length - 1
                 }"
               >
-                <td class="col-handle"><div class="drag-handle" /></td>
+                <td class="col-handle">
+                  <div class="drag-handle" />
+                </td>
                 <td class="col-label">
                   <el-input
                     v-model="option.label"

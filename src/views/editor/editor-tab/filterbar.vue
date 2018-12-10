@@ -1,39 +1,39 @@
 <template>
-  <ElRow :gutter="20">
-    <ElCol :span="9">
-      <FilterbarButtons />
-    </ElCol>
+  <el-row :gutter="20">
+    <el-col :span="9">
+      <filterbar-buttons />
+    </el-col>
 
-    <ElCol :span="9">
-      <FilterbarFields />
-    </ElCol>
+    <el-col :span="9">
+      <filterbar-fields />
+    </el-col>
 
-    <ElCol :span="6">
+    <el-col :span="6">
       <div class="editor__header">
         <div class="editor__title">
           其他
         </div>
       </div>
-      <ElFormItem>
+      <el-form-item>
         <div slot="label">
           显示“提交”按钮
           <span class="editor__label-param">
             showFilterSearch
           </span>
         </div>
-        <ElSwitch v-model="model.showFilterSearch" />
-      </ElFormItem>
-      <ElFormItem>
+        <el-switch v-model="model.showFilterSearch" />
+      </el-form-item>
+      <el-form-item>
         <div slot="label">
           显示“重置”按钮
           <span class="editor__label-param">
             showFilterReset
           </span>
         </div>
-        <ElSwitch v-model="model.showFilterReset" />
-      </ElFormItem>
-    </ElCol>
-  </ElRow>
+        <el-switch v-model="model.showFilterReset" />
+      </el-form-item>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
