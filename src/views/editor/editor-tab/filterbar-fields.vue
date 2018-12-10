@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editor__header">
-      <el-button
+      <ElButton
         type="success"
         size="mini"
         icon="el-icon-plus"
@@ -9,52 +9,61 @@
         @click="dialogVisible = true"
       >
         添加搜索字段
-      </el-button>
+      </ElButton>
       <div class="editor__title">
         搜索字段
         <small>filterFields</small>
       </div>
     </div>
 
-    <draggable
+    <Draggable
       v-model="fields"
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-fields-list"
     >
-      <drag-item
+      <DragItem
         v-for="(item, index) in fields"
         :key="item.key"
       >
-        <div class="config-content" :class="{[`config-content--${item.type}`]: item.type}">
+        <div
+          class="config-content"
+          :class="{[`config-content--${item.type}`]: item.type}"
+        >
           <template v-if="item.type === 'object'">
             <div class="field-meta">
               <span>类型:</span>
               <i :class="getFieldTypeIcon(item.data.type)" />
               {{ item.data.type }}
             </div>
-            <div class="field-meta"><span>文字标签:</span> {{ item.data.label }}</div>
-            <div class="field-meta"><span>参数名称:</span> {{ item.data.model }}</div>
+            <div class="field-meta">
+              <span>文字标签:</span> {{ item.data.label }}
+            </div>
+            <div class="field-meta">
+              <span>参数名称:</span> {{ item.data.model }}
+            </div>
           </template>
           <template v-else-if="item.type === 'jsx'">
-            <div class="jsx-placeholder">自定义 (JSX)</div>
+            <div class="jsx-placeholder">
+              自定义 (JSX)
+            </div>
           </template>
         </div>
         <div slot="right">
-          <el-button
+          <ElButton
             type="text"
             icon="el-icon-edit"
             @click="edit(index)"
           />
-          <el-button
+          <ElButton
             type="text"
             icon="el-icon-delete"
             @click="remove(index)"
           />
         </div>
-      </drag-item>
-    </draggable>
+      </DragItem>
+    </Draggable>
 
-    <filter-field-dialog
+    <FilterFieldDialog
       :visible.sync="dialogVisible"
       :edit-model="editModel"
       @submit="save"
@@ -64,7 +73,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import FilterFieldDialog from '@/views/filter-field-dialog/index.vue'
+import FilterFieldDialog from '@/views/editor/filter-field-dialog/index.vue'
 import OptionsEditList from '@/views/components/options-edit-list.vue'
 
 interface FilterField {

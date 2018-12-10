@@ -1,11 +1,11 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item prop="model">
+    <ElRow :gutter="20">
+      <ElCol :span="12">
+        <ElFormItem prop="model">
           <template slot="label">
             参数名称
-            <el-tooltip
+            <ElTooltip
               :offset="10"
               class="tips"
               effect="dark"
@@ -13,37 +13,39 @@
               content="接口提交时的参数名"
             >
               <i class="el-icon-warning" />
-            </el-tooltip>
+            </ElTooltip>
           </template>
-          <el-input
+          <ElInput
             v-model.trim="fieldConfig.model"
             clearable
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item
+        </ElFormItem>
+      </ElCol>
+      <ElCol :span="12">
+        <ElFormItem
           label="宽度"
           prop="width"
         >
-          <el-input
+          <ElInput
             v-model.number="fieldConfig.width"
             :placeholder="widthPlaceholder"
             type="number"
             clearable
           >
-            <template slot="append">px</template>
-          </el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
+            <template slot="append">
+              px
+            </template>
+          </ElInput>
+        </ElFormItem>
+      </ElCol>
+    </ElRow>
 
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item prop="label">
+    <ElRow :gutter="20">
+      <ElCol :span="12">
+        <ElFormItem prop="label">
           <template slot="label">
             文字标签
-            <el-tooltip
+            <ElTooltip
               :offset="10"
               class="tips"
               effect="dark"
@@ -51,23 +53,23 @@
               content="使用在控件的 placeholder 以及控件上方的文字标签"
             >
               <i class="el-icon-warning" />
-            </el-tooltip>
+            </ElTooltip>
           </template>
-          <el-input
+          <ElInput
             v-model.trim="fieldConfig.label"
             clearable
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item
+        </ElFormItem>
+      </ElCol>
+      <ElCol :span="12">
+        <ElFormItem
           label="显示为禁用"
           prop="disabled"
         >
-          <el-switch v-model="fieldConfig.disabled" />
-        </el-form-item>
-      </el-col>
-    </el-row>
+          <ElSwitch v-model="fieldConfig.disabled" />
+        </ElFormItem>
+      </ElCol>
+    </ElRow>
   </div>
 </template>
 

@@ -1,30 +1,30 @@
 <template>
-  <el-form
+  <ElForm
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <field-preview
+    <FieldPreview
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <editor-common-form-item
+    <EditorCommonFormItem
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="180"
     />
 
-    <el-form-item label="选项数据">
+    <ElFormItem label="选项数据">
       <!-- <el-radio-group v-model="optionsEditForm.dataType">
         <el-radio-button label="static">静态选项</el-radio-button>
         <el-radio-button label="datasource" disabled="disabled">外部数据源</el-radio-button>
       </el-radio-group> -->
-      <options-edit-list :options.sync="fieldConfig.options" />
-    </el-form-item>
-  </el-form>
+      <OptionsEditList :options.sync="fieldConfig.options" />
+    </ElFormItem>
+  </ElForm>
 </template>
 
 <script lang="ts">

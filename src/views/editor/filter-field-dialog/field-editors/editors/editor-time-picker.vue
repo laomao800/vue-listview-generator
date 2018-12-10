@@ -1,26 +1,26 @@
 <template>
-  <el-form
+  <ElForm
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <field-preview
+    <FieldPreview
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <editor-common-form-item
+    <EditorCommonFormItem
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="120"
     />
 
-    <el-form-item label="前置图标" prop="componentProps.prefixIcon">
-      <icon-selector v-model="fieldConfig.componentProps.prefixIcon" />
-    </el-form-item>
-  </el-form>
+    <ElFormItem label="前置图标" prop="componentProps.prefixIcon">
+      <IconSelector v-model="fieldConfig.componentProps.prefixIcon" />
+    </ElFormItem>
+  </ElForm>
 </template>
 
 <script lang="ts">

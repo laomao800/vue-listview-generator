@@ -25,8 +25,8 @@
   "eslint.validate": [
     { "language": "javascript", "autoFix": true },
     { "language": "javascriptreact", "autoFix": true },
-    { "language": "vue", "autoFix": false },
-    { "language": "vue-html", "autoFix": false },
+    { "language": "vue", "autoFix": true },
+    { "language": "vue-html", "autoFix": true },
     { "language": "html", "autoFix": true }
   ],
   // ===
@@ -36,6 +36,8 @@
   "html.suggest.angular1": false,
   "html.suggest.ionic": false,
   "vetur.validation.template": false,
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
   // ===
   // JS(ON)
   // ===

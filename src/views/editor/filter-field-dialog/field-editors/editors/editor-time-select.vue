@@ -1,30 +1,30 @@
 <template>
-  <el-form
+  <ElForm
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <field-preview
+    <FieldPreview
       :key="previewForceUpdate"
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <editor-common-form-item
+    <EditorCommonFormItem
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="120"
     />
 
-    <el-form-item label="前置图标" prop="componentProps.prefixIcon">
-      <icon-selector v-model="fieldConfig.componentProps.prefixIcon" />
-    </el-form-item>
+    <ElFormItem label="前置图标" prop="componentProps.prefixIcon">
+      <IconSelector v-model="fieldConfig.componentProps.prefixIcon" />
+    </ElFormItem>
 
-    <el-row>
-      <el-col :span="8">
-        <el-form-item
+    <ElRow>
+      <ElCol :span="8">
+        <ElFormItem
           :rules="{
             validator(rule, value, callback) {
               pickerOptionsValidator(inputStart, callback)
@@ -33,15 +33,15 @@
           label="开始时间"
           prop="componentProps.pickerOptions.start"
         >
-          <el-input
+          <ElInput
             v-model="inputStart"
             placeholder="09:00"
             clearable
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item
+        </ElFormItem>
+      </ElCol>
+      <ElCol :span="8">
+        <ElFormItem
           :rules="{
             validator(rule, value, callback) {
               pickerOptionsValidator(inputEnd, callback)
@@ -50,15 +50,15 @@
           label="结束时间"
           prop="componentProps.pickerOptions.end"
         >
-          <el-input
+          <ElInput
             v-model="inputEnd"
             placeholder="18:00"
             clearable
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="8">
-        <el-form-item
+        </ElFormItem>
+      </ElCol>
+      <ElCol :span="8">
+        <ElFormItem
           :rules="{
             validator(rule, value, callback) {
               pickerOptionsValidator(inputStep, callback)
@@ -67,15 +67,15 @@
           label="选项跨度"
           prop="componentProps.pickerOptions.step"
         >
-          <el-input
+          <ElInput
             v-model="inputStep"
             placeholder="00:30"
             clearable
           />
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+        </ElFormItem>
+      </ElCol>
+    </ElRow>
+  </ElForm>
 </template>
 
 <script lang="ts">

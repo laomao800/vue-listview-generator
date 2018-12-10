@@ -1,26 +1,26 @@
 <template>
-  <el-form
+  <ElForm
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <field-preview
+    <FieldPreview
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <editor-common-form-item
+    <EditorCommonFormItem
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="180"
     />
 
-    <el-form-item label="选项数据">
-      <options-edit-list :options.sync="fieldConfig.options" />
-    </el-form-item>
-  </el-form>
+    <ElFormItem label="选项数据">
+      <OptionsEditList :options.sync="fieldConfig.options" />
+    </ElFormItem>
+  </ElForm>
 </template>
 
 <script lang="ts">

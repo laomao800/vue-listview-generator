@@ -1,17 +1,5 @@
 <template>
   <div>
-    <el-tree
-      :data="tableColumnConfigs"
-      node-key="id"
-      default-expand-all
-      draggable
-    >
-      <span slot-scope="{ node }">
-        label: <el-input v-model="node.data.label" />
-        prop: <el-input v-model="node.data.prop" />
-      </span>
-    </el-tree>
-
     <!-- <div class="demo">
       {
         label: '自定义标签',
@@ -84,7 +72,22 @@ export default class Content extends Vue {
         { label: '折扣开始', prop: 'date', align: 'center' },
         { label: '折扣结束', prop: 'date', align: 'center' }
       ]
-    }
+    },
+    { __last: true }
   ]
 }
 </script>
+
+<style lang="less">
+.column-nodes {
+  .el-tree-node__content {
+    background: #efefef;
+    padding-bottom: 5px;
+    height: auto;
+    cursor: default;
+  }
+  .el-input {
+    width: 150px;
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editor__header">
-      <el-button
+      <ElButton
         type="success"
         size="mini"
         icon="el-icon-plus"
@@ -9,56 +9,67 @@
         @click="dialogVisible = true"
       >
         添加操作按钮
-      </el-button>
+      </ElButton>
       <div class="editor__title">
         操作按钮
         <small>filterButtons</small>
       </div>
     </div>
 
-    <draggable
+    <Draggable
       v-model="buttons"
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-buttons-list"
     >
-      <drag-item
+      <DragItem
         v-for="(item, index) in buttons"
         :key="item.key"
       >
-        <div class="config-content" :class="{[`config-content--${item.type}`]: item.type}">
+        <div
+          class="config-content"
+          :class="{[`config-content--${item.type}`]: item.type}"
+        >
           <template v-if="item.type === 'object'">
-            <el-button
+            <ElButton
               size="small"
               :type="item.data.type"
               :plain="item.data.plain"
               :icon="item.data.icon"
             >
               {{ item.data.text }}
-            </el-button>
+            </ElButton>
           </template>
           <template v-else-if="item.type === 'jsx'">
-            <el-popover placement="right" trigger="hover">
-              <div slot="reference" class="jsx-placeholder">自定义 (JSX)</div>
+            <ElPopover
+              placement="right"
+              trigger="hover"
+            >
+              <div
+                slot="reference"
+                class="jsx-placeholder"
+              >
+                自定义 (JSX)
+              </div>
               <pre style="margin:0;font-size:12px;">{{ item.data }}</pre>
-            </el-popover>
+            </ElPopover>
           </template>
         </div>
         <div slot="right">
-          <el-button
+          <ElButton
             type="text"
             icon="el-icon-edit"
             @click="edit(index)"
           />
-          <el-button
+          <ElButton
             type="text"
             icon="el-icon-delete"
             @click="remove(index)"
           />
         </div>
-      </drag-item>
-    </draggable>
+      </DragItem>
+    </Draggable>
 
-    <filter-button-dialog
+    <FilterButtonDialog
       :visible.sync="dialogVisible"
       :edit-model="editModel"
       @submit="save"
@@ -68,7 +79,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import FilterButtonDialog from '@/views/filter-button-dialog/index.vue'
+import FilterButtonDialog from '@/views/editor/filter-button-dialog/index.vue'
 
 interface FilterButton {
   key: string

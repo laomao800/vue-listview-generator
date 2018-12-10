@@ -1,49 +1,49 @@
 <template>
-  <el-form
+  <ElForm
     ref="form"
     :model="fieldConfig"
     :rules="rules"
     size="small"
     label-width="120px"
   >
-    <field-preview
+    <FieldPreview
       :field-type="fieldType"
       :field-config="fieldConfig"
     />
 
-    <editor-common-form-item
+    <EditorCommonFormItem
       :field-type="fieldType"
       :field-config="fieldConfig"
       :width-placeholder="200"
     />
 
-    <el-form-item label="前置图标" prop="componentProps.prefixIcon">
-      <icon-selector v-model="fieldConfig.componentProps.prefixIcon" />
-    </el-form-item>
+    <ElFormItem label="前置图标" prop="componentProps.prefixIcon">
+      <IconSelector v-model="fieldConfig.componentProps.prefixIcon" />
+    </ElFormItem>
 
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item label="开始占位符" prop="componentProps.startPlaceholder">
-          <el-input
+    <ElRow :gutter="20">
+      <ElCol :span="12">
+        <ElFormItem label="开始占位符" prop="componentProps.startPlaceholder">
+          <ElInput
             v-model="fieldConfig.componentProps.startPlaceholder"
             placeholder="开始时间"
             clearable
             @clear="$delete(fieldConfig.componentProps, 'startPlaceholder')"
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="结束占位符" prop="componentProps.endPlaceholder">
-          <el-input
+        </ElFormItem>
+      </ElCol>
+      <ElCol :span="12">
+        <ElFormItem label="结束占位符" prop="componentProps.endPlaceholder">
+          <ElInput
             v-model="fieldConfig.componentProps.endPlaceholder"
             placeholder="结束时间"
             clearable
             @clear="$delete(fieldConfig.componentProps, 'endPlaceholder')"
           />
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+        </ElFormItem>
+      </ElCol>
+    </ElRow>
+  </ElForm>
 </template>
 
 <script lang="ts">

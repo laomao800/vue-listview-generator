@@ -1,13 +1,17 @@
 <template>
-  <el-dialog
+  <ElDialog
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     title="添加操作按钮"
     width="800px"
   >
     <div slot="footer" class="dialog-footer">
-      <el-button @click="hideDialog">取 消</el-button>
-      <el-button type="primary" @click="formSubmit">确 定</el-button>
+      <ElButton @click="hideDialog">
+        取 消
+      </ElButton>
+      <ElButton type="primary" @click="formSubmit">
+        确 定
+      </ElButton>
     </div>
 
     <!-- <el-form-item label="添加类型" style="margin-bottom:18px;">
@@ -18,23 +22,23 @@
     </el-form-item> -->
 
     <div v-show="configType === 'object'">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form
+      <ElRow :gutter="20">
+        <ElCol :span="12">
+          <ElForm
             ref="form"
             :model="model"
             size="small"
             label-width="120px"
           >
-            <el-form-item label="按钮文字" prop="text">
-              <el-input
+            <ElFormItem label="按钮文字" prop="text">
+              <ElInput
                 v-model="model.text"
                 maxlength="20"
                 style="width:240px"
               />
-            </el-form-item>
-            <el-form-item label="按钮类型" prop="type">
-              <el-select v-model="model.type" style="width:240px">
+            </ElFormItem>
+            <ElFormItem label="按钮类型" prop="type">
+              <ElSelect v-model="model.type" style="width:240px">
                 <span
                   slot="prefix"
                   :class="[
@@ -46,7 +50,7 @@
                   ]"
                   style="margin-left: 4px;margin-top: -2px;"
                 />
-                <el-option
+                <ElOption
                   v-for="(type, index) in buttonTypes"
                   :key="index"
                   :label="type"
@@ -62,38 +66,38 @@
                     ]"
                   />
                   <span>{{ type }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
+                </ElOption>
+              </ElSelect>
+            </ElFormItem>
 
-            <el-form-item label="按钮图标" prop="icon">
-              <icon-selector v-model="model.icon" style="width:240px" />
-            </el-form-item>
-            <el-form-item label="线框型按钮" prop="plain">
-              <el-switch v-model="model.plain" />
-            </el-form-item>
+            <ElFormItem label="按钮图标" prop="icon">
+              <IconSelector v-model="model.icon" style="width:240px" />
+            </ElFormItem>
+            <ElFormItem label="线框型按钮" prop="plain">
+              <ElSwitch v-model="model.plain" />
+            </ElFormItem>
             <!-- TODO: 下拉按钮 -->
-          </el-form>
-        </el-col>
+          </ElForm>
+        </ElCol>
 
-        <el-col :span="12">
+        <ElCol :span="12">
           <div class="preview-area">
-            <el-button v-bind="model" size="small">
+            <ElButton v-bind="model" size="small">
               {{ model.text }}
-            </el-button>
+            </ElButton>
           </div>
-        </el-col>
-      </el-row>
+        </ElCol>
+      </ElRow>
     </div>
 
-    <ace-editor
+    <AceEditor
       v-if="configType === 'jsx'"
       ref="jsxEditor"
       :content="jsxString"
       lang="jsx"
       height="200"
     />
-  </el-dialog>
+  </ElDialog>
 </template>
 
 <script lang="ts">
