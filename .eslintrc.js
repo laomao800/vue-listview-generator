@@ -13,7 +13,7 @@ module.exports = {
         ? ['error', { allow: ['warn', 'error'] }]
         : ['warn', { allow: ['warn', 'error'] }],
     'vue/max-attributes-per-line': [
-      2,
+      'off',
       {
         singleline: 2,
         multiline: {
@@ -29,8 +29,16 @@ module.exports = {
         ignores: []
       }
     ],
-    'vue/multiline-html-element-content-newline': 'error',
+    'vue/multiline-html-element-content-newline': 'off',
     'vue/no-spaces-around-equal-signs-in-attribute': 'error',
+    'vue/html-closing-bracket-spacing': [
+      'warn',
+      {
+        startTag: 'never',
+        endTag: 'never',
+        selfClosingTag: 'always'
+      }
+    ],
     // 'vue/script-indent': ['error', 2, { baseIndent: 0 }],
     'vue/no-unused-components': 0,
     'space-infix-ops': 'off'

@@ -7,9 +7,7 @@
         icon="el-icon-plus"
         style="float:right"
         @click="dialogVisible = true"
-      >
-        添加搜索字段
-      </el-button>
+      >添加搜索字段</el-button>
       <div class="editor__title">
         搜索字段
         <small>filterFields</small>
@@ -21,53 +19,35 @@
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-fields-list"
     >
-      <drag-item
-        v-for="(item, index) in fields"
-        :key="item.key"
-      >
-        <div
-          class="config-content"
-          :class="{[`config-content--${item.type}`]: item.type}"
-        >
+      <drag-item v-for="(item, index) in fields" :key="item.key">
+        <div class="config-content" :class="{[`config-content--${item.type}`]: item.type}">
           <template v-if="item.type === 'object'">
             <div class="field-meta">
               <span>类型:</span>
-              <i :class="getFieldTypeIcon(item.data.type)" />
+              <i :class="getFieldTypeIcon(item.data.type)"/>
               {{ item.data.type }}
             </div>
             <div class="field-meta">
-              <span>文字标签:</span> {{ item.data.label }}
+              <span>文字标签:</span>
+              {{ item.data.label }}
             </div>
             <div class="field-meta">
-              <span>参数名称:</span> {{ item.data.model }}
+              <span>参数名称:</span>
+              {{ item.data.model }}
             </div>
           </template>
           <template v-else-if="item.type === 'jsx'">
-            <div class="jsx-placeholder">
-              自定义 (JSX)
-            </div>
+            <div class="jsx-placeholder">自定义 (JSX)</div>
           </template>
         </div>
         <div slot="right">
-          <el-button
-            type="text"
-            icon="el-icon-edit"
-            @click="edit(index)"
-          />
-          <el-button
-            type="text"
-            icon="el-icon-delete"
-            @click="remove(index)"
-          />
+          <el-button type="text" icon="el-icon-edit" @click="edit(index)"/>
+          <el-button type="text" icon="el-icon-delete" @click="remove(index)"/>
         </div>
       </drag-item>
     </draggable>
 
-    <filter-field-dialog
-      :visible.sync="dialogVisible"
-      :edit-model="editModel"
-      @submit="save"
-    />
+    <filter-field-dialog :visible.sync="dialogVisible" :edit-model="editModel" @submit="save"/>
   </div>
 </template>
 
@@ -82,6 +62,19 @@ interface FilterField {
   data: object | string
 }
 
+// filterFields: [
+//   {
+//     key: 'f1',
+//     type: 'object',
+//     data: { type: 'text', model: 'text', label: '文本框' }
+//   },
+//   {
+//     key: 'f2',
+//     type: 'object',
+//     data: { type: 'date', model: 'date', label: '日期' }
+//   }
+// ]
+
 @Component({
   components: {
     OptionsEditList,
@@ -92,21 +85,8 @@ export default class FilterbarFields extends Vue {
   public optionsData = []
   public dialogVisible = false
   public editIndex: number | null = null
-  public model: {
-    filterFields: FilterField[]
-  } = {
-    filterFields: [
-      {
-        key: 'f1',
-        type: 'object',
-        data: { type: 'text', model: 'text', label: '文本框' }
-      },
-      {
-        key: 'f2',
-        type: 'object',
-        data: { type: 'date', model: 'date', label: '日期' }
-      }
-    ]
+  public model: { filterFields: FilterField[] } = {
+    filterFields: []
   }
 
   get fields() {

@@ -20,7 +20,7 @@
   // Event Triggers
   // ===
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": false,
   "eslint.run": "onSave",
   "eslint.validate": [
     { "language": "javascript", "autoFix": true },
@@ -37,7 +37,7 @@
   "html.suggest.ionic": false,
   "vetur.validation.template": false,
   "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  // "vetur.format.defaultFormatter.html": "js-beautify-html",
   // ===
   // JS(ON)
   // ===
