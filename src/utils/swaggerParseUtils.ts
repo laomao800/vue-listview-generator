@@ -1,7 +1,27 @@
 import _ from 'lodash'
 import swaggerJson from '@/views/editor/api'
 
-console.log(swaggerJson)
+const IGNORE_PROPERTIES = ['page_index', 'page_size', 'sort_name', 'sort_order']
+
+function parseEnums(str: string) {
+  try {
+    const enumsString = str.match(/.+\[enum: (.+)\]/)
+    if (enumsString) {
+      const options: object[] = []
+      enumsString[1].split(' ').map(item => {
+        const matchs = item.match(/(\d+)(.+)/)
+        if (matchs) {
+          options.push({
+            value: parseInt(matchs[1], 10),
+            label: matchs[2]
+          })
+        }
+      })
+      return options
+    }
+  } catch (e) {}
+  return false
+}
 
 export function resolveFilterParams(
   swaggerJson: any,
@@ -16,16 +36,43 @@ export function resolveFilterParams(
       (name: string) => swaggerJson.definitions[name].properties
     )
   )
-
-  const flatProps = _.transform(
-    parameterProps,
-    function(result, value) {
-      result = _.merge(result, value)
-    },
-    {}
+  const flatProps = _.omit(
+    _.transform(
+      parameterProps,
+      function(result, value) {
+        result = _.merge(result, value)
+      },
+      {}
+    ),
+    IGNORE_PROPERTIES
   )
 
-  console.log(parameterNames, flatProps)
+  const filterFields = Object.keys(flatProps).map(prop => {
+    const propParamConfig: any = {
+      type: 'text',
+      model: prop
+    }
+    const propValue: any = flatProps[prop]
+    switch (propValue.type) {
+      case 'string':
+        if (propValue.format === 'date-time') {
+          propParamConfig.type = 'date'
+        }
+        break
+      case 'integer':
+        if (propValue.format === 'int64') {
+          propParamConfig.type = 'text'
+        } else if (propValue.format === 'int32') {
+          const options = parseEnums(propValue.description)
+          if (options) {
+            propParamConfig.options = options
+            propParamConfig.type = 'select'
+          }
+        }
+    }
+    return propParamConfig
+  })
+  console.log(filterFields, flatProps)
 }
 
 resolveFilterParams(swaggerJson, '/am_lottery_round/search', 'post')
