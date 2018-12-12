@@ -55,11 +55,31 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import FilterFieldDialog from '@/views/editor/filter-field-dialog/index.vue'
 import OptionsEditList from '@/views/components/options-edit-list.vue'
+import { resolveFilterFields } from '@/utils/swaggerParseUtils'
+import swaggerJson from '@/views/editor/api'
 
-interface FilterField {
+// TODO: TYPE refactory
+interface EditFilterField {
   key: string
   type: 'object' | 'jsx'
   data: object | string
+}
+
+const filterFields = resolveFilterFields(
+  swaggerJson,
+  '/am_lottery_round/search',
+  'post'
+)
+
+function wrapFields(fields: any[]) {
+  return fields.map(
+    field =>
+      ({
+        key: field.model,
+        type: 'object',
+        data: field
+      } as EditFilterField)
+  )
 }
 
 // filterFields: [
@@ -85,18 +105,20 @@ export default class FilterbarFields extends Vue {
   public optionsData = []
   public dialogVisible = false
   public editIndex: number | null = null
-  public model: { filterFields: FilterField[] } = {
-    filterFields: []
+  public model: { editFilterFields: EditFilterField[] } = {
+    editFilterFields: wrapFields(filterFields)
   }
 
   get fields() {
-    return this.model.filterFields
+    return this.model.editFilterFields
   }
   set fields(val) {
-    this.model.filterFields = val
+    this.model.editFilterFields = val
   }
   get editModel() {
-    return this.editIndex ? this.model.filterFields[this.editIndex].data : null
+    return this.editIndex
+      ? this.model.editFilterFields[this.editIndex].data
+      : null
   }
 
   @Watch('dialogVisible')
@@ -106,10 +128,10 @@ export default class FilterbarFields extends Vue {
     }
   }
 
-  save(data: FilterField) {
+  save(data: EditFilterField) {
     if (this.editIndex) {
       // edit
-      this.model.filterFields.splice(this.editIndex, 1, data)
+      this.model.editFilterFields.splice(this.editIndex, 1, data)
       this.editIndex = null
     } else {
       // add
