@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import 'normalize.css'
-import App from './app.vue'
-import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Listview from '@laomao800/vue-listview'
 import Draggable from 'vuedraggable'
-import DragItem from '@/components/drag-item.vue'
-import AceEditor from '@/components/ace-editor'
+import Listview from '@laomao800/vue-listview'
+import App from '@/App.vue'
+import store from '@/store'
+import AceEditor from '@/components/AceEditor'
+import DragItem from '@/views/components/DragItem.vue'
 
 Vue.config.productionTip = false
 
