@@ -13,9 +13,9 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(Listview)
-Vue.component(Draggable.name, Draggable)
-Vue.component(DragItem.name, DragItem)
-Vue.component(AceEditor.name, AceEditor)
+Vue.component('Draggable', Draggable)
+Vue.component('DragItem', DragItem)
+Vue.component('AceEditor', AceEditor)
 
 new Vue({
   store,
