@@ -1,11 +1,11 @@
 <template>
   <ElRow :gutter="20">
     <ElCol :span="9">
-      <FilterbarButtons />
+      <FilterbarButtons ref="buttons" />
     </ElCol>
 
     <ElCol :span="9">
-      <FilterbarFields />
+      <FilterbarFields ref="fields" />
     </ElCol>
 
     <ElCol :span="6">
@@ -21,7 +21,7 @@
             showFilterSearch
           </span>
         </div>
-        <ElSwitch v-model="model.showFilterSearch" />
+        <ElSwitch v-model="internalModel.showFilterSearch" />
       </ElFormItem>
       <ElFormItem>
         <div slot="label">
@@ -30,7 +30,7 @@
             showFilterReset
           </span>
         </div>
-        <ElSwitch v-model="model.showFilterReset" />
+        <ElSwitch v-model="internalModel.showFilterReset" />
       </ElFormItem>
     </ElCol>
   </ElRow>
@@ -48,9 +48,18 @@ import FilterbarFields from './FilterbarFields.vue'
   }
 })
 export default class Filterbar extends Vue {
-  public model = {
+  public $refs: any
+  public internalModel = {
     showFilterSearch: true,
     showFilterReset: true
+  }
+
+  get model() {
+    return {
+      filterButtons: this.$refs.buttons.model.filterButtons,
+      filterFields: this.$refs.fields.model.filterFields,
+      ...this.internalModel
+    }
   }
 }
 </script>

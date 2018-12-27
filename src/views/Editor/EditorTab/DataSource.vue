@@ -12,8 +12,14 @@
               slot="prepend"
               v-model="model.requestMethod"
             >
-              <ElOption label="GET" value="get" />
-              <ElOption label="POST" value="post" />
+              <ElOption
+                label="GET"
+                value="get"
+              />
+              <ElOption
+                label="POST"
+                value="post"
+              />
             </ElSelect>
           </ElInput>
           <ElButton
@@ -52,7 +58,10 @@
           </div>
           <ElRow :gutter="10">
             <ElCol :span="8">
-              <div class="editor__header" style="margin-bottom:5px">
+              <div
+                class="editor__header"
+                style="margin-bottom:5px"
+              >
                 <span class="editor__title">
                   映射配置
                 </span>
@@ -68,7 +77,10 @@
               />
             </ElCol>
             <ElCol :span="16">
-              <div class="editor__header" style="margin-bottom:5px">
+              <div
+                class="editor__header"
+                style="margin-bottom:5px"
+              >
                 <ElButton
                   :loading="testMapLoading"
                   type="primary"
@@ -100,7 +112,7 @@
           验证接口响应是否成功。若接口响应格式字段有差异，可修改该配置，如果无需错误处理可直接返回 <code>true</code> 。
         </div>
         <template v-if="useValidateResponse">
-          <div>validateResponse</div>
+          <div>TODO</div>
         </template>
       </ElFormItem>
 
@@ -110,7 +122,7 @@
           在 <code>validateResponse</code> 返回 <code>false</code> 表示请求失败后，会调用 <code>resolveResponseErrorMessage</code> 解析错误提示信息。
         </div>
         <template v-if="useResolveResponseErrorMessage">
-          <div>resolveResponseErrorMessage</div>
+          <div>TODO</div>
         </template>
       </ElFormItem>
 
@@ -129,7 +141,10 @@
       <el-form-item label="">request-config</el-form-item> -->
     </ElCol>
     <ElCol :span="10">
-      <ElTabs v-loading="fetchUrlLoading" class="response__tabs">
+      <ElTabs
+        v-loading="fetchUrlLoading"
+        class="response__tabs"
+      >
         <ElTabPane label="Response body">
           <AceEditor
             :content="jsonToString(responseBody)"

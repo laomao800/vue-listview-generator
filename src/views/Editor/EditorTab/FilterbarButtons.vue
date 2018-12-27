@@ -23,36 +23,17 @@
     >
       <DragItem
         v-for="(item, index) in buttons"
-        :key="item.key"
+        :key="index"
       >
-        <div
-          class="config-content"
-          :class="{[`config-content--${item.type}`]: item.type}"
-        >
-          <template v-if="item.type === 'object'">
-            <ElButton
-              size="small"
-              :type="item.data.type"
-              :plain="item.data.plain"
-              :icon="item.data.icon"
-            >
-              {{ item.data.text }}
-            </ElButton>
-          </template>
-          <template v-else-if="item.type === 'jsx'">
-            <ElPopover
-              placement="right"
-              trigger="hover"
-            >
-              <div
-                slot="reference"
-                class="jsx-placeholder"
-              >
-                自定义 (JSX)
-              </div>
-              <pre style="margin:0;font-size:12px;">{{ item.data }}</pre>
-            </ElPopover>
-          </template>
+        <div class="config-content">
+          <ElButton
+            size="small"
+            :type="item.type"
+            :plain="item.plain"
+            :icon="item.icon"
+          >
+            {{ item.text }}
+          </ElButton>
         </div>
         <div slot="right">
           <ElButton
@@ -80,12 +61,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import FilterButtonDialog from '@/views/Editor/FilterButtonDialog/index.vue'
-
-interface FilterButton {
-  key: string
-  type: 'object' | 'jsx'
-  data: object | string
-}
+import { FilterButton } from '@laomao800/vue-listview'
 
 @Component({
   components: {
@@ -100,44 +76,14 @@ export default class FilterbarButtons extends Vue {
   } = {
     filterButtons: [
       {
-        key: 'b1',
-        type: 'object',
-        data: { type: 'default', text: 'default' }
+        type: 'success',
+        icon: 'el-icon-circle-plus-outline',
+        text: '添加'
       },
       {
-        key: 'b2',
-        type: 'object',
-        data: { type: 'primary', icon: 'el-icon-edit', text: 'primary' }
-      },
-      {
-        key: 'b3',
-        type: 'object',
-        data: { type: 'success', icon: 'el-icon-check', text: 'success' }
-      },
-      {
-        key: 'b4',
-        type: 'object',
-        data: { type: 'info', icon: 'el-icon-message', text: 'info' }
-      },
-      {
-        key: 'b5',
-        type: 'object',
-        data: { type: 'warning', icon: 'el-icon-star-off', text: 'warning' }
-      },
-      {
-        key: 'b6',
-        type: 'object',
-        data: { type: 'danger', icon: 'el-icon-delete', text: 'danger' }
-        // },
-        // {
-        //   key: 'b7',
-        //   type: 'jsx',
-        //   data: [
-        //     '<div>',
-        //     '  <el-button type="primary" size="small">按钮</el-button>',
-        //     '  <el-button type="primary" size="small">按钮</el-button>',
-        //     '</div>'
-        //   ].join('\n')
+        type: 'danger',
+        icon: 'el-icon-remove-outline',
+        text: '删除'
       }
     ]
   }
@@ -149,7 +95,9 @@ export default class FilterbarButtons extends Vue {
     this.model.filterButtons = val
   }
   get editModel() {
-    return this.editIndex ? this.model.filterButtons[this.editIndex].data : null
+    return this.editIndex !== null
+      ? this.model.filterButtons[this.editIndex]
+      : null
   }
 
   @Watch('dialogVisible')

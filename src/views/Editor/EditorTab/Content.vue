@@ -1,99 +1,102 @@
 <template>
-  <div>
-    <div class="editor__header">
-      <ElButton
-        type="success"
-        size="mini"
-        icon="el-icon-plus"
-        style="float:right"
-        @click="dialogVisible = true"
-      >
-        添加列
-      </ElButton>
-      <div class="editor__title">
-        表格列
-        <small>tableColumns</small>
+  <ElRow :gutter="20">
+    <ElCol :span="9">
+
+      <div class="editor__header">
+        <ElButton
+          type="success"
+          size="mini"
+          icon="el-icon-plus"
+          style="float:right"
+          @click="dialogVisible = true"
+        >
+          添加列
+        </ElButton>
+        <div class="editor__title">
+          表格列
+          <small>tableColumns</small>
+        </div>
       </div>
-    </div>
 
-    <Draggable
-      v-model="columns"
-      :options="{ handle: '.drag-handle', animation: 100 }"
-      class="draggable-list filterbar-fields-list"
-    >
-      <DragItem
-        v-for="(item, index) in columns"
-        :key="item.key"
+      <Draggable
+        v-model="columns"
+        :options="{ handle: '.drag-handle', animation: 100 }"
+        class="draggable-list filterbar-fields-list"
       >
-        <div class="config-content">
-          <div class="field-meta">
-            <span>label:</span> {{ item.label }}
+        <DragItem
+          v-for="(item, index) in columns"
+          :key="item.key"
+        >
+          <div class="config-content">
+            <div class="field-meta">
+              <span>label:</span> {{ item.label }}
+            </div>
+            <div class="field-meta">
+              <span>prop:</span> {{ item.prop }}
+            </div>
           </div>
-          <div class="field-meta">
-            <span>prop:</span> {{ item.prop }}
+          <div slot="right">
+            <ElButton
+              type="text"
+              icon="el-icon-edit"
+              @click="edit(index)"
+            />
+            <ElButton
+              type="text"
+              icon="el-icon-delete"
+              @click="remove(index)"
+            />
           </div>
-        </div>
-        <div slot="right">
-          <ElButton
-            type="text"
-            icon="el-icon-edit"
-            @click="edit(index)"
-          />
-          <ElButton
-            type="text"
-            icon="el-icon-delete"
-            @click="remove(index)"
-          />
-        </div>
-      </DragItem>
-    </Draggable>
+        </DragItem>
+      </Draggable>
 
-    <TableColumnDialog
-      :visible.sync="dialogVisible"
-      :edit-model="editModel"
-      @submit="save"
-    />
-    <!-- <div class="demo">
-      {
-        label: '自定义标签',
-        prop: 'sku',
-        width: 100,
-        align: 'center',
-        fixed: true
-      },
-      {
-        label: '产品名称',
-        prop: 'name',
-        width: 200,
-        align: 'center',
-        fixed: true
-      },
-      {
-        label: '折扣率',
-        align: 'center',
-        formatter: (row, column, cellValue, index) => row.discount.toFixed(2)
-      },
-      {
-        label: '折扣时间',
-        align: 'center',
-        children: [
-          { label: '折扣开始', prop: 'date', align: 'center' },
-          { label: '折扣结束', prop: 'date', align: 'center' }
-        ]
-      },
-      {
-        label: '是否启用',
-        align: 'center',
-        render: prop => {
-          if (prop.row.enable) {
-            return <div style="color:#67c23a">启用</div>
-          } else {
-            return <div style="color:#f56c6c">禁用</div>
+      <TableColumnDialog
+        :visible.sync="dialogVisible"
+        :edit-model="editModel"
+        @submit="save"
+      />
+      <!-- <div class="demo">
+        {
+          label: '自定义标签',
+          prop: 'sku',
+          width: 100,
+          align: 'center',
+          fixed: true
+        },
+        {
+          label: '产品名称',
+          prop: 'name',
+          width: 200,
+          align: 'center',
+          fixed: true
+        },
+        {
+          label: '折扣率',
+          align: 'center',
+          formatter: (row, column, cellValue, index) => row.discount.toFixed(2)
+        },
+        {
+          label: '折扣时间',
+          align: 'center',
+          children: [
+            { label: '折扣开始', prop: 'date', align: 'center' },
+            { label: '折扣结束', prop: 'date', align: 'center' }
+          ]
+        },
+        {
+          label: '是否启用',
+          align: 'center',
+          render: prop => {
+            if (prop.row.enable) {
+              return <div style="color:#67c23a">启用</div>
+            } else {
+              return <div style="color:#f56c6c">禁用</div>
+            }
           }
         }
-      }
-    </div> -->
-  </div>
+      </div> -->
+    </ElCol>
+  </ElRow>
 </template>
 
 <script lang="ts">
@@ -111,28 +114,37 @@ export default class Content extends Vue {
   public dialogVisible = false
   public editIndex: number | null = null
   public model: {
-    columns: TableColumn[]
+    tableColumns: TableColumn[]
   } = {
-    columns: [
+    tableColumns: [
       {
         label: '自定义标签',
-        prop: 'sku',
-        align: 'center'
+        prop: 'sku'
       },
       {
         label: '产品名称',
-        prop: 'name',
-        align: 'center'
-      }
+        prop: 'name'
+      },
+      { label: '销售员', prop: 'seller', align: 'center' },
+      { label: '仓库', prop: 'warehouse', align: 'center' },
+      { label: '零售价格', prop: 'sale_price', align: 'center' },
+      { label: '数量', prop: 'quantity', align: 'center' },
+      { label: '创建人', prop: 'seller', align: 'center' },
+      { label: '创建时间', prop: 'date', align: 'center' },
+      { label: '修改人', prop: 'seller', align: 'center' },
+      { label: '修改时间', prop: 'date', align: 'center' }
     ]
   }
 
   get columns() {
-    return this.model.columns
+    return this.model.tableColumns
+  }
+  set columns(val) {
+    this.model.tableColumns = val
   }
 
   get editModel() {
-    return this.editIndex ? this.model.columns[this.editIndex] : null
+    return this.editIndex ? this.model.tableColumns[this.editIndex] : null
   }
 
   save(data: TableColumn) {

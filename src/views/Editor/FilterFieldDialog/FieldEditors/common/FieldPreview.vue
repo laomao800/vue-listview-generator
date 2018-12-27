@@ -96,7 +96,7 @@ export default class FilterPreview extends Vue {
     font-size: 12px;
     line-height: 30px;
     content: '效果预览';
-    background-color: #E9EDF4E9EDF4;
+    background-color: #e9edf4;
   }
 }
 </style>

@@ -25,28 +25,18 @@
         v-for="(item, index) in fields"
         :key="item.key"
       >
-        <div
-          class="config-content"
-          :class="{[`config-content--${item.type}`]: item.type}"
-        >
-          <template v-if="item.type === 'object'">
-            <div class="field-meta">
-              <span>类型:</span>
-              <i :class="getFieldTypeIcon(item.data.type)" />
-              {{ item.data.type }}
-            </div>
-            <div class="field-meta">
-              <span>文字标签:</span> {{ item.data.label }}
-            </div>
-            <div class="field-meta">
-              <span>参数名称:</span> {{ item.data.model }}
-            </div>
-          </template>
-          <template v-else-if="item.type === 'jsx'">
-            <div class="jsx-placeholder">
-              自定义 (JSX)
-            </div>
-          </template>
+        <div class="config-content">
+          <div class="field-meta">
+            <span>类型:</span>
+            <i :class="getFieldTypeIcon(item.type)" />
+            {{ item.type }}
+          </div>
+          <div class="field-meta">
+            <span>文字标签:</span> {{ item.label }}
+          </div>
+          <div class="field-meta">
+            <span>参数名称:</span> {{ item.model }}
+          </div>
         </div>
         <div slot="right">
           <ElButton
@@ -75,12 +65,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import FilterFieldDialog from '@/views/Editor/FilterFieldDialog/index.vue'
 import OptionsEditList from '@/views/components/OptionsEditList.vue'
-
-interface FilterField {
-  key: string
-  type: 'object' | 'jsx'
-  data: object | string
-}
+import { FilterField } from '@laomao800/vue-listview'
 
 @Component({
   components: {
@@ -97,14 +82,35 @@ export default class FilterbarFields extends Vue {
   } = {
     filterFields: [
       {
-        key: 'f1',
-        type: 'object',
-        data: { type: 'text', model: 'text', label: '文本框' }
+        type: 'text',
+        model: 'text',
+        label: '文本字段'
       },
       {
-        key: 'f2',
-        type: 'object',
-        data: { type: 'date', model: 'date', label: '日期' }
+        type: 'select',
+        model: 'select',
+        label: '单选字段',
+        options: [
+          { label: '选项 1', value: 1 },
+          { label: '选项 2', value: 2 },
+          { label: '选项 3', value: 3 }
+        ]
+      },
+      {
+        type: 'multipleSelect',
+        model: 'multipleSelect',
+        label: '多选字段',
+        options: [
+          { label: '选项 1', value: 1 },
+          { label: '选项 2', value: 2 },
+          { label: '选项 3', value: 3 }
+        ]
+      },
+      { type: 'date', model: 'date', label: '日期' },
+      {
+        type: 'dateRange',
+        model: 'dateRange',
+        label: '日期范围'
       }
     ]
   }
@@ -116,7 +122,9 @@ export default class FilterbarFields extends Vue {
     this.model.filterFields = val
   }
   get editModel() {
-    return this.editIndex ? this.model.filterFields[this.editIndex].data : null
+    return this.editIndex !== null
+      ? this.model.filterFields[this.editIndex]
+      : null
   }
 
   @Watch('dialogVisible')

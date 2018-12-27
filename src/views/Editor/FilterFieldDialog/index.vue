@@ -165,11 +165,7 @@ export default class FilterFieldDialog extends Vue {
             delete fieldConfig[key]
           }
         })
-        this.$emit('submit', {
-          key: +new Date(),
-          type: 'object',
-          data: fieldConfig
-        })
+        this.$emit('submit', fieldConfig)
         this.hideDialog()
       }
     })

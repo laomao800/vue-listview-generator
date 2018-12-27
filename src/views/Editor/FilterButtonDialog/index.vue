@@ -193,11 +193,7 @@ export default class FilterButtonDialog extends Vue {
   }
 
   formSubmit() {
-    if (this.configType === 'object') {
-      this.addButtonByObject()
-    } else if (this.configType === 'jsx') {
-      this.addButtonByJSX()
-    }
+    this.addButtonByObject()
   }
 
   addButtonByObject() {
@@ -206,24 +202,20 @@ export default class FilterButtonDialog extends Vue {
       return
     }
     // 显式提供 key 用于 v-for ，避免遍历时使用序号出现渲染延迟导致界面跳动
-    this.$emit('submit', {
-      key: Math.random(),
-      type: 'object',
-      data: _.cloneDeep(this.model)
-    })
+    this.$emit('submit', _.cloneDeep(this.model))
     this.hideDialog()
   }
 
   addButtonByJSX() {
-    const jsxString = this.$refs.jsxEditor.getValue()
-    const wrap = document.createElement('div')
-    wrap.innerHTML = jsxString
-    // 包含 2 个以上的子节点包裹 div 再返回
-    this.$emit('submit', {
-      key: +new Date(),
-      type: 'jsx',
-      data: wrap.childElementCount < 2 ? jsxString : wrap.outerHTML
-    })
+    // const jsxString = this.$refs.jsxEditor.getValue()
+    // const wrap = document.createElement('div')
+    // wrap.innerHTML = jsxString
+    // // 包含 2 个以上的子节点包裹 div 再返回
+    // this.$emit('submit', {
+    //   key: +new Date(),
+    //   type: 'jsx',
+    //   data: wrap.childElementCount < 2 ? jsxString : wrap.outerHTML
+    // })
     this.hideDialog()
   }
 
