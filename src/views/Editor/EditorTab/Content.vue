@@ -17,7 +17,7 @@
     </div>
 
     <Draggable
-      v-model="fields"
+      v-model="columns"
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-fields-list"
     >
@@ -25,22 +25,12 @@
         v-for="(item, index) in columns"
         :key="item.key"
       >
-        {{ index }}
-        <div
-          v-if="false"
-          class="config-content"
-          :class="{[`config-content--${item.type}`]: item.type}"
-        >
+        <div class="config-content">
           <div class="field-meta">
-            <span>类型:</span>
-            <i :class="getFieldTypeIcon(item.data.type)" />
-            {{ item.data.type }}
+            <span>label:</span> {{ item.label }}
           </div>
           <div class="field-meta">
-            <span>文字标签:</span> {{ item.data.label }}
-          </div>
-          <div class="field-meta">
-            <span>参数名称:</span> {{ item.data.model }}
+            <span>prop:</span> {{ item.prop }}
           </div>
         </div>
         <div slot="right">
@@ -108,42 +98,32 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { TableColumn } from 'element-ui/types/table-column'
+import TableColumnDialog from '@/views/Editor/TableColumnDialog/index.vue'
+import { TableColumn } from '@laomao800/vue-listview'
 
-@Component
+@Component({
+  components: {
+    TableColumnDialog
+  }
+})
 export default class Content extends Vue {
   public optionsData = []
   public dialogVisible = false
   public editIndex: number | null = null
   public model: {
-    columns: any
+    columns: TableColumn[]
   } = {
     columns: [
       {
-        id: 1,
         label: '自定义标签',
         prop: 'sku',
-        width: 100,
-        align: 'center',
-        fixed: true
+        align: 'center'
       },
       {
-        id: 2,
         label: '产品名称',
         prop: 'name',
-        width: 200,
-        align: 'center',
-        fixed: true
+        align: 'center'
       }
-      // {
-      //   label: '折扣时间',
-      //   align: 'center',
-      //   children: [
-      //     { label: '折扣开始', prop: 'date', align: 'center' },
-      //     { label: '折扣结束', prop: 'date', align: 'center' }
-      //   ]
-      // },
-      // { __last: true }
     ]
   }
 
@@ -152,7 +132,27 @@ export default class Content extends Vue {
   }
 
   get editModel() {
-    return this.editIndex ? this.model.columns[this.editIndex].data : null
+    return this.editIndex ? this.model.columns[this.editIndex] : null
+  }
+
+  save(data: TableColumn) {
+    if (this.editIndex) {
+      // edit
+      this.columns.splice(this.editIndex, 1, data)
+      this.editIndex = null
+    } else {
+      // add
+      this.columns.push(data)
+    }
+  }
+
+  edit(index: number) {
+    this.editIndex = index
+    this.dialogVisible = true
+  }
+
+  remove(index: number) {
+    this.columns.splice(index, 1)
   }
 }
 </script>
