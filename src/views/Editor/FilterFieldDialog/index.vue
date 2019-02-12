@@ -5,17 +5,11 @@
     title="添加搜索字段"
     width="1000px"
   >
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
+    <div slot="footer" class="dialog-footer">
       <ElButton @click="hideDialog">
         取 消
       </ElButton>
-      <ElButton
-        type="primary"
-        @click="formSubmit"
-      >
+      <ElButton type="primary" @click="formSubmit">
         确 定
       </ElButton>
     </div>
@@ -112,25 +106,25 @@ export default class FilterFieldDialog extends Vue {
   public allFieldConfig: AllFieldConfig = {}
   public fieldType = ''
 
-  get fieldEditor() {
+  get fieldEditor () {
     return editorMaps[_.camelCase(this.fieldType)]
   }
 
-  get fieldConfig() {
+  get fieldConfig () {
     return this.allFieldConfig[_.camelCase(this.fieldType)]
   }
 
-  get dialogVisible() {
+  get dialogVisible () {
     return this.visible
   }
-  set dialogVisible(val) {
+  set dialogVisible (val) {
     if (val === false) {
       this.hideDialog()
     }
   }
 
   @Watch('dialogVisible')
-  onVisibleChanged(val: boolean) {
+  onVisibleChanged (val: boolean) {
     if (val && this.editModel) {
       const { type } = this.editModel
       const model = this.allFieldConfig[type]
@@ -144,11 +138,11 @@ export default class FilterFieldDialog extends Vue {
     }
   }
 
-  mounted() {
+  mounted () {
     this.init()
   }
 
-  hideDialog() {
+  hideDialog () {
     this.$emit('update:visible', false)
     // 避免界面跳动，关闭动画播放完毕后再重置内容
     setTimeout(() => {
@@ -156,7 +150,7 @@ export default class FilterFieldDialog extends Vue {
     }, 500)
   }
 
-  formSubmit() {
+  formSubmit () {
     this.$refs.fieldEditor.$refs.form.validate((valid: boolean) => {
       if (valid) {
         const fieldConfig = _.cloneDeep(this.allFieldConfig[this.fieldType])
@@ -171,7 +165,7 @@ export default class FilterFieldDialog extends Vue {
     })
   }
 
-  init() {
+  init () {
     // const $editor = this.$refs['fieldEditor']
     // const $form = $editor.$refs['form']
     // $form && $form.resetFields()
@@ -179,7 +173,7 @@ export default class FilterFieldDialog extends Vue {
     this.fieldType = 'text'
   }
 
-  reset() {
+  reset () {
     this.init()
   }
 }

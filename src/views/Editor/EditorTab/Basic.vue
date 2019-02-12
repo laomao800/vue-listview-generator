@@ -42,19 +42,20 @@
           v-model.trim="navText"
           size="small"
           style="width:160px;height:32px;"
-          @keyup.esc.native="navText = ''; navInputVisible = false;"
+          @keyup.esc.native="
+            navText = ''
+            navInputVisible = false
+          "
           @keyup.enter.native="addHeaderNav"
           @blur="addHeaderNav"
         />
-        <ElButton
-          v-else
-          size="small"
-          @click="showNavInput"
-        >
+        <ElButton v-else size="small" @click="showNavInput">
           + 新增子项
         </ElButton>
         <div class="tips">
-          面包屑同时支持 <code>to</code> 属性设置路由跳转对象，可在生成后的配置中添加，同 vue-router 的 <code>to</code> 。
+          面包屑同时支持
+          <code>to</code> 属性设置路由跳转对象，可在生成后的配置中添加，同
+          vue-router 的 <code>to</code> 。
         </div>
       </ElFormItem>
 
@@ -72,7 +73,9 @@
         </div>
         <ElSwitch v-model="model.fullHeight" />
         <div class="tips">
-          全屏效果，开启后 <code>&lt;listview /&gt;</code> 会从渲染起始位置开始往下占满剩余所有的屏幕高度，并会在重设浏览器窗体大小后继续保持铺满状态。
+          全屏效果，开启后
+          <code>&lt;listview /&gt;</code>
+          会从渲染起始位置开始往下占满剩余所有的屏幕高度，并会在重设浏览器窗体大小后继续保持铺满状态。
         </div>
       </ElFormItem>
 
@@ -106,7 +109,9 @@
           style="width:120px"
         />
         <div class="tips">
-          在没有开启拉伸高度和没有指定高度时， <code>&lt;listview /&gt;</code> 高度随内容变化，该值可用于限制内容区域的最小高度，默认值 160 。
+          在没有开启拉伸高度和没有指定高度时，
+          <code>&lt;listview /&gt;</code>
+          高度随内容变化，该值可用于限制内容区域的最小高度，默认值 160 。
         </div>
       </ElFormItem>
     </ElCol>
@@ -166,10 +171,7 @@
               pageSize
             </span>
           </div>
-          <ElRadioGroup
-            v-model="model.pageSize"
-            class="pages-group"
-          >
+          <ElRadioGroup v-model="model.pageSize" class="pages-group">
             <ElRadio
               v-for="(size, index) in inputPageSizes"
               :key="index"
@@ -192,8 +194,8 @@
             <ElCheckbox
               v-for="(val, index) in 10"
               :key="index"
-              :value="val*10"
-              :label="val*10"
+              :value="val * 10"
+              :label="val * 10"
             />
           </ElCheckboxGroup>
           <div class="tips">
@@ -231,13 +233,13 @@ export default class Basic extends Vue {
   public contentMessage: string | null =
     '初次打开页面不加载数据，请组合条件进行搜索。'
 
-  get inputPageSizes() {
+  get inputPageSizes () {
     return this.model.pageSizes
   }
-  set inputPageSizes(val) {
+  set inputPageSizes (val) {
     this.model.pageSizes = val.sort((a: number, b: number) => (a > b ? 1 : -1))
   }
-  get iconMap() {
+  get iconMap () {
     return {
       success: { color: '#6ac243', icon: 'el-icon-success' },
       warning: { color: '#f90', icon: 'el-icon-warning' },
@@ -247,11 +249,11 @@ export default class Basic extends Vue {
   }
 
   @Watch('useContentMessage')
-  onMsgChanged(val: boolean) {
+  onMsgChanged (val: boolean) {
     this.model.contentMessage = val ? this.contentMessage : null
   }
 
-  addHeaderNav() {
+  addHeaderNav () {
     if (this.navText) {
       this.model.headerNav.push({ text: this.navText })
       this.navText = ''
@@ -259,11 +261,11 @@ export default class Basic extends Vue {
     this.navInputVisible = false
   }
 
-  removeHeaderNav(index: number) {
+  removeHeaderNav (index: number) {
     this.model.headerNav.splice(index, 1)
   }
 
-  async showNavInput() {
+  async showNavInput () {
     this.navInputVisible = true
     await this.$nextTick()
     this.$refs.navInput.$refs.input.focus()

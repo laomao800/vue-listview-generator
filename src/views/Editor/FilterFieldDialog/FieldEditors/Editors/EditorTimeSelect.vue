@@ -18,10 +18,7 @@
       :width-placeholder="120"
     />
 
-    <ElFormItem
-      label="前置图标"
-      prop="componentProps.prefixIcon"
-    >
+    <ElFormItem label="前置图标" prop="componentProps.prefixIcon">
       <IconSelector v-model="fieldConfig.componentProps.prefixIcon" />
     </ElFormItem>
 
@@ -36,11 +33,7 @@
           label="开始时间"
           prop="componentProps.pickerOptions.start"
         >
-          <ElInput
-            v-model="inputStart"
-            placeholder="09:00"
-            clearable
-          />
+          <ElInput v-model="inputStart" placeholder="09:00" clearable />
         </ElFormItem>
       </ElCol>
       <ElCol :span="8">
@@ -53,11 +46,7 @@
           label="结束时间"
           prop="componentProps.pickerOptions.end"
         >
-          <ElInput
-            v-model="inputEnd"
-            placeholder="18:00"
-            clearable
-          />
+          <ElInput v-model="inputEnd" placeholder="18:00" clearable />
         </ElFormItem>
       </ElCol>
       <ElCol :span="8">
@@ -70,11 +59,7 @@
           label="选项跨度"
           prop="componentProps.pickerOptions.step"
         >
-          <ElInput
-            v-model="inputStep"
-            placeholder="00:30"
-            clearable
-          />
+          <ElInput v-model="inputStep" placeholder="00:30" clearable />
         </ElFormItem>
       </ElCol>
     </ElRow>
@@ -83,10 +68,10 @@
 
 <script lang="ts">
 import { mixins } from 'vue-class-component'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { Component, Watch } from 'vue-property-decorator'
 import fieldEditorMixin from './fieldEditorMixin'
 
-function isValidTimeFormat(value: string) {
+function isValidTimeFormat (value: string) {
   const reg = /^[0-5][0-9](:[0-5][0-9])+$/
   return reg.test(value)
 }
@@ -101,23 +86,23 @@ export default class EditorTimeSelect extends mixins(fieldEditorMixin) {
   public fieldConfig: any
 
   @Watch('inputStart')
-  onStartChanged(newValue: string) {
+  onStartChanged (newValue: string) {
     this.setPickerOptions(newValue, 'start')
   }
   @Watch('inputEnd')
-  onEndChanged(newValue: string) {
+  onEndChanged (newValue: string) {
     this.setPickerOptions(newValue, 'end')
   }
   @Watch('inputStep')
-  onStepChanged(newValue: string) {
+  onStepChanged (newValue: string) {
     this.setPickerOptions(newValue, 'step')
   }
 
-  created() {
+  created () {
     this.$set(this.fieldConfig.componentProps, 'pickerOptions', {})
   }
 
-  pickerOptionsValidator(value: any, callback: (e?: any) => void) {
+  pickerOptionsValidator (value: any, callback: (e?: any) => void) {
     if (!value || isValidTimeFormat(value)) {
       callback()
     } else {
@@ -125,7 +110,7 @@ export default class EditorTimeSelect extends mixins(fieldEditorMixin) {
     }
   }
 
-  setPickerOptions(newValue: string, prop: string) {
+  setPickerOptions (newValue: string, prop: string) {
     const pickerOptions = this.fieldConfig.componentProps.pickerOptions
     if (isValidTimeFormat(newValue)) {
       this.$set(pickerOptions, prop, newValue)

@@ -1,16 +1,9 @@
 <template>
   <div class="options-editor">
-    <ElTabs
-      v-model="activeName"
-      :before-leave="tabBeforeLeave"
-      type="card"
-    >
+    <ElTabs v-model="activeName" :before-leave="tabBeforeLeave" type="card">
       <ElTabPane label="以选项编辑" name="list">
         <div class="options-editor-list">
-          <table
-            cellspacing="0"
-            cellpadding="0"
-          >
+          <table cellspacing="0" cellpadding="0">
             <thead>
               <tr>
                 <th class="col-handle" />
@@ -47,14 +40,20 @@
                   <ElInput
                     v-model="option.label"
                     size="mini"
-                    @input="() => (index === internalOptions.length -1) && addEmptyOption()"
+                    @input="
+                      () =>
+                        index === internalOptions.length - 1 && addEmptyOption()
+                    "
                   />
                 </td>
                 <td class="col-value">
                   <ElInput
                     v-model="option.value"
                     size="mini"
-                    @input="() => (index === internalOptions.length -1) && addEmptyOption()"
+                    @input="
+                      () =>
+                        index === internalOptions.length - 1 && addEmptyOption()
+                    "
                   />
                 </td>
                 <td class="col-action">
@@ -113,28 +112,28 @@ export default class OptionsEditList extends Vue {
   public optionJSONString = ''
 
   @Watch('internalOptions', { deep: true })
-  WatchInterOptions() {
+  WatchInterOptions () {
     // 删除最后一个用于触发添加操作的辅助空数据后返回
     this.$emit('update:options', this.internalOptions.slice(0, -1))
   }
 
-  mounted() {
+  mounted () {
     this.internalOptions = _.cloneDeep(this.options)
     this.addEmptyOption()
   }
 
-  addEmptyOption() {
+  addEmptyOption () {
     this.internalOptions.push({
       label: '',
       value: ''
     })
   }
 
-  deleteOption(index: number) {
+  deleteOption (index: number) {
     this.internalOptions.splice(index, 1)
   }
 
-  tabBeforeLeave(activeName: string, oldActiveName: string) {
+  tabBeforeLeave (activeName: string, oldActiveName: string) {
     // debugger
     switch (activeName) {
       case 'list':
@@ -153,7 +152,7 @@ export default class OptionsEditList extends Vue {
     return true
   }
 
-  parseOptionsJSON(): OptionType[] | void {
+  parseOptionsJSON (): OptionType[] | void {
     if (this.activeName === 'json') {
       try {
         const parseData = json5.parse(this.$refs.jsonEditor.getValue())
@@ -171,7 +170,7 @@ export default class OptionsEditList extends Vue {
     }
   }
 
-  validOptionJSON(option: OptionType) {
+  validOptionJSON (option: OptionType) {
     return (
       _.isPlainObject(option) &&
       typeof option.label === 'string' &&

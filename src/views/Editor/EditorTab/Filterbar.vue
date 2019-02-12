@@ -54,7 +54,7 @@ export default class Filterbar extends Vue {
     showFilterReset: true
   }
 
-  get model() {
+  get model () {
     return {
       filterButtons: this.$refs.buttons.model.filterButtons,
       filterFields: this.$refs.fields.model.filterFields,

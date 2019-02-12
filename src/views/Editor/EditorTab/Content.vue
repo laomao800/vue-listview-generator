@@ -1,7 +1,6 @@
 <template>
   <ElRow :gutter="20">
     <ElCol :span="9">
-
       <div class="editor__header">
         <ElButton
           type="success"
@@ -23,24 +22,13 @@
         :options="{ handle: '.drag-handle', animation: 100 }"
         class="draggable-list filterbar-fields-list"
       >
-        <DragItem
-          v-for="(item, index) in columns"
-          :key="item.key"
-        >
+        <DragItem v-for="(item, index) in columns" :key="item.key">
           <div class="config-content">
-            <div class="field-meta">
-              <span>label:</span> {{ item.label }}
-            </div>
-            <div class="field-meta">
-              <span>prop:</span> {{ item.prop }}
-            </div>
+            <div class="field-meta"><span>label:</span> {{ item.label }}</div>
+            <div class="field-meta"><span>prop:</span> {{ item.prop }}</div>
           </div>
           <div slot="right">
-            <ElButton
-              type="text"
-              icon="el-icon-edit"
-              @click="edit(index)"
-            />
+            <ElButton type="text" icon="el-icon-edit" @click="edit(index)" />
             <ElButton
               type="text"
               icon="el-icon-delete"
@@ -136,18 +124,18 @@ export default class Content extends Vue {
     ]
   }
 
-  get columns() {
+  get columns () {
     return this.model.tableColumns
   }
-  set columns(val) {
+  set columns (val) {
     this.model.tableColumns = val
   }
 
-  get editModel() {
+  get editModel () {
     return this.editIndex ? this.model.tableColumns[this.editIndex] : null
   }
 
-  save(data: TableColumn) {
+  save (data: TableColumn) {
     if (this.editIndex) {
       // edit
       this.columns.splice(this.editIndex, 1, data)
@@ -158,12 +146,12 @@ export default class Content extends Vue {
     }
   }
 
-  edit(index: number) {
+  edit (index: number) {
     this.editIndex = index
     this.dialogVisible = true
   }
 
-  remove(index: number) {
+  remove (index: number) {
     this.columns.splice(index, 1)
   }
 }

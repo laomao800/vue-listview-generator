@@ -21,34 +21,19 @@
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-fields-list"
     >
-      <DragItem
-        v-for="(item, index) in fields"
-        :key="item.key"
-      >
+      <DragItem v-for="(item, index) in fields" :key="item.key">
         <div class="config-content">
           <div class="field-meta">
             <span>类型:</span>
             <i :class="getFieldTypeIcon(item.type)" />
             {{ item.type }}
           </div>
-          <div class="field-meta">
-            <span>文字标签:</span> {{ item.label }}
-          </div>
-          <div class="field-meta">
-            <span>参数名称:</span> {{ item.model }}
-          </div>
+          <div class="field-meta"><span>文字标签:</span> {{ item.label }}</div>
+          <div class="field-meta"><span>参数名称:</span> {{ item.model }}</div>
         </div>
         <div slot="right">
-          <ElButton
-            type="text"
-            icon="el-icon-edit"
-            @click="edit(index)"
-          />
-          <ElButton
-            type="text"
-            icon="el-icon-delete"
-            @click="remove(index)"
-          />
+          <ElButton type="text" icon="el-icon-edit" @click="edit(index)" />
+          <ElButton type="text" icon="el-icon-delete" @click="remove(index)" />
         </div>
       </DragItem>
     </Draggable>
@@ -115,26 +100,26 @@ export default class FilterbarFields extends Vue {
     ]
   }
 
-  get fields() {
+  get fields () {
     return this.model.filterFields
   }
-  set fields(val) {
+  set fields (val) {
     this.model.filterFields = val
   }
-  get editModel() {
+  get editModel () {
     return this.editIndex !== null
       ? this.model.filterFields[this.editIndex]
       : null
   }
 
   @Watch('dialogVisible')
-  onVisibleChanged(val: boolean) {
+  onVisibleChanged (val: boolean) {
     if (!val) {
       this.editIndex = null
     }
   }
 
-  save(data: FilterField) {
+  save (data: FilterField) {
     if (this.editIndex) {
       // edit
       this.model.filterFields.splice(this.editIndex, 1, data)
@@ -145,16 +130,16 @@ export default class FilterbarFields extends Vue {
     }
   }
 
-  edit(index: number) {
+  edit (index: number) {
     this.editIndex = index
     this.dialogVisible = true
   }
 
-  remove(index: number) {
+  remove (index: number) {
     this.fields.splice(index, 1)
   }
 
-  getFieldTypeIcon(type: string) {
+  getFieldTypeIcon (type: string) {
     switch (type) {
       case 'text':
         return 'el-icon-edit'

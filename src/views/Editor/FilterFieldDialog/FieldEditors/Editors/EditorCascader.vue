@@ -6,10 +6,7 @@
     size="small"
     label-width="120px"
   >
-    <FieldPreview
-      :field-type="fieldType"
-      :field-config="fieldConfig"
-    />
+    <FieldPreview :field-type="fieldType" :field-config="fieldConfig" />
 
     <EditorCommonFormItem
       :field-type="fieldType"
@@ -21,7 +18,7 @@
 
 <script lang="ts">
 import { mixins } from 'vue-class-component'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'vue-property-decorator'
 import fieldEditorMixin from './fieldEditorMixin'
 
 @Component

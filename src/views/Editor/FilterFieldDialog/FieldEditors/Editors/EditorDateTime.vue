@@ -6,10 +6,7 @@
     size="small"
     label-width="120px"
   >
-    <FieldPreview
-      :field-type="fieldType"
-      :field-config="fieldConfig"
-    />
+    <FieldPreview :field-type="fieldType" :field-config="fieldConfig" />
 
     <EditorCommonFormItem
       :field-type="fieldType"
@@ -17,21 +14,15 @@
       :width-placeholder="200"
     />
 
-    <ElFormItem
-      label="前置图标"
-      prop="componentProps.prefixIcon"
-    >
+    <ElFormItem label="前置图标" prop="componentProps.prefixIcon">
       <IconSelector v-model="fieldConfig.componentProps.prefixIcon" />
     </ElFormItem>
 
     <ElRow :gutter="20">
       <ElCol :span="12">
-        <ElFormItem
-          label="显示格式"
-          prop="componentProps.format"
-        >
-          <template slot="label">
-            显示格式
+        <ElFormItem label="显示格式" prop="componentProps.format">
+          <template slot="label"
+            >显示格式
             <ElTooltip
               :offset="10"
               class="tips"
@@ -50,12 +41,9 @@
         </ElFormItem>
       </ElCol>
       <ElCol :span="12">
-        <ElFormItem
-          label="提交格式"
-          prop="componentProps.valueFormat"
-        >
-          <template slot="label">
-            提交格式
+        <ElFormItem label="提交格式" prop="componentProps.valueFormat">
+          <template slot="label"
+            >提交格式
             <ElTooltip
               :offset="10"
               class="tips"
@@ -66,10 +54,7 @@
               <i class="el-icon-warning" />
             </ElTooltip>
           </template>
-          <ElInput
-            v-model="fieldConfig.componentProps.valueFormat"
-            clearable
-          />
+          <ElInput v-model="fieldConfig.componentProps.valueFormat" clearable />
         </ElFormItem>
       </ElCol>
     </ElRow>
@@ -80,7 +65,7 @@
 
 <script lang="ts">
 import { mixins } from 'vue-class-component'
-import { Component, Prop } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import fieldEditorMixin from './fieldEditorMixin'
 import DateFormatTips from '../common/DateFormatTips.vue'
 

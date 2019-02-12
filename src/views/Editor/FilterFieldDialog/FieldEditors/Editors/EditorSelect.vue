@@ -6,10 +6,7 @@
     size="small"
     label-width="120px"
   >
-    <FieldPreview
-      :field-type="fieldType"
-      :field-config="fieldConfig"
-    />
+    <FieldPreview :field-type="fieldType" :field-config="fieldConfig" />
 
     <EditorCommonFormItem
       :field-type="fieldType"
@@ -21,7 +18,7 @@
       <!-- <el-radio-group v-model="optionsEditForm.dataType">
         <el-radio-button label="static">静态选项</el-radio-button>
         <el-radio-button label="datasource" disabled="disabled">外部数据源</el-radio-button>
-      </el-radio-group> -->
+      </el-radio-group>-->
       <OptionsEditList :options.sync="fieldConfig.options" />
     </ElFormItem>
   </ElForm>
@@ -29,7 +26,7 @@
 
 <script lang="ts">
 import { mixins } from 'vue-class-component'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import OptionsEditList from '@/views/components/OptionsEditList.vue'
 import fieldEditorMixin from './fieldEditorMixin'
 

@@ -1,15 +1,8 @@
 <template>
-  <!-- eslint-disable vue/attributes-order vue/max-attributes-per-line -->
   <div class="listview-editor">
     <div style="padding-bottom:20px;">
-      <el-button
-        type="primary"
-        @click="doPreview"
-      >预览效果</el-button>
-      <el-button
-        type="primary"
-        @click="getPreview"
-      >查看配置</el-button>
+      <el-button type="primary" @click="doPreview">预览效果</el-button>
+      <el-button type="primary" @click="getPreview">查看配置</el-button>
 
       <el-dialog
         title="预览"
@@ -18,61 +11,35 @@
         :fullscreen="true"
         @opened="triggerResize"
       >
-        <listview
-          v-if="previewVisible"
-          v-bind="previewProps"
-        />
+        <listview v-if="previewVisible" v-bind="previewProps"/>
       </el-dialog>
 
-      <el-dialog
-        title="配置"
-        :visible.sync="previewPropsVisible"
-      >
+      <el-dialog title="配置" :visible.sync="previewPropsVisible">
         <AceEditor
-          :readonly="true"
           ref="jsxEditor"
+          :readonly="true"
           lang="json"
           :content="JSON.stringify(previewProps, null, 2)"
         />
       </el-dialog>
     </div>
     <div class="editor__config">
-      <ElForm
-        ref="configForm"
-        size="medium"
-        label-width="120px"
-        @submit.native.prevent
-      >
-        <ElTabs
-          v-model="configActiveTab"
-          type="card"
-        >
-          <ElTabPane
-            label="数据源配置"
-            name="dataSource"
-          >
-            <EditorTabDataSource ref="config1" />
+      <ElForm ref="configForm" size="medium" label-width="120px" @submit.native.prevent>
+        <ElTabs v-model="configActiveTab" type="card">
+          <ElTabPane label="数据源配置" name="dataSource">
+            <EditorTabDataSource ref="config1"/>
           </ElTabPane>
 
-          <ElTabPane
-            label="基础配置"
-            name="basic"
-          >
-            <EditorTabBasic ref="config2" />
+          <ElTabPane label="基础配置" name="basic">
+            <EditorTabBasic ref="config2"/>
           </ElTabPane>
 
-          <ElTabPane
-            label="搜索栏"
-            name="filterbar"
-          >
-            <EditorTabFilterbar ref="config3" />
+          <ElTabPane label="搜索栏" name="filterbar">
+            <EditorTabFilterbar ref="config3"/>
           </ElTabPane>
 
-          <ElTabPane
-            label="内容"
-            name="content"
-          >
-            <EditorTabContent ref="config4" />
+          <ElTabPane label="内容" name="content">
+            <EditorTabContent ref="config4"/>
           </ElTabPane>
         </ElTabs>
       </ElForm>

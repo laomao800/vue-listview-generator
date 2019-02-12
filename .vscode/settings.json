@@ -34,8 +34,6 @@
   // ===
   "html.format.enable": false,
   "vetur.validation.template": false,
-  "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
   // ===
   // JS(ON)
   // ===

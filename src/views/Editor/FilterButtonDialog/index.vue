@@ -5,19 +5,9 @@
     title="添加操作按钮"
     width="800px"
   >
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <ElButton @click="hideDialog">
-        取 消
-      </ElButton>
-      <ElButton
-        type="primary"
-        @click="formSubmit"
-      >
-        确 定
-      </ElButton>
+    <div slot="footer" class="dialog-footer">
+      <ElButton @click="hideDialog">取 消</ElButton>
+      <ElButton type="primary" @click="formSubmit">确 定</ElButton>
     </div>
 
     <!-- <el-form-item label="添加类型" style="margin-bottom:18px;">
@@ -25,42 +15,23 @@
         <el-radio-button label="object">常规</el-radio-button>
         <el-radio-button label="jsx">自定义 (JSX)</el-radio-button>
       </el-radio-group>
-    </el-form-item> -->
-
+    </el-form-item>-->
     <div v-show="configType === 'object'">
       <ElRow :gutter="20">
         <ElCol :span="12">
-          <ElForm
-            ref="form"
-            :model="model"
-            size="small"
-            label-width="120px"
-          >
-            <ElFormItem
-              label="按钮文字"
-              prop="text"
-            >
-              <ElInput
-                v-model="model.text"
-                maxlength="20"
-                style="width:240px"
-              />
+          <ElForm ref="form" :model="model" size="small" label-width="120px">
+            <ElFormItem label="按钮文字" prop="text">
+              <ElInput v-model="model.text" maxlength="20" style="width:240px"/>
             </ElFormItem>
-            <ElFormItem
-              label="按钮类型"
-              prop="type"
-            >
-              <ElSelect
-                v-model="model.type"
-                style="width:240px"
-              >
+            <ElFormItem label="按钮类型" prop="type">
+              <ElSelect v-model="model.type" style="width:240px">
                 <span
                   slot="prefix"
                   :class="[
                     'button-color-preview',
                     {
                       [`button-color-preview--${model.type}`]: model.type,
-                      'button-color-preview--plain': model.plain,
+                      'button-color-preview--plain': model.plain
                     }
                   ]"
                   style="margin-left: 4px;margin-top: -2px;"
@@ -71,32 +42,25 @@
                   :label="type"
                   :value="type"
                 >
-                  <span :class="[
-                    'button-color-preview',
-                    {
-                      [`button-color-preview--${type}`]: type,
-                      'button-color-preview--plain': model.plain,
-                    }
-                  ]" />
+                  <span
+                    :class="[
+                      'button-color-preview',
+                      {
+                        [`button-color-preview--${type}`]: type,
+                        'button-color-preview--plain': model.plain
+                      }
+                    ]"
+                  />
                   <span>{{ type }}</span>
                 </ElOption>
               </ElSelect>
             </ElFormItem>
 
-            <ElFormItem
-              label="按钮图标"
-              prop="icon"
-            >
-              <IconSelector
-                v-model="model.icon"
-                style="width:240px"
-              />
+            <ElFormItem label="按钮图标" prop="icon">
+              <IconSelector v-model="model.icon" style="width:240px"/>
             </ElFormItem>
-            <ElFormItem
-              label="线框型按钮"
-              prop="plain"
-            >
-              <ElSwitch v-model="model.plain" />
+            <ElFormItem label="线框型按钮" prop="plain">
+              <ElSwitch v-model="model.plain"/>
             </ElFormItem>
             <!-- TODO: 下拉按钮 -->
           </ElForm>
@@ -104,12 +68,7 @@
 
         <ElCol :span="12">
           <div class="preview-area">
-            <ElButton
-              v-bind="model"
-              size="small"
-            >
-              {{ model.text }}
-            </ElButton>
+            <ElButton v-bind="model" size="small">{{ model.text }}</ElButton>
           </div>
         </ElCol>
       </ElRow>

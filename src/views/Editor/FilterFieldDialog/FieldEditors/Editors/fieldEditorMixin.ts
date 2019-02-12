@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import IconSelector from '@/components/IconSelector/index.vue'
 import FieldPreview from '../common/FieldPreview.vue'
 import EditorCommonFormItem from '../common/EditorCommonFormItem.vue'

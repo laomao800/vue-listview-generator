@@ -1,47 +1,18 @@
 <template>
-  <ElDialog
-    :visible.sync="dialogVisible"
-    :close-on-click-modal="false"
-    title="添加表格列"
-    width="400px"
-  >
-    <div
-      slot="footer"
-      class="dialog-footer"
-    >
-      <ElButton @click="hideDialog">
-        取 消
-      </ElButton>
-      <ElButton
-        type="primary"
-        @click="formSubmit"
-      >
-        确 定
-      </ElButton>
+  <ElDialog :visible.sync="dialogVisible" :close-on-click-modal="false" title="添加表格列" width="400px">
+    <div slot="footer" class="dialog-footer">
+      <ElButton @click="hideDialog">取 消</ElButton>
+      <ElButton type="primary" @click="formSubmit">确 定</ElButton>
     </div>
 
-    <ElForm
-      ref="form"
-      :model="model"
-      size="small"
-      label-width="120px"
-    >
-      <ElFormItem
-        label="表头文本"
-        prop="label"
-      >
-        <ElInput v-model="model.label" />
+    <ElForm ref="form" :model="model" size="small" label-width="120px">
+      <ElFormItem label="表头文本" prop="label">
+        <ElInput v-model="model.label"/>
       </ElFormItem>
-      <ElFormItem
-        label="列内容属性名"
-        prop="prop"
-      >
-        <ElInput v-model="model.prop" />
+      <ElFormItem label="列内容属性名" prop="prop">
+        <ElInput v-model="model.prop"/>
       </ElFormItem>
-      <ElFormItem
-        label="对齐"
-        prop="align"
-      >
+      <ElFormItem label="对齐" prop="align">
         <el-radio-group v-model="model.align">
           <el-radio-button label="left"></el-radio-button>
           <el-radio-button label="center"></el-radio-button>

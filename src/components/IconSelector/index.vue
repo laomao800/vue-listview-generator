@@ -1,16 +1,7 @@
 <template>
-  <ElSelect
-    v-model="currentValue"
-    clearable
-    popper-class="icon-selector"
-  >
-    <ElOption
-      v-for="(name, index) in iconNames"
-      :key="index"
-      :label="name"
-      :value="name"
-    >
-      <i :class="name" />
+  <ElSelect v-model="currentValue" clearable popper-class="icon-selector">
+    <ElOption v-for="(name, index) in iconNames" :key="index" :label="name" :value="name">
+      <i :class="name"/>
     </ElOption>
   </ElSelect>
 </template>

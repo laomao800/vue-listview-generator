@@ -3,12 +3,10 @@ export default {
   model: [
     { required: true, message: '请输入字段参数名称', trigger: 'blur' },
     {
-      validator(
+      validator (
         rule: object | object[],
         value: any,
-        callback: (e?: any) => void,
-        source: object,
-        options: object
+        callback: (e?: any) => void
       ) {
         const reg = /^[a-zA-Z]\w*$/
         if (reg.test(value)) {
@@ -21,12 +19,10 @@ export default {
   ],
   width: [
     {
-      validator(
+      validator (
         rule: object | object[],
         value: any,
-        callback: (e?: any) => void,
-        source: object,
-        options: object
+        callback: (e?: any) => void
       ) {
         if (value && typeof value !== 'number') {
           callback(new Error('请输入数字'))

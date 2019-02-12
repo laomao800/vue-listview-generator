@@ -1,18 +1,9 @@
 <template>
   <div class="preview-area">
-    <ElForm
-      :inline="true"
-      size="small"
-    >
+    <ElForm :inline="true" size="small">
       <ElFormItem style="margin:0">
-        <Transition
-          v-if="field.label"
-          name="label-trans"
-        >
-          <div
-            v-if="showFieldLabel"
-            class="filterbar__field-label"
-          >
+        <Transition v-if="field.label" name="label-trans">
+          <div v-if="showFieldLabel" class="filterbar__field-label">
             {{ field.label }}
           </div>
         </Transition>
@@ -55,23 +46,23 @@ export default class FilterPreview extends Vue {
     [k: string]: any
   } = {}
 
-  get field() {
+  get field () {
     return {
       ...this.fieldConfig,
       model: 'preview'
     }
   }
 
-  get fieldCmpName() {
+  get fieldCmpName () {
     const type = _.camelCase(this.fieldType)
     return fieldMaps[type]
   }
 
-  get value() {
+  get value () {
     return this.model['preview']
   }
 
-  get showFieldLabel() {
+  get showFieldLabel () {
     // hasValues(null) -> true ，所以需要和 value 同时判断
     return this.value && hasValues(this.value)
   }

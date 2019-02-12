@@ -7,9 +7,8 @@
         icon="el-icon-plus"
         style="float:right"
         @click="dialogVisible = true"
+        >添加操作按钮</ElButton
       >
-        添加操作按钮
-      </ElButton>
       <div class="editor__title">
         操作按钮
         <small>filterButtons</small>
@@ -21,31 +20,19 @@
       :options="{ handle: '.drag-handle', animation: 100 }"
       class="draggable-list filterbar-buttons-list"
     >
-      <DragItem
-        v-for="(item, index) in buttons"
-        :key="index"
-      >
+      <DragItem v-for="(item, index) in buttons" :key="index">
         <div class="config-content">
           <ElButton
             size="small"
             :type="item.type"
             :plain="item.plain"
             :icon="item.icon"
+            >{{ item.text }}</ElButton
           >
-            {{ item.text }}
-          </ElButton>
         </div>
         <div slot="right">
-          <ElButton
-            type="text"
-            icon="el-icon-edit"
-            @click="edit(index)"
-          />
-          <ElButton
-            type="text"
-            icon="el-icon-delete"
-            @click="remove(index)"
-          />
+          <ElButton type="text" icon="el-icon-edit" @click="edit(index)" />
+          <ElButton type="text" icon="el-icon-delete" @click="remove(index)" />
         </div>
       </DragItem>
     </Draggable>
@@ -88,26 +75,26 @@ export default class FilterbarButtons extends Vue {
     ]
   }
 
-  get buttons() {
+  get buttons () {
     return this.model.filterButtons
   }
-  set buttons(val) {
+  set buttons (val) {
     this.model.filterButtons = val
   }
-  get editModel() {
+  get editModel () {
     return this.editIndex !== null
       ? this.model.filterButtons[this.editIndex]
       : null
   }
 
   @Watch('dialogVisible')
-  onVisibleChanged(val: boolean) {
+  onVisibleChanged (val: boolean) {
     if (val === false) {
       this.editIndex = null
     }
   }
 
-  save(data: FilterButton) {
+  save (data: FilterButton) {
     if (this.editIndex) {
       // edit
       this.model.filterButtons.splice(this.editIndex, 1, data)
@@ -118,12 +105,12 @@ export default class FilterbarButtons extends Vue {
     }
   }
 
-  edit(index: number) {
+  edit (index: number) {
     this.editIndex = index
     this.dialogVisible = true
   }
 
-  remove(index: number) {
+  remove (index: number) {
     this.buttons.splice(index, 1)
   }
 }
