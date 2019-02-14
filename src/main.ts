@@ -11,7 +11,9 @@ import DragItem from '@/views/components/DragItem.vue'
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI)
+Vue.use(ElementUI, {
+  size: 'medium'
+})
 Vue.use(Listview)
 Vue.component('Draggable', Draggable)
 Vue.component('DragItem', DragItem)

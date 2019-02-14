@@ -22,7 +22,7 @@ export default class Topbar extends Vue {}
 .logo {
   font-size: 20px;
   padding: 0 20px;
-  color: @logo-color;
+  color: @logo-text-color;
   display: flex;
   align-items: center;
 }

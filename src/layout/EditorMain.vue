@@ -2,15 +2,15 @@
   <div :class="$style.wrap">
     <Toolbar/>
     <div :class="$style.content">
-      <div :class="$style.main">
-        <ElTabs v-model="activeTab" type="card">
+      <ElForm :class="$style.main" label-width="120px" @submit.native.prevent>
+        <ElTabs class="editor-tabs" v-model="activeTab" type="card">
           <ElTabPane label="数据源" name="dataSource">
             <PaneDataSource/>
           </ElTabPane>
           <ElTabPane label="搜索栏" name="filterbar">tab2</ElTabPane>
           <ElTabPane label="内容" name="content">tab3</ElTabPane>
         </ElTabs>
-      </div>
+      </ElForm>
       <div :class="$style.sidebar">sidebar</div>
     </div>
   </div>
@@ -50,5 +50,27 @@ export default class EditorMain extends Vue {
 .sidebar {
   width: @sidebar-width;
   border-left: 1px solid @border-color;
+}
+</style>
+
+<style lang="less">
+@import url('~@/style/theme.less');
+
+.editor-tabs {
+  > .el-tabs__header {
+    margin: 0;
+    border-bottom: 1px solid @border-color-light;
+
+    .el-tabs__nav {
+      border-radius: 0;
+      border-left: none;
+      border-top: 0;
+    }
+
+    .el-tabs__item.is-active {
+      border-bottom-color: @main-background-color;
+      // background-color: darken(@main-background-color, 2);
+    }
+  }
 }
 </style>

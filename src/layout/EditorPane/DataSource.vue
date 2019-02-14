@@ -1,9 +1,9 @@
 <template>
-  <ElForm>
+  <div :class="$style.wrap">
     <ElFormItem label="数据接口">
-      <div :class="$style.request">
-        <ElInput v-model="requestUrl" placeholder="请求接口地址" class="input-with-select">
-          <ElSelect slot="prepend" v-model="requestMethod">
+      <div :class="$style.request" style="display:flex">
+        <ElInput v-model="requestUrl" placeholder="请求接口地址">
+          <ElSelect slot="prepend" v-model="requestMethod" style="width:100px">
             <ElOption label="GET" value="get"/>
             <ElOption label="POST" value="post"/>
           </ElSelect>
@@ -11,14 +11,13 @@
         <ElButton
           :loading="fetchUrlLoading"
           type="primary"
-          class="test-url"
           icon="el-icon-refresh"
-          style="padding-left:12px;padding-right:12px"
+          style="margin-left:10px"
           @click="fetchUrl"
         >测试接口</ElButton>
       </div>
     </ElFormItem>
-  </ElForm>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,11 +51,7 @@ export default class DataSource extends Vue {
 <style lang="less" module>
 @import url('~@/style/theme.less');
 
-.request {
-  display: flex;
-
-  .test-url {
-    margin-left: 10px;
-  }
+.wrap {
+  padding: 16px;
 }
 </style>
