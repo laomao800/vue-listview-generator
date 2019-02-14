@@ -1,7 +1,6 @@
 <template>
   <div :class="$style.wrap">
     <Topbar/>
-
     <div :class="$style.content">
       <Sidebar :class="$style.sidebar"/>
       <EditorMain :class="$style.main"/>

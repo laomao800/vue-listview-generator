@@ -3,11 +3,13 @@
     <Toolbar/>
     <div :class="$style.content">
       <div :class="$style.main">
-        <el-tabs v-model="activeTab" type="card">
-          <el-tab-pane label="tab1">tab1</el-tab-pane>
-          <el-tab-pane label="tab2">tab2</el-tab-pane>
-          <el-tab-pane label="tab3">tab3</el-tab-pane>
-        </el-tabs>
+        <ElTabs v-model="activeTab" type="card">
+          <ElTabPane label="数据源" name="dataSource">
+            <PaneDataSource/>
+          </ElTabPane>
+          <ElTabPane label="搜索栏" name="filterbar">tab2</ElTabPane>
+          <ElTabPane label="内容" name="content">tab3</ElTabPane>
+        </ElTabs>
       </div>
       <div :class="$style.sidebar">sidebar</div>
     </div>
@@ -17,14 +19,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Toolbar from '@/layout/Toolbar.vue'
+import PaneDataSource from '@/layout/EditorPane/DataSource.vue'
 
 @Component({
   components: {
-    Toolbar
+    Toolbar,
+    PaneDataSource
   }
 })
 export default class EditorMain extends Vue {
-  public activeTab = ''
+  public activeTab = 'dataSource'
+  public dataSourceType = 'default'
 }
 </script>
 
