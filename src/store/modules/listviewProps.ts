@@ -1,12 +1,24 @@
 import { MutationTree, GetterTree, ActionTree } from 'vuex'
-import { Props } from '@laomao800/vue-listview'
+import { ListviewProps } from '@laomao800/vue-listview'
 
-export interface State {
-  requestUrl: Props['requestUrl']
-  requestMethod: Props['requestMethod']
-  contentDataMap: Props['contentDataMap']
-  validateResponse: Props['validateResponse']
-  resolveResponseErrorMessage: Props['resolveResponseErrorMessage']
+// type State = { [K in keyof (typeof initialState)]: ListviewProps[K] }
+
+interface State {
+  requestUrl: ListviewProps['requestUrl']
+  requestMethod: ListviewProps['requestMethod']
+  contentDataMap: ListviewProps['contentDataMap']
+  validateResponse: ListviewProps['validateResponse']
+  resolveResponseErrorMessage: ListviewProps['resolveResponseErrorMessage']
+  autoload: ListviewProps['autoload']
+  headerTitle: ListviewProps['headerTitle']
+  headerNav: ListviewProps['headerNav']
+  fullHeight: ListviewProps['fullHeight']
+  height: ListviewProps['height']
+  usePage: ListviewProps['usePage']
+  pageSize: ListviewProps['pageSize']
+  pageSizes: ListviewProps['pageSizes']
+  contentMessage: ListviewProps['contentMessage']
+  contentMinHeight: ListviewProps['contentMinHeight']
 }
 
 const initialState: State = {
@@ -17,20 +29,30 @@ const initialState: State = {
     items: 'result.items',
     total: 'result.total_count'
   },
-  validateResponse: function(response) {
+  validateResponse(response: any) {
     try {
       return response.is_success
     } catch (e) {
       return false
     }
   },
-  resolveResponseErrorMessage: function(response) {
+  resolveResponseErrorMessage(response: any) {
     try {
       return response.error_info.msg
     } catch (e) {
       return '未知错误'
     }
-  }
+  },
+  autoload: true,
+  headerTitle: '',
+  headerNav: [],
+  fullHeight: true,
+  height: '',
+  usePage: true,
+  pageSize: 20,
+  pageSizes: [20, 50, 100],
+  contentMessage: null,
+  contentMinHeight: 160
 }
 
 const getters: GetterTree<State, any> = {}

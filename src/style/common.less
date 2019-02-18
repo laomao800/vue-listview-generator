@@ -1,5 +1,5 @@
 // stylelint-disable selector-max-type
-@color-primary: #409eff;
+@import url('~@/style/theme.less');
 
 body {
   background-color: #fff;
@@ -34,10 +34,10 @@ body {
 }
 
 a {
-  color: @color-primary;
+  color: @color-adorn;
 
   &:hover {
-    color: darken(@color-primary, 15);
+    color: darken(@color-adorn, 15);
   }
 
   &:focus,

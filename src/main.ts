@@ -7,16 +7,12 @@ import Listview from '@laomao800/vue-listview'
 import App from '@/App.vue'
 import store from '@/store'
 import AceEditor from '@/components/AceEditor'
-import DragItem from '@/views/components/DragItem.vue'
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI, {
-  size: 'medium'
-})
+Vue.use(ElementUI, { size: 'small' })
 Vue.use(Listview)
 Vue.component('Draggable', Draggable)
-Vue.component('DragItem', DragItem)
 Vue.component('AceEditor', AceEditor)
 
 new Vue({
