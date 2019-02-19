@@ -76,24 +76,6 @@
       <div class="formtips">设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。</div>
     </ElFormItem>
 
-    <ElFormItem v-show="!fullHeight">
-      <div slot="label">
-        内容最小高度
-        <span class="paramtips">contentMinHeight</span>
-      </div>
-      <ElInputNumber
-        v-model="contentMinHeight"
-        :min="0"
-        controls-position="right"
-        style="width:100px"
-      />
-      <div class="formtips">
-        在没有开启拉伸高度和没有指定高度时，
-        <code>&lt;listview /&gt;</code>
-        高度随内容变化，该值可用于限制内容区域的最小高度，默认值 160 。
-      </div>
-    </ElFormItem>
-
     <ElFormItem>
       <div slot="label">
         使用分页
@@ -142,7 +124,6 @@ export default class Basic extends Vue {
   @BindState public usePage!: ListviewProps['usePage']
   @BindState public pageSize!: ListviewProps['pageSize']
   @BindState public pageSizes!: ListviewProps['pageSizes']
-  @BindState public contentMinHeight!: ListviewProps['contentMinHeight']
 
   public navInputVisible = false
   public navText = ''

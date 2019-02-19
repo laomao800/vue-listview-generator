@@ -18,7 +18,6 @@ interface State {
   pageSize: ListviewProps['pageSize']
   pageSizes: ListviewProps['pageSizes']
   contentMessage: ListviewProps['contentMessage']
-  contentMinHeight: ListviewProps['contentMinHeight']
 }
 
 const initialState: State = {
@@ -51,8 +50,7 @@ const initialState: State = {
   usePage: true,
   pageSize: 20,
   pageSizes: [20, 50, 100],
-  contentMessage: null,
-  contentMinHeight: 160
+  contentMessage: null
 }
 
 const getters: GetterTree<State, any> = {}
