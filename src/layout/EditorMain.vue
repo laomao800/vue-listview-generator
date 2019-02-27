@@ -7,7 +7,9 @@
           <ElTabPane label="数据源" name="dataSource">
             <DataSource/>
           </ElTabPane>
-          <ElTabPane label="搜索栏" name="filterbar">tab2</ElTabPane>
+          <ElTabPane label="搜索栏" name="filterbar">
+            <Filterbar/>
+          </ElTabPane>
           <ElTabPane label="内容" name="content">tab3</ElTabPane>
         </ElTabs>
       </ElForm>
@@ -25,16 +27,18 @@ import { Vue, Component } from 'vue-property-decorator'
 import Toolbar from '@/layout/Toolbar.vue'
 import Basic from '@/layout/EditorPane/Basic.vue'
 import DataSource from '@/layout/EditorPane/DataSource.vue'
+import Filterbar from '@/layout/EditorPane/Filterbar/index.vue'
 
 @Component({
   components: {
     Toolbar,
     Basic,
-    DataSource
+    DataSource,
+    Filterbar
   }
 })
 export default class EditorMain extends Vue {
-  public activeTab = 'dataSource'
+  public activeTab = 'filterbar'
 }
 </script>
 
