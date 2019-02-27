@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Toolbar from '@/layout/Toolbar.vue'
 import Basic from '@/layout/EditorPane/Basic.vue'
 import DataSource from '@/layout/EditorPane/DataSource.vue'
@@ -35,7 +35,6 @@ import DataSource from '@/layout/EditorPane/DataSource.vue'
 })
 export default class EditorMain extends Vue {
   public activeTab = 'dataSource'
-  public dataSourceType = 'default'
 }
 </script>
 
@@ -55,7 +54,7 @@ export default class EditorMain extends Vue {
 }
 .sidebar {
   height: 100%;
-  width: @sidebar-width;
+  width: 360px;
   border-left: 1px solid @border-color;
   overflow: auto;
 }
@@ -77,7 +76,7 @@ export default class EditorMain extends Vue {
 
   > .el-tabs__header {
     margin: 0;
-    border-bottom: 1px solid @border-color-light;
+    border-bottom: 1px solid @border-color-light-1;
 
     .el-tabs__nav {
       border-radius: 0;
@@ -93,6 +92,7 @@ export default class EditorMain extends Vue {
   > .el-tabs__content {
     flex: 1;
     overflow: auto;
+    padding: @gap-size;
   }
 }
 </style>

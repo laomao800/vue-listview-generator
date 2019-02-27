@@ -65,8 +65,8 @@ const mutations: MutationTree<State> = {
 }
 
 const actions: ActionTree<State, any> = {
-  updateConfig({ commit }, payload) {
-    commit('UPDATE_CONFIG', payload)
+  updateField({ commit }, payload) {
+    commit('UPDATE_FIELD', payload)
   }
 }
 

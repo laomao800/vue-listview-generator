@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrap">
+  <div>
     <ElFormItem label="配置类型">
       <ElRadioGroup v-model="configType">
         <ElRadio label="default">URL 地址</ElRadio>
@@ -14,7 +14,7 @@
 
     <template v-else-if="configType === 'default'">
       <ElFormItem label="数据接口">
-        <div :class="$style.request" style="display:flex">
+        <div style="display:flex">
           <ElInput v-model="requestUrl" placeholder="请求接口地址">
             <ElSelect slot="prepend" v-model="requestMethod" style="width:100px">
               <ElOption label="GET" value="get"/>
@@ -119,8 +119,7 @@
         <code>true</code> 。
       </div>
       <div v-show="setValidateResponse">
-        <div>TODO</div>
-        <div>{{validateResponse}}</div>
+        <AceEditor :content="validateResponse.toString()" height="200px" lang="javascript"/>
       </div>
     </ElFormItem>
 
@@ -134,19 +133,21 @@
         在
         <code>validateResponse</code> 返回
         <code>false</code> 表示请求失败后，会调用
-        <code>resolveResponseErrorMessage</code> 解析错误提示信息。
+        <code>resolveResponseErrorMessage</code> 解析错误提示信息用于显示于页面中央。
       </div>
       <div v-show="setResolveResponseErrorMessage">
-        <div>TODO</div>
-        <!-- prettier-ignore -->
-        <div>{{resolveResponseErrorMessage}}</div>
+        <AceEditor
+          :content="resolveResponseErrorMessage.toString()"
+          height="200px"
+          lang="javascript"
+        />
       </div>
     </ElFormItem>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { ListviewProps } from '@laomao800/vue-listview'
 import { VModelState } from '@/store/helper'
@@ -196,11 +197,3 @@ export default class DataSource extends Vue {
   }
 }
 </script>
-
-<style lang="less" module>
-@import url('~@/style/theme.less');
-
-.wrap {
-  padding: @gap-size;
-}
-</style>

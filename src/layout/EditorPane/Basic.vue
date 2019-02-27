@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.wrap">
-    <div class="pane__header" style="margin-bottom:5px">
+    <div class="pane__header">
       <span class="pane__title">顶部通栏配置</span>
     </div>
 
@@ -49,7 +49,7 @@
       </div>
     </ElFormItem>
 
-    <div class="pane__header" style="margin-bottom:5px">
+    <div class="pane__header">
       <span class="pane__title">布局配置</span>
     </div>
 
@@ -117,13 +117,26 @@ const BindState = VModelState('listviewProps')
 export default class Basic extends Vue {
   public $refs: any
 
-  @BindState public headerTitle!: ListviewProps['headerTitle']
-  @BindState public headerNav!: ListviewProps['headerNav']
-  @BindState public fullHeight!: ListviewProps['fullHeight']
-  @BindState public height!: ListviewProps['height']
-  @BindState public usePage!: ListviewProps['usePage']
-  @BindState public pageSize!: ListviewProps['pageSize']
-  @BindState public pageSizes!: ListviewProps['pageSizes']
+  @BindState
+  public headerTitle!: ListviewProps['headerTitle']
+
+  @BindState
+  public headerNav!: ListviewProps['headerNav']
+
+  @BindState
+  public fullHeight!: ListviewProps['fullHeight']
+
+  @BindState
+  public height!: ListviewProps['height']
+
+  @BindState
+  public usePage!: ListviewProps['usePage']
+
+  @BindState
+  public pageSize!: ListviewProps['pageSize']
+
+  @BindState
+  public pageSizes!: ListviewProps['pageSizes']
 
   public navInputVisible = false
   public navText = ''

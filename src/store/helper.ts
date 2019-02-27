@@ -3,7 +3,7 @@ import { createDecorator, VueDecorator } from 'vue-class-component'
 
 export function VModelState(
   namespace: string,
-  updateFn: string = 'updateConfig'
+  updateFn: string = 'updateField'
 ): VueDecorator {
   return createDecorator((componentOptions, key) => {
     const compComputed =

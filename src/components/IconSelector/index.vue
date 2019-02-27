@@ -1,5 +1,12 @@
 <template>
-  <ElSelect v-model="currentValue" clearable popper-class="icon-selector">
+  <ElSelect v-model="currentValue" clearable popper-class="icon-selector" placeholder="无">
+    <span
+      v-if="currentValue"
+      slot="prefix"
+      style="margin-left:5px;margin-top:8px;display:inline-block;color:#666;"
+    >
+      <i :class="currentValue"/>
+    </span>
     <ElOption v-for="(name, index) in iconNames" :key="index" :label="name" :value="name">
       <i :class="name"/>
     </ElOption>

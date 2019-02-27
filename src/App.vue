@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Topbar from '@/layout/Topbar.vue'
 import Sidebar from '@/layout/Sidebar.vue'
 import EditorMain from '@/layout/EditorMain.vue'
