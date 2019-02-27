@@ -1,14 +1,15 @@
 <style>
   .loading-spinner {
-    -webkit-animation: rotate 1000ms linear infinite;
-    animation: rotate 1000ms linear infinite;
-    -webkit-transform-origin: center center;
-    transform-origin: center center;
+    display: block;
     width: 1em;
     height: 1em;
     opacity: 0.5;
-    display: block;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation: rotate 1000ms linear infinite;
+    animation: rotate 1000ms linear infinite;
   }
+
   @-webkit-keyframes rotate {
     0% {
       -webkit-transform: rotate(0deg) translateZ(0);
@@ -19,6 +20,7 @@
       transform: rotate(360deg) translateZ(0);
     }
   }
+
   @keyframes rotate {
     0% {
       -webkit-transform: rotate(0deg) translateZ(0);
@@ -32,7 +34,7 @@
 </style>
 <div
   id="loading-spinner"
-  style="position:absolute;top:0px;bottom:0px;left:0px;right:0px;display:flex;align-items:center;justify-content:center;"
+  style="position:absolute;top:0;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;"
 >
   <div class="loading-spinner" style="width: 24px; height: 24px;">
     <svg

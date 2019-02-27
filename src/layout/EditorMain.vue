@@ -57,10 +57,10 @@ export default class EditorMain extends Vue {
   flex: 1;
 }
 .sidebar {
-  height: 100%;
   width: 360px;
-  border-left: 1px solid @border-color;
+  height: 100%;
   overflow: auto;
+  border-left: 1px solid @border-color;
 }
 </style>
 
@@ -74,18 +74,18 @@ export default class EditorMain extends Vue {
 }
 
 .editor-tabs {
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   > .el-tabs__header {
     margin: 0;
     border-bottom: 1px solid @border-color-light-1;
 
     .el-tabs__nav {
-      border-radius: 0;
-      border-left: none;
       border-top: 0;
+      border-left: none;
+      border-radius: 0;
     }
 
     .el-tabs__item.is-active {
@@ -95,8 +95,8 @@ export default class EditorMain extends Vue {
 
   > .el-tabs__content {
     flex: 1;
-    overflow: auto;
     padding: @gap-size;
+    overflow: auto;
   }
 }
 </style>

@@ -15,15 +15,15 @@ export default class Topbar extends Vue {}
 @import url('~@/style/theme.less');
 
 .topbar {
+  display: flex;
   height: 50px;
   background-color: @color-primary;
-  display: flex;
 }
 .logo {
-  font-size: 20px;
-  padding: 0 20px;
-  color: @logo-text-color;
   display: flex;
   align-items: center;
+  padding: 0 20px;
+  font-size: 20px;
+  color: @logo-text-color;
 }
 </style>

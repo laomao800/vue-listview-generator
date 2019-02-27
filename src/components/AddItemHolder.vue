@@ -24,17 +24,17 @@ export default class AddItemHolder extends Vue {
 <style lang="less" module>
 @import url('~@/style/theme.less');
 .item {
-  cursor: pointer;
   display: flex;
   align-items: center;
-  line-height: 120%;
   min-height: 30px;
   padding: 0 10px;
-  font-size: 14px;
-  border-radius: 3px;
   margin-left: 20px;
-  transition: background 120ms ease-in;
+  font-size: 14px;
+  line-height: 120%;
   color: #bbb;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 120ms ease-in;
 
   &:hover {
     background-color: #efefef;

@@ -184,11 +184,11 @@ export default class Basic extends Vue {
   padding: 12px;
 }
 .optionsGrid {
-  line-height: 1.6em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 8px;
   padding-top: 4px;
+  line-height: 1.6em;
 
   .el-checkbox {
     margin: 0;

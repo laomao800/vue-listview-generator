@@ -25,14 +25,14 @@ export default class DragItem extends Vue {}
 .item {
   display: flex;
   align-items: center;
+  min-height: 28px;
+  padding-right: 10px;
+  margin-left: 20px;
+  font-size: 14px;
   line-height: 120%;
   user-select: none;
-  min-height: 28px;
-  font-size: 14px;
-  border-radius: 3px;
-  margin-left: 20px;
-  padding-right: 10px;
   border-bottom: 1px solid @border-color-light-3;
+  border-radius: 3px;
   transition: background 120ms ease-in;
 
   &:hover {
@@ -46,25 +46,22 @@ export default class DragItem extends Vue {}
 }
 
 .handle {
-  margin-left: -20px;
   width: 20px;
   height: 28px;
+  margin-left: -20px;
+  font-size: 20px;
   line-height: 28px;
+  color: #666;
   pointer-events: auto;
   cursor: move;
   cursor: -webkit-grab;
-  color: #666;
-  font-size: 20px;
   border-radius: 3px;
 }
 
 .content {
   flex: 1;
   overflow: hidden;
-  cursor: default;
   pointer-events: none;
-}
-
-.right {
+  cursor: default;
 }
 </style>

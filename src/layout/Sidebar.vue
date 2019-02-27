@@ -11,7 +11,4 @@ export default class Sidebar extends Vue {}
 
 <style lang="less" module>
 @import url('~@/style/theme.less');
-
-.sidebar {
-}
 </style>
