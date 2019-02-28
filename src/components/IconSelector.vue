@@ -20,7 +20,7 @@ import iconNames from '@/constants/elementIconNames.json'
 @Component
 export default class IconSelector extends Vue {
   @Model('update:value', { type: String, default: '' })
-  value!: boolean
+  value!: string
 
   public iconNames = iconNames
 

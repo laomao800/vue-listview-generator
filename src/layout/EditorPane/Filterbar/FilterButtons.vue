@@ -27,8 +27,8 @@ import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
 import { formatJson } from '@/utils'
 import { VModelState } from '@/store/helper'
-import FilterButtonPreview from '@/components/FilterButtonPreview.vue'
-import FilterButtonEditor from '@/components/FilterButtonEditor.vue'
+import FilterButtonPreview from './components/FilterButtonPreview.vue'
+import FilterButtonEditor from './components/FilterButtonEditor.vue'
 import AddItemHolder from '@/components/AddItemHolder.vue'
 
 const propModule = namespace('listviewProps')
@@ -45,9 +45,14 @@ const BindState = VModelState('listviewProps')
   }
 })
 export default class FilterbarButtons extends Vue {
-  @BindState public filterButtons!: FilterButton[]
-  @propModule.Action('addFilterButton') public addFilterButton: any
-  @propModule.Action('updateFilterButton') public updateFilterButton: any
+  @BindState
+  public filterButtons!: FilterButton[]
+
+  @propModule.Action('addFilterButton')
+  public addFilterButton: any
+
+  @propModule.Action('updateFilterButton')
+  public updateFilterButton: any
 
   updateConfig(index: number, newVal: FilterButton) {
     this.updateFilterButton({

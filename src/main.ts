@@ -5,12 +5,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 import Draggable from 'vuedraggable'
 import Listview from '@laomao800/vue-listview'
 
+// App base
 import '@/style/common.less'
 import '@/style/element-ui-overwrite.less'
-
 import App from '@/App.vue'
 import store from '@/store'
+
+// Base components
 import AceEditor from '@/components/AceEditor.vue'
+import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
 import ButtonTypeSelect from '@/components/ButtonTypeSelect.vue'
 import IconSelector from '@/components/IconSelector.vue'
 import DragItem from '@/components/DragItem.vue'
@@ -18,18 +21,29 @@ import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
 
+// Field config components
+import FieldDivider from '@/components/Fields/FieldDivider.vue'
+import FieldItemBasic from '@/components/Fields/FieldItemBasic.vue'
+import FieldButtonType from '@/components/Fields/FieldButtonType.vue'
+import FieldIcons from '@/components/Fields/FieldIcons.vue'
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { size: 'small' })
 Vue.use(Listview)
 Vue.component('Draggable', Draggable)
 Vue.component('AceEditor', AceEditor)
+Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
 Vue.component('ButtonTypeSelect', ButtonTypeSelect)
 Vue.component('IconSelector', IconSelector)
 Vue.component('DragItem', DragItem)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
+Vue.component('FieldDivider', FieldDivider)
+Vue.component('FieldItemBasic', FieldItemBasic)
+Vue.component('FieldButtonType', FieldButtonType)
+Vue.component('FieldIcons', FieldIcons)
 
 new Vue({
   store,

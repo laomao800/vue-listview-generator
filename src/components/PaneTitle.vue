@@ -55,10 +55,9 @@ export default class PaneTitle extends Vue {
     display: block;
     padding-left: 5px;
     margin-top: -8px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-      sans-serif;
+    font-family: 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco',
+      monospace;
     font-size: 12px;
-    font-weight: 700;
     line-height: 1;
     color: @color-adorn;
     word-break: break-all;

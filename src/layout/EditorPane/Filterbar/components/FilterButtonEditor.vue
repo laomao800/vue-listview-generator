@@ -5,25 +5,26 @@
         <SvgIcon name="more" style="color:#999"/>
       </span>
     </slot>
-    <div style="margin:-10px">
-      <div class="config-field">
-        <ElInput ref="textInput" v-model="internalConfig.text" maxlength="16"/>
+    <div style="margin:-12px;padding:6px 0;">
+      <div style="padding:0 6px">
+        <ElInput ref="textInput" v-model="internalConfig.text" placeholder="按钮文本" maxlength="16"/>
       </div>
-      <div class="config-field">
-        <ButtonTypeSelect v-model="internalConfig.type" :plain="internalConfig.plain"/>
-      </div>
-      <div class="config-field">
-        <span>线框型按钮</span>
-        <ElSwitch v-model="internalConfig.plain"/>
-      </div>
-      <div class="config-field">
-        <IconSelector v-model="internalConfig.icon"/>
-      </div>
-      <!--
-        ---操作---
-        - 复制
-        - 删除
-      -->
+
+      <FieldDivider/>
+
+      <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
+      <FieldIcons v-model="internalConfig.icon"/>
+      <FieldItemBasic
+        text="线框型按钮"
+        @click.native="$set(internalConfig, 'plain', !internalConfig.plain)"
+      >
+        <ElSwitch slot="right" :value="internalConfig.plain" size="mini"/>
+      </FieldItemBasic>
+
+      <FieldDivider/>
+
+      <FieldItemBasic icon="copy" text="复制"/>
+      <FieldItemBasic icon="delete" text="删除"/>
     </div>
   </ElPopover>
 </template>
@@ -36,7 +37,8 @@ import { FilterButton } from '@laomao800/vue-listview'
 
 @Component
 export default class FilterButtonEditor extends Vue {
-  @Prop({ type: Object, default: () => ({}) }) public config!: FilterButton
+  @Prop({ type: Object, default: () => ({}) })
+  public config!: FilterButton
 
   public $refs: any
   public visible: boolean = false

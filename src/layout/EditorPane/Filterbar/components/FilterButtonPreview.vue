@@ -10,9 +10,16 @@ import { FilterButton } from '@laomao800/vue-listview'
 
 @Component
 export default class FilterButtonPreview extends Vue {
-  @Prop({ type: String }) public icon!: FilterButton['icon']
-  @Prop({ type: String }) public type!: FilterButton['type']
-  @Prop({ type: Boolean }) public plain!: FilterButton['plain']
-  @Prop({ type: String }) public text!: FilterButton['text']
+  @Prop({ type: String, default: '' })
+  public icon!: FilterButton['icon']
+
+  @Prop({ type: String, default: 'default' })
+  public type!: FilterButton['type']
+
+  @Prop({ type: Boolean, default: false })
+  public plain!: FilterButton['plain']
+
+  @Prop({ type: String, default: '' })
+  public text!: FilterButton['text']
 }
 </script>

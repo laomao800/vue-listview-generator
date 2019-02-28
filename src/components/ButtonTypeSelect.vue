@@ -1,25 +1,16 @@
 <template>
   <ElSelect v-model="internalType" @change="handleChange">
-    <span
+    <ButtonTypePreviewBlock
       slot="prefix"
-      :class="[
-        'button-color-preview',
-        {
-          [`button-color-preview--${type}`]: type,
-          'button-color-preview--plain': plain
-        }
-      ]"
-      style="margin-left: 4px;margin-top: 10px;"
+      :type="value"
+      :plain="plain"
+      style="margin-left:4px;margin-top:10px;"
     />
     <ElOption v-for="(type, index) in buttonTypes" :key="index" :label="type" :value="type">
-      <span
-        :class="[
-          'button-color-preview',
-          {
-            [`button-color-preview--${type}`]: type,
-            'button-color-preview--plain': plain
-          }
-        ]"
+      <ButtonTypePreviewBlock
+        :type="type"
+        :plain="plain"
+        style="margin-right:8px;vertical-align:middle;"
       />
       <span>{{ type }}</span>
     </ElOption>
@@ -39,11 +30,11 @@ type buttonTypes =
 
 @Component
 export default class ButtonTypeSelect extends Vue {
-  @Model('change', {
+  @Model('input', {
     type: String,
     default: 'default'
   })
-  public type!: buttonTypes
+  public value!: buttonTypes
 
   @Prop({
     type: Boolean,
@@ -51,7 +42,7 @@ export default class ButtonTypeSelect extends Vue {
   })
   public plain!: boolean
 
-  public internalType = this.type
+  public internalType = this.value
   public buttonTypes: buttonTypes[] = [
     'default',
     'primary',
@@ -62,56 +53,7 @@ export default class ButtonTypeSelect extends Vue {
   ]
 
   handleChange(val: buttonTypes) {
-    this.$emit('change', val)
+    this.$emit('input', val)
   }
 }
 </script>
-
-<style lang="less" scoped>
-.button-color-preview {
-  display: inline-block;
-  margin-right: 10px;
-  vertical-align: middle;
-  border: 1px solid;
-
-  &::after {
-    display: block;
-    width: 15px;
-    height: 10px;
-    content: '';
-    background-color: #fff;
-    opacity: 0;
-  }
-
-  &--plain {
-    &::after {
-      opacity: 0.8;
-    }
-  }
-
-  &--default {
-    background-color: #fff;
-    border-color: #dcdfe6;
-  }
-  &--primary {
-    background-color: #409eff;
-    border-color: #409eff;
-  }
-  &--success {
-    background-color: #67c23a;
-    border-color: #67c23a;
-  }
-  &--info {
-    background-color: #909399;
-    border-color: #909399;
-  }
-  &--warning {
-    background-color: #e6a23c;
-    border-color: #e6a23c;
-  }
-  &--danger {
-    background-color: #f56c6c;
-    border-color: #f56c6c;
-  }
-}
-</style>
