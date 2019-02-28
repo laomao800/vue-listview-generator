@@ -1,3 +1,8 @@
+<template>
+  <div :style="{ height: editorHeight, width: editorWidth }"/>
+</template>
+
+<script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import ace from 'brace'
 import 'brace/mode/javascript'
@@ -67,15 +72,5 @@ export default class AceEditor extends Vue {
     })
     this.editor = editor
   }
-
-  render() {
-    return (
-      <div
-        style={{
-          height: this.editorHeight,
-          width: this.editorWidth
-        }}
-      />
-    )
-  }
 }
+</script>

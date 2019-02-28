@@ -13,9 +13,6 @@ import { Vue, Component } from 'vue-property-decorator'
 import Topbar from '@/layout/Topbar.vue'
 import Sidebar from '@/layout/Sidebar.vue'
 import EditorMain from '@/layout/EditorMain.vue'
-import '@/style/common.less'
-import '@/style/editor-common.less'
-import '@/style/element-ui-overwrite.less'
 
 @Component({
   components: {

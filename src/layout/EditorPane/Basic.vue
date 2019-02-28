@@ -1,23 +1,15 @@
 <template>
-  <div :class="$style.wrap">
-    <div class="pane__header">
-      <span class="pane__title">顶部通栏配置</span>
-    </div>
+  <div class="basic-wrap" :class="$style.wrap">
+    <PaneTitle level="1" title="顶部通栏配置"/>
 
     <ElFormItem>
-      <div slot="label">
-        列表标题
-        <span class="paramtips">headerTitle</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="列表标题" subtitle="headerTitle" inline/>
       <ElInput v-model="headerTitle"/>
-      <div class="formtips">显示于顶部面包屑左侧的列表标题</div>
+      <TipsBlock>显示于顶部面包屑左侧的列表标题</TipsBlock>
     </ElFormItem>
 
     <ElFormItem>
-      <div slot="label">
-        面包屑
-        <span class="paramtips">headerNav</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="面包屑" subtitle="headerNav" inline/>
       <ElTag
         v-for="(nav, index) in headerNav"
         :key="index"
@@ -41,42 +33,35 @@
         @blur="addHeaderNav"
       />
       <ElButton v-else size="mini" @click="showNavInput">+ 新增子项</ElButton>
-      <div class="formtips">
+      <TipsBlock>
         面包屑支持
         <code>to</code> 属性设置路由跳转对象，可在生成后的配置中添加，同
         vue-router 的
         <code>to</code> 。
-      </div>
+      </TipsBlock>
     </ElFormItem>
 
-    <div class="pane__header">
-      <span class="pane__title">布局配置</span>
-    </div>
+    <PaneTitle level="1" title="布局配置"/>
 
     <ElFormItem>
-      <div slot="label">
-        拉伸高度
-        <span class="paramtips">fullHeight</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="拉伸高度" subtitle="fullHeight" inline/>
       <ElSwitch v-model="fullHeight"/>
-      <div class="formtips">
+      <TipsBlock>
         全屏效果，开启后
         <code>&lt;listview /&gt;</code>
         会从渲染起始位置开始往下占满剩余所有的屏幕高度，并会在重设浏览器窗体大小后继续保持铺满状态。
-      </div>
+      </TipsBlock>
     </ElFormItem>
 
     <ElFormItem v-show="!fullHeight">
-      <div slot="label">
-        指定高度
-        <span class="paramtips">height</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
       <ElInput v-model="height" style="width:100px"/>
-      <div class="formtips--inline">(300, 300px, 50%)</div>
-      <div class="formtips">设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。</div>
+      <TipsBlock inline>(300, 300px, 50%)</TipsBlock>
+      <TipsBlock>设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。</TipsBlock>
     </ElFormItem>
 
     <ElFormItem>
+      <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
       <div slot="label">
         使用分页
         <span class="paramtips">usePage</span>
@@ -85,23 +70,17 @@
     </ElFormItem>
 
     <ElFormItem v-show="usePage">
-      <div slot="label">
-        默认分页
-        <span class="paramtips">pageSize</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="默认分页" subtitle="pageSize" inline/>
       <ElRadioGroup v-model="pageSize" :class="$style.optionsGrid">
         <ElRadio v-for="(size, index) in inputPageSizes" :key="index" :label="size"/>
       </ElRadioGroup>
     </ElFormItem>
     <ElFormItem v-show="usePage">
-      <div slot="label">
-        可选分页
-        <span class="paramtips">pageSizes</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="可选分页" subtitle="pageSizes" inline/>
       <ElCheckboxGroup v-model="inputPageSizes" :min="1" :class="$style.optionsGrid">
         <ElCheckbox v-for="(val, index) in 10" :key="index" :value="val * 10" :label="val * 10"/>
       </ElCheckboxGroup>
-      <div class="formtips">用于在分页“每页数量”可选值，至少保留一项。</div>
+      <TipsBlock>用于在分页“每页数量”可选值，至少保留一项。</TipsBlock>
     </ElFormItem>
   </div>
 </template>
@@ -193,5 +172,11 @@ export default class Basic extends Vue {
   .el-checkbox {
     margin: 0;
   }
+}
+</style>
+
+<style>
+.basic-wrap .el-form-item__label {
+  padding-bottom: 0;
 }
 </style>

@@ -80,7 +80,7 @@ export default class EditorMain extends Vue {
 
   > .el-tabs__header {
     margin: 0;
-    border-bottom: 1px solid @border-color-light-1;
+    border-bottom: 1px solid @color-gray-light-1;
 
     .el-tabs__nav {
       border-top: 0;

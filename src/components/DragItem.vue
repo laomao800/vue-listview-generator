@@ -31,13 +31,12 @@ export default class DragItem extends Vue {}
   font-size: 14px;
   line-height: 120%;
   user-select: none;
-  border-bottom: 1px solid @border-color-light-3;
+  border-bottom: 1px solid @color-gray-light-3;
   border-radius: 3px;
   transition: background 120ms ease-in;
 
   &:hover {
-    background-color: #efefef;
-    border-color: @border-color-light-2;
+    background-color: @color-gray-light-5;
 
     .handle {
       opacity: 1;

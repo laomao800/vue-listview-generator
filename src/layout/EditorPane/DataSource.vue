@@ -9,7 +9,7 @@
 
     <ElFormItem v-if="configType === 'custom'" label="请求方法名">
       <ElInput v-model="requestHandler" placeholder="requestHandler"/>
-      <div class="formtips">自定义请求方法，需要返回 Promise ，会将响应的内容往后传递给响应值验证及映射等后续流程处理。</div>
+      <TipsBlock>自定义请求方法，需要返回 Promise ，会将响应的内容往后传递给响应值验证及映射等后续流程处理。</TipsBlock>
     </ElFormItem>
 
     <template v-else-if="configType === 'default'">
@@ -27,21 +27,15 @@
     </template>
 
     <ElFormItem>
-      <template slot="label">
-        自动加载
-        <span class="paramtips">autoload</span>
-      </template>
+      <PaneTitle slot="label" title="自动加载" subtitle="autoload"/>
       <ElSwitch v-model="autoload"/>
-      <div class="formtips--inline">初始化后是否自动加载第一页内容。</div>
+      <TipsBlock inline>初始化后是否自动加载第一页内容。</TipsBlock>
     </ElFormItem>
 
     <ElFormItem v-show="!autoload">
-      <div slot="label">
-        初始文案
-        <span class="paramtips">contentMessage</span>
-      </div>
+      <PaneTitle slot="label" title="初始文案" subtitle="contentMessage"/>
       <ElSwitch v-model="useContentMessage"/>
-      <div class="formtips--inline">是否使用自定义初始文案，若不设置，对于默认表格视图会显示“暂无数据”。</div>
+      <TipsBlock inline>是否使用自定义初始文案，若不设置，对于默认表格视图会显示“暂无数据”。</TipsBlock>
       <div v-show="useContentMessage" style="display:flex;padding-top:10px;">
         <ElSelect
           v-model="interContentMessage.type"
@@ -66,19 +60,16 @@
     </ElFormItem>
 
     <ElFormItem>
-      <template slot="label">
-        响应值映射
-        <span class="paramtips">contentDataMap</span>
-      </template>
+      <PaneTitle slot="label" title="响应值映射" subtitle="contentDataMap"/>
       <ElSwitch v-model="setContentDataMap"/>
-      <div class="formtips--inline">数据接口响应内容映射，在接口响应格式与内置默认取值格式不一致时使用。</div>
+      <TipsBlock inline>数据接口响应内容映射，在接口响应格式与内置默认取值格式不一致时使用。</TipsBlock>
       <div v-show="setContentDataMap">
-        <div class="formtips">
+        <TipsBlock>
           如果使用默认表格视图，
           <strong>必须</strong>提供的 2 个必要属性，
           <code>items: object[]</code> （用于表格数据）和
           <code>total: number</code> （用于分页组件）。
-        </div>
+        </TipsBlock>
         <ElRow :gutter="10">
           <ElCol :span="8">
             <div class="pane__header" style="margin-bottom:5px">
@@ -109,32 +100,26 @@
     </ElFormItem>
 
     <ElFormItem>
-      <template slot="label">
-        响应验证
-        <span class="paramtips">validateResponse</span>
-      </template>
+      <PaneTitle slot="label" title="响应验证" subtitle="validateResponse"/>
       <ElSwitch v-model="setValidateResponse"/>
-      <div class="formtips--inline">
+      <TipsBlock inline>
         验证接口响应是否成功。若接口响应格式字段有差异，可修改该配置，如果无需错误处理可直接返回
         <code>true</code> 。
-      </div>
+      </TipsBlock>
       <div v-show="setValidateResponse">
         <AceEditor :content="validateResponse.toString()" height="200px" lang="javascript"/>
       </div>
     </ElFormItem>
 
     <ElFormItem>
-      <template slot="label">
-        解析响应错误
-        <span class="paramtips">resolveResponseErrorMessage</span>
-      </template>
+      <PaneTitle slot="label" title="解析响应错误" subtitle="resolveResponseErrorMessage"/>
       <ElSwitch v-model="setResolveResponseErrorMessage"/>
-      <div class="formtips--inline">
+      <TipsBlock inline>
         在
         <code>validateResponse</code> 返回
         <code>false</code> 表示请求失败后，会调用
         <code>resolveResponseErrorMessage</code> 解析错误提示信息用于显示于页面中央。
-      </div>
+      </TipsBlock>
       <div v-show="setResolveResponseErrorMessage">
         <AceEditor
           :content="resolveResponseErrorMessage.toString()"

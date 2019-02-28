@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Model } from 'vue-property-decorator'
-import iconNames from './elementIconNames'
+import iconNames from '@/constants/elementIconNames.json'
 
 @Component
 export default class IconSelector extends Vue {

@@ -23,6 +23,7 @@ export default class AddItemHolder extends Vue {
 
 <style lang="less" module>
 @import url('~@/style/theme.less');
+
 .item {
   display: flex;
   align-items: center;

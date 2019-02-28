@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PaneTitle level="2" title="操作区域按钮" subtitle="filterButtons" inline style="margin-bottom:8px"/>
     <Draggable
       v-model="filterButtons"
       :options="{ handle: '.drag-handle', animation: 100 }"

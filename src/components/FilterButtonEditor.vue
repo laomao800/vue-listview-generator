@@ -1,11 +1,13 @@
 <template>
   <ElPopover v-model="visible" placement="bottom" width="200" trigger="click" transition>
     <slot slot="reference">
-      <SvgIcon name="more" style="color:#999"/>
+      <span :class="$style.more">
+        <SvgIcon name="more" style="color:#999"/>
+      </span>
     </slot>
     <div style="margin:-10px">
       <div class="config-field">
-        <ElInput v-model="internalConfig.text"/>
+        <ElInput ref="textInput" v-model="internalConfig.text" maxlength="16"/>
       </div>
       <div class="config-field">
         <ButtonTypeSelect v-model="internalConfig.type" :plain="internalConfig.plain"/>
@@ -29,20 +31,14 @@
 <script lang="ts">
 import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { FilterButton } from '@laomao800/vue-listview'
 import { debounce } from 'decko'
-import ButtonTypeSelect from '@/components/ButtonTypeSelect.vue'
-import IconSelector from '@/components/IconSelector/index.vue'
+import { FilterButton } from '@laomao800/vue-listview'
 
-@Component({
-  components: {
-    ButtonTypeSelect,
-    IconSelector
-  }
-})
+@Component
 export default class FilterButtonEditor extends Vue {
   @Prop({ type: Object, default: () => ({}) }) public config!: FilterButton
 
+  public $refs: any
   public visible: boolean = false
   public internalConfig: FilterButton = {}
 
@@ -60,9 +56,16 @@ export default class FilterButtonEditor extends Vue {
     }
   }
 
+  @Watch('visible')
+  async visibleChanged(newVal: boolean) {
+    if (newVal) {
+      await this.$nextTick()
+      this.$refs.textInput.focus()
+    }
+  }
+
   @debounce
   syncConfig() {
-    console.log('syncConfig')
     this.$emit('change', this.internalConfig)
   }
 
@@ -71,3 +74,17 @@ export default class FilterButtonEditor extends Vue {
   }
 }
 </script>
+
+<style lang="less" module>
+@import url('~@/style/theme.less');
+
+.more {
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    background: @color-gray-light-2;
+  }
+}
+</style>
