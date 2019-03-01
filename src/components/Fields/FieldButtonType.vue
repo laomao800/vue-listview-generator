@@ -46,7 +46,7 @@ export default class FieldButtonType extends Vue {
   public value!: buttonTypes
 
   @Prop({ type: Boolean, default: false })
-  public plain!: FilterButton['plain']
+  public plain!: boolean
 
   public $refs: any
   public buttonTypes: buttonTypes[] = [

@@ -7,7 +7,7 @@ type WithId<T> = {
   data: T
 }
 
-interface State {
+export interface State {
   requestUrl: ListviewProps['requestUrl']
   requestMethod: ListviewProps['requestMethod']
   contentDataMap: ListviewProps['contentDataMap']
@@ -56,24 +56,7 @@ const initialState: State = {
   pageSize: 20,
   pageSizes: [20, 50, 100],
   contentMessage: null,
-  filterButtons: [
-    {
-      id: 'da145541-aec1-4f25-b027-6f301beea208',
-      data: {
-        type: 'success',
-        icon: 'el-icon-circle-plus-outline',
-        text: '添加'
-      }
-    },
-    {
-      id: '4edca1d8-25b1-43b0-915a-8c6dfd4c4e44',
-      data: {
-        type: 'danger',
-        icon: 'el-icon-remove-outline',
-        text: '删除'
-      }
-    }
-  ]
+  filterButtons: []
 }
 
 const getters: GetterTree<State, any> = {}
@@ -85,12 +68,20 @@ const mutations: MutationTree<State> = {
       state[name as keyof State] = value
     }
   },
-  ADD_FILTER_BUTTON(state: State, payload: FilterButton) {
+  ADD_FILTER_BUTTON(
+    state: State,
+    payload: { data: FilterButton; insert?: number }
+  ) {
+    const { data, insert = -1 } = payload
     const newData = {
       id: uuid(),
-      data: payload
+      data
     }
-    state.filterButtons.push(newData)
+    if (insert > -1 && insert < state.filterButtons.length) {
+      state.filterButtons.splice(insert, 0, newData)
+    } else {
+      state.filterButtons.push(newData)
+    }
   },
   UPDATE_FILTER_BUTTON(
     state: State,
@@ -101,6 +92,12 @@ const mutations: MutationTree<State> = {
     if (target) {
       state.filterButtons[index].data = data
     }
+  },
+  DELETE_FILTER_BUTTON(state: State, payload: any) {
+    const deleteIndex = state.filterButtons.indexOf(payload)
+    if (deleteIndex > -1) {
+      state.filterButtons.splice(deleteIndex, 1)
+    }
   }
 }
 
@@ -108,11 +105,14 @@ const actions: ActionTree<State, any> = {
   updateField({ commit }, payload) {
     commit('UPDATE_FIELD', payload)
   },
-  addFilterButton({ commit }, payload = { text: '按钮文本' }) {
+  addFilterButton({ commit }, payload = { data: { text: '按钮文本' } }) {
     commit('ADD_FILTER_BUTTON', payload)
   },
   updateFilterButton({ commit }, payload) {
     commit('UPDATE_FILTER_BUTTON', payload)
+  },
+  deleteFilterButton({ commit }, payload) {
+    commit('DELETE_FILTER_BUTTON', payload)
   }
 }
 

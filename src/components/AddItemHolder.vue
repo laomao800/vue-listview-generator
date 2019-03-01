@@ -2,7 +2,7 @@
   <div :class="$style.item" v-on="$listeners">
     <SvgIcon v-if="icon" :name="icon" style="margin-right:5px;"/>
     <span>
-      <slot>New</slot>
+      <slot>新建</slot>
     </span>
   </div>
 </template>

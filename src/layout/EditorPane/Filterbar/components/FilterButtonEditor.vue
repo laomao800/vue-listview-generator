@@ -23,8 +23,8 @@
 
       <FieldDivider/>
 
-      <FieldItemBasic icon="copy" text="复制"/>
-      <FieldItemBasic icon="delete" text="删除"/>
+      <FieldItemBasic icon="copy" text="复制" @click.native="handleCopy"/>
+      <FieldItemBasic icon="delete" text="删除" @click.native="handleDelete"/>
     </div>
   </ElPopover>
 </template>
@@ -39,6 +39,9 @@ import { FilterButton } from '@laomao800/vue-listview'
 export default class FilterButtonEditor extends Vue {
   @Prop({ type: Object, default: () => ({}) })
   public config!: FilterButton
+
+  @Prop({ type: Function, default: () => {} })
+  public handleDelete!: () => void
 
   public $refs: any
   public visible: boolean = false
@@ -63,12 +66,18 @@ export default class FilterButtonEditor extends Vue {
     if (newVal) {
       await this.$nextTick()
       this.$refs.textInput.focus()
+      this.$refs.textInput.$refs.input.select()
     }
   }
 
   @debounce
   syncConfig() {
     this.$emit('change', this.internalConfig)
+  }
+
+  handleCopy() {
+    this.$emit('copy', _.cloneDeep(this.internalConfig))
+    this.visible = false
   }
 
   show() {
