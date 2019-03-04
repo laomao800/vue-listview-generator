@@ -234,7 +234,7 @@ const actions: ActionTree<State, any> = {
       insertAfter
     })
   },
-  updateFilterButton({ commit }, { updateIndex, data }) {
+  updateFilterButton({ commit }, { updateIndex, data } = {}) {
     commit('LIST_PROP_UPDATE', {
       stateProp: 'filterButtons',
       data,
@@ -244,6 +244,30 @@ const actions: ActionTree<State, any> = {
   deleteFilterButton({ commit }, deleteIndex: number) {
     commit('LIST_PROP_DELETE', {
       stateProp: 'filterButtons',
+      deleteIndex
+    })
+  },
+  addFilterField({ commit }, { data, insertAfter } = {}) {
+    commit('LIST_PROP_ADD', {
+      stateProp: 'filterFields',
+      data: data || {
+        type: 'text',
+        label: '字段文本标签',
+        model: 'eq_param_name'
+      },
+      insertAfter
+    })
+  },
+  updateFilterField({ commit }, { updateIndex, data } = {}) {
+    commit('LIST_PROP_UPDATE', {
+      stateProp: 'filterFields',
+      data,
+      updateIndex
+    })
+  },
+  deleteFilterField({ commit }, deleteIndex: number) {
+    commit('LIST_PROP_DELETE', {
+      stateProp: 'filterFields',
       deleteIndex
     })
   }

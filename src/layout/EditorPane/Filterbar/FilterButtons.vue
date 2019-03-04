@@ -5,7 +5,7 @@
       <DragItem v-for="(item, index) in filterButtons" :key="item.id">
         <FilterButtonPreview v-bind="item.data"/>
         <FilterButtonEditor
-          ref="buttonEditor"
+          ref="itemEditors"
           slot="right"
           :config="item.data"
           :handle-delete="() => deleteItem(index)"

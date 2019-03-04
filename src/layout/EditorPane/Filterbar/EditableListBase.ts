@@ -30,7 +30,7 @@ export default class EditableListBasic extends Vue {
     this.createHandler()
     // 此处 nextTick 无效，需使用 setTimeout 避免过快触发关闭弹出编辑组件
     setTimeout(() => {
-      const editors: any = this.$refs.fieldEditor
+      const editors: any = this.$refs.itemEditors
       const editor = editors[editors.length - 1]
       editor.show()
     })

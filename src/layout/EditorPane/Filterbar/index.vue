@@ -4,7 +4,9 @@
       <ElCol :span="8">
         <FilterButtons/>
       </ElCol>
-      <ElCol :span="12">Filterbar</ElCol>
+      <ElCol :span="10">
+        <FilterFields/>
+      </ElCol>
     </ElRow>
   </div>
 </template>
@@ -12,10 +14,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import FilterButtons from './FilterButtons.vue'
+import FilterFields from './FilterFields.vue'
 
 @Component({
   components: {
-    FilterButtons
+    FilterButtons,
+    FilterFields
   }
 })
 export default class Filterbar extends Vue {}

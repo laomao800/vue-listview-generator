@@ -26,6 +26,7 @@ import FieldDivider from '@/components/Fields/FieldDivider.vue'
 import FieldItemBasic from '@/components/Fields/FieldItemBasic.vue'
 import FieldButtonType from '@/components/Fields/FieldButtonType.vue'
 import FieldIcons from '@/components/Fields/FieldIcons.vue'
+import FieldInput from '@/components/Fields/FieldInput.vue'
 
 Vue.config.productionTip = false
 
@@ -44,6 +45,7 @@ Vue.component('FieldDivider', FieldDivider)
 Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)
 Vue.component('FieldIcons', FieldIcons)
+Vue.component('FieldInput', FieldInput)
 
 new Vue({
   store,

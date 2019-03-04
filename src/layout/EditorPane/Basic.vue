@@ -57,15 +57,11 @@
       <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
       <ElInput v-model="height" style="width:100px"/>
       <TipsBlock inline>(300, 300px, 50%)</TipsBlock>
-      <TipsBlock>设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。</TipsBlock>
+      <TipsBlock>设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。若不指定则为根据内容自动高度。</TipsBlock>
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
-      <div slot="label">
-        使用分页
-        <span class="paramtips">usePage</span>
-      </div>
+      <PaneTitle slot="label" level="2" title="使用分页" subtitle="usePage" inline/>
       <ElSwitch v-model="usePage"/>
     </ElFormItem>
 
