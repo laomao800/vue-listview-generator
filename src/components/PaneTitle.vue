@@ -37,10 +37,6 @@ export default class PaneTitle extends Vue {
     content: '';
     background: @color-adorn;
   }
-
-  .paramtips {
-    display: inline-block;
-  }
 }
 
 .wrap {
@@ -61,6 +57,10 @@ export default class PaneTitle extends Vue {
     line-height: 1;
     color: @color-adorn;
     word-break: break-all;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 }
 

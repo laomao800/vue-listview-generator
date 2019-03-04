@@ -8,13 +8,13 @@
           ref="buttonEditor"
           slot="right"
           :config="item.data"
-          :handle-delete="() => deleteButton(item)"
-          @copy="newData => copyButton(newData, index)"
+          :handle-delete="() => deleteItem(item)"
+          @copy="newData => copyItem(newData, index)"
           @change="newVal => updateConfig(index, newVal)"
         />
       </DragItem>
     </Draggable>
-    <AddItemHolder @click="createNewButton"/>
+    <AddItemHolder text="新建按钮" @click="createNewItem"/>
   </div>
 </template>
 
@@ -24,7 +24,6 @@ import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps.ts'
-import { formatJson } from '@/utils'
 import { VModelState } from '@/store/helper'
 import FilterButtonPreview from './components/FilterButtonPreview.vue'
 import FilterButtonEditor from './components/FilterButtonEditor.vue'
@@ -38,9 +37,6 @@ const BindState = VModelState('listviewProps')
     FilterButtonPreview,
     FilterButtonEditor,
     AddItemHolder
-  },
-  methods: {
-    formatJson
   }
 })
 export default class FilterButtons extends Vue {
@@ -50,12 +46,12 @@ export default class FilterButtons extends Vue {
   @propModule.Action('addFilterButton')
   public addFilterButton!: (payload?: {
     data: FilterButton
-    insert?: number
+    insertAfter?: number
   }) => void
 
   @propModule.Action('updateFilterButton')
   public updateFilterButton!: (payload: {
-    index: number
+    updateIndex: number
     data: FilterButton
   }) => void
 
@@ -64,12 +60,12 @@ export default class FilterButtons extends Vue {
 
   updateConfig(index: number, newVal: FilterButton) {
     this.updateFilterButton({
-      index,
+      updateIndex: index,
       data: newVal
     })
   }
 
-  async createNewButton() {
+  async createNewItem() {
     this.addFilterButton()
     await this.$nextTick()
     const editors: any = this.$refs.buttonEditor
@@ -80,15 +76,14 @@ export default class FilterButtons extends Vue {
     })
   }
 
-  copyButton(data: FilterButton, index: number) {
+  copyItem(data: FilterButton, insertAfter: number) {
     this.addFilterButton({
       data,
-      // 插入在被复制的数据之下
-      insert: index + 1
+      insertAfter
     })
   }
 
-  async deleteButton(data: any) {
+  async deleteItem(data: any) {
     try {
       await this.$confirm('确认删除？', {
         confirmButtonText: '确定',

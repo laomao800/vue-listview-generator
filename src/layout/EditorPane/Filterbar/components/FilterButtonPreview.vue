@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:5px 10px;">
+  <div style="padding:5px 10px;pointer-events: none;">
     <ElButton :type="type" :icon="icon" :plain="plain">{{ text }}</ElButton>
   </div>
 </template>

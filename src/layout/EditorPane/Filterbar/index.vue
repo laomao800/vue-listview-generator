@@ -2,7 +2,7 @@
   <div>
     <ElRow :gutter="16">
       <ElCol :span="8">
-        <FilterButtons ref="buttons"/>
+        <FilterButtons/>
       </ElCol>
       <ElCol :span="12">Filterbar</ElCol>
     </ElRow>

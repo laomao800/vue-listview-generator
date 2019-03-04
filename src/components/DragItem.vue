@@ -60,7 +60,6 @@ export default class DragItem extends Vue {}
 .content {
   flex: 1;
   overflow: hidden;
-  pointer-events: none;
   cursor: default;
 }
 </style>

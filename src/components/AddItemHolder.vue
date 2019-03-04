@@ -2,7 +2,7 @@
   <div :class="$style.item" v-on="$listeners">
     <SvgIcon v-if="icon" :name="icon" style="margin-right:5px;"/>
     <span>
-      <slot>新建</slot>
+      <slot>{{ text }}</slot>
     </span>
   </div>
 </template>
@@ -18,6 +18,9 @@ svgFiles.keys().forEach(fileName => svgFiles(fileName))
 export default class AddItemHolder extends Vue {
   @Prop({ type: String, default: 'add' })
   public icon!: string
+
+  @Prop({ type: String, default: '新建' })
+  public text!: string
 }
 </script>
 

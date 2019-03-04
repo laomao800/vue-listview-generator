@@ -1,6 +1,7 @@
 import { mapState, mapActions } from 'vuex'
 import { createDecorator, VueDecorator } from 'vue-class-component'
 
+// TODO: 支持返回 function 类型以自定义 state 名
 export function VModelState(
   namespace: string,
   updateFn: string = 'updateField'

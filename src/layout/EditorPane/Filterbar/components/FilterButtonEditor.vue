@@ -6,16 +6,16 @@
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
-      <div style="padding:0 6px">
-        <ElInput ref="textInput" v-model="internalConfig.text" placeholder="按钮文本" maxlength="16"/>
-      </div>
+      <FieldInput>
+        <ElInput ref="focusInput" v-model="internalConfig.text" placeholder="按钮文本" maxlength="16"/>
+      </FieldInput>
 
       <FieldDivider/>
 
       <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
       <FieldIcons v-model="internalConfig.icon"/>
       <FieldItemBasic
-        text="线框型按钮"
+        title="线框型按钮"
         @click.native="$set(internalConfig, 'plain', !internalConfig.plain)"
       >
         <ElSwitch slot="right" :value="internalConfig.plain" size="mini"/>
@@ -23,8 +23,8 @@
 
       <FieldDivider/>
 
-      <FieldItemBasic icon="copy" text="复制" @click.native="handleCopy"/>
-      <FieldItemBasic icon="delete" text="删除" @click.native="handleDelete"/>
+      <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
+      <FieldItemBasic icon="delete" title="删除" @click.native="handleDelete"/>
     </div>
   </ElPopover>
 </template>
@@ -65,8 +65,8 @@ export default class FilterButtonEditor extends Vue {
   async visibleChanged(newVal: boolean) {
     if (newVal) {
       await this.$nextTick()
-      this.$refs.textInput.focus()
-      this.$refs.textInput.$refs.input.select()
+      this.$refs.focusInput.focus()
+      this.$refs.focusInput.$refs.input.select()
     }
   }
 

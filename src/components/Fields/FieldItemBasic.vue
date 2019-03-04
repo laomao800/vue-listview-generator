@@ -4,7 +4,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class FieldItemBasic extends Vue {
   @Prop({ type: String, default: '' }) public icon!: string
-  @Prop({ type: String, default: '' }) public text!: string
+  @Prop({ type: String, default: '' }) public title!: string
 
   public $style: any
   public $refs: any
@@ -35,7 +35,9 @@ export default class FieldItemBasic extends Vue {
           </div>
         )}
 
-        {this.$slots.default || <div class={this.$style.text}>{this.text}</div>}
+        {this.$slots.default || (
+          <div class={this.$style.title}>{this.title}</div>
+        )}
 
         {this.$slots.right && (
           <div class={this.$style.right}>{this.$slots.right}</div>
@@ -101,7 +103,7 @@ export default class FieldItemBasic extends Vue {
     margin-right: 8px;
     font-size: 16px;
   }
-  .text {
+  .title {
     flex: 1 1 auto;
   }
   .right {
