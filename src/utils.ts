@@ -21,9 +21,9 @@ export function parseSizeWithUnit(value: number | string): string | null {
 
 export function uuid() {
   let d = _.now()
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = (d + _.random(16)) % 16 | 0
+  return 'xxxxxx'.replace(/x/g, function(c) {
+    const r = (d + _.random(16)) % 16 | 0
     d = Math.floor(d / 16)
-    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
+    return r.toString(16)
   })
 }

@@ -8,13 +8,13 @@
           ref="buttonEditor"
           slot="right"
           :config="item.data"
-          :handle-delete="() => deleteItem(item)"
+          :handle-delete="() => deleteItem(index)"
           @copy="newData => copyItem(newData, index)"
-          @change="newVal => updateConfig(index, newVal)"
+          @change="newVal => updateItem(index, newVal)"
         />
       </DragItem>
     </Draggable>
-    <AddItemHolder text="新建按钮" @click="createNewItem"/>
+    <AddItemHolder text="新建按钮" @click="createItem"/>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps.ts'
 import { VModelState } from '@/store/helper'
+import EditableListBase from './EditableListBase'
 import FilterButtonPreview from './components/FilterButtonPreview.vue'
 import FilterButtonEditor from './components/FilterButtonEditor.vue'
 import AddItemHolder from '@/components/AddItemHolder.vue'
@@ -39,59 +40,23 @@ const BindState = VModelState('listviewProps')
     AddItemHolder
   }
 })
-export default class FilterButtons extends Vue {
+export default class FilterButtons extends EditableListBase {
   @BindState
   public filterButtons!: PropState['filterButtons']
 
   @propModule.Action('addFilterButton')
-  public addFilterButton!: (payload?: {
+  public createHandler!: (payload?: {
     data: FilterButton
     insertAfter?: number
   }) => void
 
   @propModule.Action('updateFilterButton')
-  public updateFilterButton!: (payload: {
+  public updateHandler!: (payload: {
     updateIndex: number
     data: FilterButton
   }) => void
 
   @propModule.Action('deleteFilterButton')
-  public deleteFilterButton!: (payload: any) => void
-
-  updateConfig(index: number, newVal: FilterButton) {
-    this.updateFilterButton({
-      updateIndex: index,
-      data: newVal
-    })
-  }
-
-  async createNewItem() {
-    this.addFilterButton()
-    await this.$nextTick()
-    const editors: any = this.$refs.buttonEditor
-    // 放于 setTimeout 内避免过快触发关闭弹出
-    setTimeout(() => {
-      const editor = editors[editors.length - 1]
-      editor.show()
-    })
-  }
-
-  copyItem(data: FilterButton, insertAfter: number) {
-    this.addFilterButton({
-      data,
-      insertAfter
-    })
-  }
-
-  async deleteItem(data: any) {
-    try {
-      await this.$confirm('确认删除？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      this.deleteFilterButton(data)
-    } catch (e) {}
-  }
+  public deleteHandler!: (payload: any) => void
 }
 </script>
