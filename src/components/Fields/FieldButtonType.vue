@@ -1,6 +1,6 @@
 <template>
   <FieldItemBasic ref="field">
-    <div>
+    <div slot="title">
       <ButtonTypePreviewBlock
         :type="value"
         :plain="plain"

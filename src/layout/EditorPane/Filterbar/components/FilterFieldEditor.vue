@@ -6,7 +6,10 @@
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
-      <FieldInput title="文本标签" style="margin-top:-4px">
+      <FieldInput inline title="参数名">
+        <ElInput v-model="internalConfig.model" placeholder="参数名"/>
+      </FieldInput>
+      <FieldInput inline v-if="internalConfig.type !== 'label'" title="文本标签">
         <ElInput
           ref="focusInput"
           v-model="internalConfig.label"
@@ -15,8 +18,17 @@
           maxlength="16"
         />
       </FieldInput>
-      <FieldInput v-if="internalConfig.type !== 'label'" title="参数名">
-        <ElInput v-model="internalConfig.model" placeholder="参数名"/>
+      <FieldInput inline title="宽度">
+        <ElInput
+          v-model.number="internalConfig.width"
+          :placeholder="widthPlaceholder"
+          style="width:110px"
+          type="number"
+          size="mini"
+          clearable
+        >
+          <template slot="append">px</template>
+        </ElInput>
       </FieldInput>
 
       <!-- <FieldFilterFieldType v-model="internalConfig.type" :plain="internalConfig.plain"/> -->
@@ -60,6 +72,9 @@ export default class FilterFieldEditor extends Vue {
 
   @Prop({ type: Function, default: () => {} })
   public handleDelete!: () => void
+
+  @Prop({ type: Number, default: null })
+  public widthPlaceholder!: object
 
   public $refs: any
   public visible: boolean = false

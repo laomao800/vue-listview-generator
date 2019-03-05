@@ -13,12 +13,12 @@
       <FieldDivider/>
 
       <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
-      <FieldIcons v-model="internalConfig.icon"/>
+      <FieldIcons title="按钮图标" v-model="internalConfig.icon"/>
       <FieldItemBasic
         title="线框型按钮"
         @click.native="$set(internalConfig, 'plain', !internalConfig.plain)"
       >
-        <ElSwitch slot="right" :value="internalConfig.plain" size="mini"/>
+        <ElSwitch :value="internalConfig.plain" size="mini"/>
       </FieldItemBasic>
 
       <FieldDivider/>

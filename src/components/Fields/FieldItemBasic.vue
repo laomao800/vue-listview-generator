@@ -14,7 +14,9 @@ export default class FieldItemBasic extends Vue {
     return this.$slots.pop
   }
 
-  hidePop() {}
+  hidePop() {
+    // TODO:
+  }
 
   render() {
     const fieldItem = (
@@ -35,12 +37,10 @@ export default class FieldItemBasic extends Vue {
           </div>
         )}
 
-        {this.$slots.default || (
-          <div class={this.$style.title}>{this.title}</div>
-        )}
+        {this.$slots.title || <div class={this.$style.title}>{this.title}</div>}
 
-        {this.$slots.right && (
-          <div class={this.$style.right}>{this.$slots.right}</div>
+        {this.$slots.default && (
+          <div class={this.$style.right}>{this.$slots.default}</div>
         )}
 
         {this.isPopField && (
