@@ -31,7 +31,9 @@ export default class ButtonTypePreviewBlock extends Vue {
 <style lang="less" module>
 .preview {
   display: inline-block;
-  border: 1px solid;
+  overflow: hidden;
+  border: 1px solid #dcdfe6;
+  border-radius: 2px;
 
   &::after {
     display: block;

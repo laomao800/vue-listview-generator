@@ -37,7 +37,7 @@ export default class FieldItemBasic extends Vue {
           </div>
         )}
 
-        {this.$slots.title || <div class={this.$style.title}>{this.title}</div>}
+        <div class={this.$style.title}>{this.$slots.title || this.title}</div>
 
         {this.$slots.default && (
           <div class={this.$style.right}>{this.$slots.default}</div>
@@ -108,6 +108,7 @@ export default class FieldItemBasic extends Vue {
   }
   .right {
     flex-shrink: 0;
+    margin-right: 8px;
     margin-left: auto;
   }
   .ext {

@@ -124,42 +124,6 @@ const initialState: State = {
       }
     },
     {
-      id: 'cddbe3c4-75e5-43f0-86d1-e9fe3b7569b5',
-      data: { type: 'date', model: 'eq_date', label: '日期选择' }
-    },
-    {
-      id: '01567dcd-9bef-46e1-991e-fa794043011a',
-      data: { type: 'dateRange', model: 'eq_dateRange', label: '日期范围' }
-    },
-    {
-      id: '9e01b81d-bdde-4076-8fcb-31cd70cf77ff',
-      data: { type: 'dateTime', model: 'eq_dateTime', label: '日期时间' }
-    },
-    {
-      id: 'dda011e6-a423-4c67-a203-97f005182706',
-      data: {
-        type: 'dateTimeRange',
-        model: 'eq_dateTimeRange',
-        label: '日期时间范围'
-      }
-    },
-    {
-      id: '512ac8c0-951b-46a3-b6cc-772ee78c3fd9',
-      data: { type: 'timeSelect', model: 'eq_timeSelect', label: '固定时间' }
-    },
-    {
-      id: '5b86d025-eb5a-4eb3-954c-a0bbd32edf40',
-      data: { type: 'timePicker', model: 'eq_timePicker', label: '任意时间' }
-    },
-    {
-      id: 'e96eac05-d011-4e76-9108-8f35ba32cd90',
-      data: {
-        type: 'timePickerRange',
-        model: 'eq_timePickerRange',
-        label: '时间范围'
-      }
-    },
-    {
       id: '06019ed5-d47e-43bb-8f57-adf03d9e4eec',
       data: {
         type: 'cascader',
@@ -184,6 +148,42 @@ const initialState: State = {
             ]
           }
         ]
+      }
+    },
+    {
+      id: 'cddbe3c4-75e5-43f0-86d1-e9fe3b7569b5',
+      data: { type: 'date', model: 'eq_date', label: '日期选择' }
+    },
+    {
+      id: '9e01b81d-bdde-4076-8fcb-31cd70cf77ff',
+      data: { type: 'dateTime', model: 'eq_dateTime', label: '日期时间' }
+    },
+    {
+      id: '01567dcd-9bef-46e1-991e-fa794043011a',
+      data: { type: 'dateRange', model: 'eq_dateRange', label: '日期范围' }
+    },
+    {
+      id: 'dda011e6-a423-4c67-a203-97f005182706',
+      data: {
+        type: 'dateTimeRange',
+        model: 'eq_dateTimeRange',
+        label: '日期时间范围'
+      }
+    },
+    {
+      id: '512ac8c0-951b-46a3-b6cc-772ee78c3fd9',
+      data: { type: 'timeSelect', model: 'eq_timeSelect', label: '固定时间' }
+    },
+    {
+      id: '5b86d025-eb5a-4eb3-954c-a0bbd32edf40',
+      data: { type: 'timePicker', model: 'eq_timePicker', label: '任意时间' }
+    },
+    {
+      id: 'e96eac05-d011-4e76-9108-8f35ba32cd90',
+      data: {
+        type: 'timePickerRange',
+        model: 'eq_timePickerRange',
+        label: '时间范围'
       }
     }
   ]

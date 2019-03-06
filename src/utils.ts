@@ -13,10 +13,14 @@ export function formatJson(val: any, defaultValue: string = ''): string {
  * '50.5%' -> '50%'
  * 'a' -> null
  */
-export function parseSizeWithUnit(value: number | string): string | null {
-  const isPercent = /\d+%/.test(value.toString())
-  const num = typeof value === 'string' ? parseInt(value, 10) : value
-  return num ? (isPercent ? `${num}%` : `${num}px`) : null
+export function parseSizeWithUnit(value: any): string | null {
+  if (/^-?\d+(.\d+)?(%|(px))$/.test(value)) {
+    return value
+  } else if (typeof value === 'number') {
+    return `${value}px`
+  }
+  const num = parseInt(value, 10)
+  return !isNaN(num) ? `${num}px` : null
 }
 
 export function uuid() {

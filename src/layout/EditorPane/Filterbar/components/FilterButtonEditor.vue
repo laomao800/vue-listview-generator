@@ -6,9 +6,13 @@
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
-      <FieldInput>
-        <ElInput ref="focusInput" v-model="internalConfig.text" placeholder="按钮文本" maxlength="16"/>
-      </FieldInput>
+      <FieldInput
+        ref="focusInput"
+        v-model="internalConfig.text"
+        title="按钮文本"
+        placeholder="按钮文本"
+        maxlength="16"
+      />
 
       <FieldDivider/>
 

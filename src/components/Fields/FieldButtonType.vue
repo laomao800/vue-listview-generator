@@ -1,13 +1,6 @@
 <template>
-  <FieldItemBasic ref="field">
-    <div slot="title">
-      <ButtonTypePreviewBlock
-        :type="value"
-        :plain="plain"
-        style="margin-right:7px;vertical-align:middle;"
-      />
-      <span style="vertical-align:middle;">按钮样式</span>
-    </div>
+  <FieldItemBasic ref="field" title="按钮样式">
+    <ButtonTypePreviewBlock :type="value" :plain="plain" style="margin-top:2px"/>
     <div slot="pop" :class="$style.popper">
       <div
         v-for="type in buttonTypes"

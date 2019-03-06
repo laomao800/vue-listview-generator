@@ -26,6 +26,7 @@ import FieldButtonType from '@/components/Fields/FieldButtonType.vue'
 import FieldIcons from '@/components/Fields/FieldIcons.vue'
 import FieldInput from '@/components/Fields/FieldInput.vue'
 import FieldFilterFieldType from '@/components/Fields/FieldFilterFieldType.vue'
+import FieldDateType from '@/components/Fields/FieldDateType.vue'
 
 Vue.config.productionTip = false
 
@@ -44,6 +45,7 @@ Vue.component('FieldButtonType', FieldButtonType)
 Vue.component('FieldIcons', FieldIcons)
 Vue.component('FieldInput', FieldInput)
 Vue.component('FieldFilterFieldType', FieldFilterFieldType)
+Vue.component('FieldDateType', FieldDateType)
 
 new Vue({
   store,

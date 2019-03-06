@@ -1,7 +1,6 @@
 <template>
-  <FieldItemBasic ref="field">
-    <span slot="title">{{ title }}</span>
-    <i slot="icon" v-if="value" :class="value" style="color:#999"/>
+  <FieldItemBasic ref="field" :title="title">
+    <i v-if="value" :class="value" style="color:#999"/>
     <div slot="pop" :class="$style.popper">
       <div @click="handleChange('')">无</div>
       <div v-for="name in iconNames" :key="name" @click="handleChange(name)">
@@ -17,10 +16,10 @@ import iconNames from '@/constants/elementIconNames.json'
 
 @Component
 export default class FieldIcons extends Vue {
-  @Prop({ type: String, default: '选择图标' }) title!: string
-
   @Model('input', { type: String, default: '' })
   public value!: string
+
+  @Prop({ type: String, default: '选择图标' }) title!: string
 
   public iconNames = iconNames
 

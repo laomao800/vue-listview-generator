@@ -1,5 +1,5 @@
 <template>
-  <ElPopover v-model="visible" placement="bottom" width="200" trigger="click" transition>
+  <ElPopover v-model="visible" placement="right" width="200" trigger="click" transition>
     <slot slot="reference">
       <span :class="$style.more">
         <SvgIcon name="more" style="color:#999"/>
@@ -10,36 +10,139 @@
 
       <FieldDivider/>
 
-      <FieldInput inline title="文本标签">
-        <ElInput
-          ref="focusInput"
-          v-model="internalConfig.label"
-          size="mini"
-          placeholder="文本标签"
-          maxlength="16"
-        />
-      </FieldInput>
-      <FieldInput v-if="internalConfig.type !== 'label'" inline title="参数名">
-        <ElInput v-model="internalConfig.model" placeholder="参数名"/>
-      </FieldInput>
-      <FieldInput inline title="宽度">
-        <ElInput
-          v-model.number="internalConfig.width"
-          :placeholder="widthPlaceholder"
-          style="width:110px"
-          type="number"
-          size="mini"
-          clearable
-        >
-          <template slot="append">px</template>
-        </ElInput>
+      <FieldInput
+        ref="focusInput"
+        v-model="internalConfig.label"
+        title="文本标签"
+        placeholder="文本标签"
+        maxlength="16"
+      />
+      <FieldInput
+        v-if="internalConfig.type !== 'label'"
+        v-model="internalConfig.model"
+        title="参数名"
+        placeholder="参数名"
+      />
+      <FieldInput
+        v-model.number="internalConfig.width"
+        :placeholder="widthPlaceholder"
+        title="宽度"
+        type="number"
+        clearable
+      >
+        <template slot="append">px</template>
       </FieldInput>
 
-      <FieldDivider/>
+      <FieldDivider v-if="curType !== 'label'"/>
 
       <template v-if="curType === 'text'">
         <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
         <FieldIcons title="后置图标" v-model="internalConfig.componentProps.suffixIcon"/>
+      </template>
+
+      <template v-else-if="curType === 'number'">
+        <FieldInput
+          title="最小值"
+          v-model.number="internalConfig.componentProps.min"
+          type="number"
+          input-width="70"
+        />
+        <FieldInput
+          title="最大值"
+          v-model.number="internalConfig.componentProps.max"
+          type="number"
+          input-width="70"
+        />
+        <FieldInput
+          title="控制器步进值"
+          v-model.number="internalConfig.componentProps.step"
+          type="number"
+          placeholder="1"
+          input-width="70"
+        />
+      </template>
+
+      <!-- 下拉选择类 -->
+      <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
+        <FieldItemBasic icon="gear" title="配置选项"/>
+      </template>
+
+      <!-- 日期类 -->
+      <template v-else-if="['date', 'dateRange', 'dateTime', 'dateTimeRange'].includes(curType)">
+        <template v-if="curType === 'date'">
+          <FieldDateType v-model="internalConfig.componentProps.type"/>
+        </template>
+
+        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
+
+        <template v-if="curType === 'dateTime'">
+          <!-- 无 -->
+        </template>
+
+        <template v-if="['dateRange', 'dateTimeRange'].includes(curType)">
+          <FieldInput title="开始占位内容" placeholder="开始日期"/>
+          <FieldInput title="结束占位内容" placeholder="结束日期"/>
+        </template>
+
+        <FieldInput
+          v-model="internalConfig.componentProps.format"
+          style="margin-top:6px;"
+          block
+          :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
+          title="显示格式"
+          clearable
+        />
+        <FieldInput
+          v-model="internalConfig.componentProps.valueFormat"
+          block
+          :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
+          title="提交格式"
+          clearable
+        />
+      </template>
+
+      <!-- 时间类 -->
+      <template v-else-if="['timeSelect', 'timePicker', 'timePickerRange'].includes(curType)">
+        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
+        <template v-if="curType === 'timeSelect'">
+          <FieldInput
+            v-model="internalConfig.componentProps.pickerOptions.start"
+            title="开始时间"
+            placeholder="09:00"
+          />
+          <FieldInput
+            v-model="internalConfig.componentProps.pickerOptions.end"
+            title="结束时间"
+            placeholder="18:00"
+          />
+          <FieldInput
+            v-model="internalConfig.componentProps.pickerOptions.step"
+            title="选项跨度"
+            placeholder="00:30"
+          />
+        </template>
+        <template v-else-if="curType === 'timePicker'">
+          <!-- 无 -->
+        </template>
+        <template v-else-if="curType === 'timePickerRange'">
+          <FieldInput
+            v-model="internalConfig.componentProps.startPlaceholder"
+            title="开始占位内容"
+            placeholder="开始时间"
+          />
+          <FieldInput
+            v-model="internalConfig.componentProps.endPlaceholder"
+            title="结束占位内容"
+            placeholder="结束时间"
+          />
+        </template>
+        <FieldInput
+          v-model="internalConfig.componentProps.valueFormat"
+          title="提交格式"
+          placeholder="yyyy-MM-dd HH:mm:ss"
+          block
+          clearable
+        />
       </template>
 
       <FieldDivider/>
@@ -55,22 +158,23 @@ import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { FilterField } from '@laomao800/vue-listview'
-import { filterFieldTypes } from '@/constants/filterFieldTypes'
+import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
 
 interface AllFieldConfig {
   [k: string]: FilterField
 }
 
-function getAllFieldConfig(): AllFieldConfig {
-  return _.zipObject(
-    filterFieldTypes.map(item => item.type),
-    filterFieldTypes.map<FilterField>(item => ({
-      type: item.type as FilterField['type'],
-      label: item.name,
-      model: item.type,
-      componentProps: {}
-    }))
-  )
+function getAllFieldConfig() {
+  const fieldConfig: AllFieldConfig = {}
+  for (const [typeName, typeConfig] of Object.entries(filterFieldTypesMap)) {
+    fieldConfig[typeName] = {
+      type: typeConfig.type as FilterField['type'],
+      label: typeConfig.name,
+      model: typeConfig.type,
+      componentProps: typeName === 'timeSelect' ? { pickerOptions: {} } : {}
+    }
+  }
+  return fieldConfig
 }
 
 @Component
@@ -84,16 +188,33 @@ export default class FilterFieldEditor extends Vue {
   @Prop({ type: Function, default: () => {} })
   public handleDelete!: () => void
 
-  @Prop({ type: Number, default: null })
-  public widthPlaceholder!: object
-
   public $refs: any
   public visible: boolean = false
   public allFieldConfig = getAllFieldConfig()
   public curType = this.config.type!
 
   get internalConfig() {
-    return this.allFieldConfig[this.curType!]
+    return this.allFieldConfig[this.curType]
+  }
+
+  get widthPlaceholder() {
+    return (
+      // @ts-ignore
+      {
+        text: 180,
+        number: 100,
+        select: 180,
+        multipleSelect: 180,
+        cascader: 180,
+        date: 180,
+        dateTime: 200,
+        dateRange: 240,
+        dateTimeRange: 360,
+        timeSelect: 120,
+        timePicker: 120,
+        timePickerRange: 200
+      }[this.curType] || ''
+    )
   }
 
   @Watch('config', { immediate: true })
