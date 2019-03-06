@@ -12,10 +12,7 @@
       <div
         v-for="type in buttonTypes"
         :key="type"
-        :class="[
-          $style.item,
-          type === value && $style.selected
-        ]"
+        :class="type === value && $style.selected"
         @click="handleChange(type)"
       >
         <ButtonTypePreviewBlock

@@ -6,10 +6,11 @@
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
-      <FieldInput inline title="参数名">
-        <ElInput v-model="internalConfig.model" placeholder="参数名"/>
-      </FieldInput>
-      <FieldInput inline v-if="internalConfig.type !== 'label'" title="文本标签">
+      <FieldFilterFieldType v-model="curType"/>
+
+      <FieldDivider/>
+
+      <FieldInput inline title="文本标签">
         <ElInput
           ref="focusInput"
           v-model="internalConfig.label"
@@ -17,6 +18,9 @@
           placeholder="文本标签"
           maxlength="16"
         />
+      </FieldInput>
+      <FieldInput v-if="internalConfig.type !== 'label'" inline title="参数名">
+        <ElInput v-model="internalConfig.model" placeholder="参数名"/>
       </FieldInput>
       <FieldInput inline title="宽度">
         <ElInput
@@ -31,19 +35,13 @@
         </ElInput>
       </FieldInput>
 
-      <!-- <FieldFilterFieldType v-model="internalConfig.type" :plain="internalConfig.plain"/> -->
-      <!--
       <FieldDivider/>
 
-      <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
-      <FieldIcons v-model="internalConfig.icon"/>
-      <FieldItemBasic
-        text="线框型按钮"
-        @click.native="$set(internalConfig, 'plain', !internalConfig.plain)"
-      >
-        <ElSwitch slot="right" :value="internalConfig.plain" size="mini"/>
-      </FieldItemBasic>
-      -->
+      <template v-if="curType === 'text'">
+        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
+        <FieldIcons title="后置图标" v-model="internalConfig.componentProps.suffixIcon"/>
+      </template>
+
       <FieldDivider/>
 
       <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
@@ -57,9 +55,22 @@ import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { FilterField } from '@laomao800/vue-listview'
+import { filterFieldTypes } from '@/constants/filterFieldTypes'
 
 interface AllFieldConfig {
   [k: string]: FilterField
+}
+
+function getAllFieldConfig(): AllFieldConfig {
+  return _.zipObject(
+    filterFieldTypes.map(item => item.type),
+    filterFieldTypes.map<FilterField>(item => ({
+      type: item.type as FilterField['type'],
+      label: item.name,
+      model: item.type,
+      componentProps: {}
+    }))
+  )
 }
 
 @Component
@@ -78,21 +89,29 @@ export default class FilterFieldEditor extends Vue {
 
   public $refs: any
   public visible: boolean = false
-  public allFieldConfig: AllFieldConfig = {}
-  public internalConfig: FilterField = {}
+  public allFieldConfig = getAllFieldConfig()
+  public curType = this.config.type!
+
+  get internalConfig() {
+    return this.allFieldConfig[this.curType!]
+  }
 
   @Watch('config', { immediate: true })
   configChanged(newVal: FilterField) {
-    const targetConfig = this.allFieldConfig[this.fieldType!]
-    if (!_.isEqual(newVal, targetConfig)) {
-      this.internalConfig = _.cloneDeep(newVal)
+    this.curType = newVal.type!
+    if (!_.isEqual(newVal, this.internalConfig)) {
+      const target = this.allFieldConfig[this.curType!]
+      const newConfig = _.merge(target, _.cloneDeep(newVal))
+      this.allFieldConfig[this.curType!] = newConfig
     }
   }
 
   @Watch('internalConfig', { deep: true })
-  internalConfigChanged(newVal: FilterField) {
+  internalConfigChanged(newVal: FilterField, oldVal: FilterField) {
     if (!_.isEqual(newVal, this.config)) {
-      this.$emit('change', _.cloneDeep(newVal))
+      // TODO: model 值只用内部 data 中转
+      newVal.model = oldVal.model
+      this.syncConfig()
     }
   }
 
@@ -107,12 +126,10 @@ export default class FilterFieldEditor extends Vue {
 
   @debounce
   syncConfig() {
-    // TODO: computed
-    this.$emit('change', this.allFieldConfig[this.fieldType!] || {})
+    this.$emit('change', _.cloneDeep(this.internalConfig))
   }
 
   handleCopy() {
-    // TODO: computed
     this.$emit('copy', _.cloneDeep(this.internalConfig))
     this.visible = false
   }

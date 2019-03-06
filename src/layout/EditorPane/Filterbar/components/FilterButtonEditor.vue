@@ -57,7 +57,7 @@ export default class FilterButtonEditor extends Vue {
   @Watch('internalConfig', { deep: true })
   internalConfigChanged(newVal: FilterButton) {
     if (!_.isEqual(newVal, this.config)) {
-      this.$emit('change', _.cloneDeep(newVal))
+      this.syncConfig()
     }
   }
 
@@ -72,7 +72,7 @@ export default class FilterButtonEditor extends Vue {
 
   @debounce
   syncConfig() {
-    this.$emit('change', this.internalConfig)
+    this.$emit('change', _.cloneDeep(this.internalConfig))
   }
 
   handleCopy() {

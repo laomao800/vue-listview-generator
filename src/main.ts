@@ -14,8 +14,6 @@ import store from '@/store'
 // Base components
 import AceEditor from '@/components/AceEditor.vue'
 import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
-import ButtonTypeSelect from '@/components/ButtonTypeSelect.vue'
-import IconSelector from '@/components/IconSelector.vue'
 import DragItem from '@/components/DragItem.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
@@ -27,6 +25,7 @@ import FieldItemBasic from '@/components/Fields/FieldItemBasic.vue'
 import FieldButtonType from '@/components/Fields/FieldButtonType.vue'
 import FieldIcons from '@/components/Fields/FieldIcons.vue'
 import FieldInput from '@/components/Fields/FieldInput.vue'
+import FieldFilterFieldType from '@/components/Fields/FieldFilterFieldType.vue'
 
 Vue.config.productionTip = false
 
@@ -35,8 +34,6 @@ Vue.use(Listview)
 Vue.component('Draggable', Draggable)
 Vue.component('AceEditor', AceEditor)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
-Vue.component('ButtonTypeSelect', ButtonTypeSelect)
-Vue.component('IconSelector', IconSelector)
 Vue.component('DragItem', DragItem)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
@@ -46,6 +43,7 @@ Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)
 Vue.component('FieldIcons', FieldIcons)
 Vue.component('FieldInput', FieldInput)
+Vue.component('FieldFilterFieldType', FieldFilterFieldType)
 
 new Vue({
   store,
