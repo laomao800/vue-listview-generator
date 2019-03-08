@@ -735,10 +735,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@laomao800/vue-listview@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.0.1.tgz#e87bc06dd7ff283dcb2a94d716c5bc3923327cbb"
-  integrity sha512-gSMZtwKW7ok8nPnzjXm6oIC65KaCP6Pgz3LcS15SpQ+d4cpxActTUGXgjms/wUpGRcoSmYvYMPXx4CiAvH3NQA==
+"@laomao800/vue-listview@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.0.2.tgz#eb179721a2ca2d2533fe10781beaf4885d642cdc"
+  integrity sha512-c5/8z0ZGMcPbs1tseqrQ/U0chK+L1QY49pvmDGeIQCXiDl8DysrBaYTUMg0AHUaOfyh8vPOrTxw7VfHeyOirwQ==
   dependencies:
     axios "^0.18.0"
 
