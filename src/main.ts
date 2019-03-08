@@ -18,6 +18,7 @@ import DragItem from '@/components/DragItem.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
+import SelectOptionsEditor from '@/components/SelectOptionsEditor.vue'
 
 // Field config components
 import FieldDivider from '@/components/Fields/FieldDivider.vue'
@@ -39,6 +40,7 @@ Vue.component('DragItem', DragItem)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
+Vue.component('SelectOptionsEditor', SelectOptionsEditor)
 Vue.component('FieldDivider', FieldDivider)
 Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)

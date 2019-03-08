@@ -104,9 +104,9 @@ const initialState: State = {
         model: 'eq_select',
         label: '单选字段',
         options: [
-          { label: '选项 1', value: 1 },
-          { label: '选项 2', value: 2 },
-          { label: '选项 3', value: 3 }
+          { label: '单选选项 1', value: 1 },
+          { label: '单选选项 2', value: 2 },
+          { label: '单选选项 3', value: 3 }
         ]
       }
     },
@@ -117,9 +117,9 @@ const initialState: State = {
         model: 'eq_multipleSelect',
         label: '多选字段',
         options: [
-          { label: '选项 1', value: 1 },
-          { label: '选项 2', value: 2 },
-          { label: '选项 3', value: 3 }
+          { label: '多选选项 1', value: 1 },
+          { label: '多选选项 2', value: 2 },
+          { label: '多选选项 3', value: 3 }
         ]
       }
     },

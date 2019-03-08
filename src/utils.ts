@@ -1,7 +1,9 @@
 import _ from 'lodash'
 
 export function formatJson(val: any, defaultValue: string = ''): string {
-  return _.isPlainObject(val) ? JSON.stringify(val, null, 2) : defaultValue
+  return _.isPlainObject(val) || Array.isArray(val)
+    ? JSON.stringify(val, null, 2)
+    : defaultValue
 }
 
 /**

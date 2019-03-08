@@ -19,6 +19,7 @@
         </ElForm>
       </div>
     </div>
+    <SelectOptionsEditor/>
   </div>
 </template>
 

@@ -64,7 +64,9 @@
 
       <!-- 下拉选择类 -->
       <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
-        <FieldItemBasic icon="gear" title="配置选项"/>
+        <FieldItemBasic icon="gear" title="配置选项" @click.native="editSelectOptions">
+          <span style="color:#999;">({{ internalConfig.options.length }}项)</span>
+        </FieldItemBasic>
       </template>
 
       <!-- 日期类 -->
@@ -167,12 +169,16 @@ interface AllFieldConfig {
 function getAllFieldConfig() {
   const fieldConfig: AllFieldConfig = {}
   for (const [typeName, typeConfig] of Object.entries(filterFieldTypesMap)) {
-    fieldConfig[typeName] = {
-      type: typeConfig.type as FilterField['type'],
+    const config: FilterField = {
+      type: typeName as FilterField['type'],
       label: typeConfig.name,
-      model: typeConfig.type,
+      model: typeName,
       componentProps: typeName === 'timeSelect' ? { pickerOptions: {} } : {}
     }
+    if (['select', 'multipleSelect', 'cascader'].includes(typeName)) {
+      config.options = []
+    }
+    fieldConfig[typeName] = config
   }
   return fieldConfig
 }
@@ -257,6 +263,16 @@ export default class FilterFieldEditor extends Vue {
 
   show() {
     this.visible = true
+  }
+
+  async editSelectOptions() {
+    try {
+      const newOptions = await this.$store.dispatch(
+        'optionsEditor/edit',
+        this.internalConfig.options
+      )
+      this.internalConfig.options = newOptions
+    } catch (e) {}
   }
 }
 </script>
