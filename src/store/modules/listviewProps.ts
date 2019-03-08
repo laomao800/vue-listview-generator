@@ -253,7 +253,7 @@ const actions: ActionTree<State, any> = {
       data: data || {
         type: 'text',
         label: '字段文本标签',
-        model: 'eq_param_name'
+        model: 'param_name'
       },
       insertAfter
     })

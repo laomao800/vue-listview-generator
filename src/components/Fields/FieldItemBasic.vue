@@ -14,8 +14,18 @@ export default class FieldItemBasic extends Vue {
     return this.$slots.pop
   }
 
-  hidePop() {
-    // TODO:
+  hidePopover() {
+    const popover = this.$refs.popover
+    if (popover) {
+      popover.showPopper = false
+    }
+  }
+
+  updatePopper() {
+    const popover = this.$refs.popover
+    if (popover) {
+      popover.updatePopper()
+    }
   }
 
   render() {

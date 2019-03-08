@@ -1,5 +1,6 @@
 <template>
   <FieldItemBasic ref="field" icon="field-type" title="字段类型">
+    <div style="font-size:12px;color:#999">{{ showValue }}</div>
     <div slot="pop" :class="$style.popper">
       <div
         v-for="item in fieldTypes"
@@ -16,7 +17,10 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Model } from 'vue-property-decorator'
-import { filterFieldTypes } from '@/constants/filterFieldTypes'
+import {
+  filterFieldTypes,
+  filterFieldTypesMap
+} from '@/constants/filterFieldTypes'
 
 @Component
 export default class FieldFilterFieldType extends Vue {
@@ -25,10 +29,16 @@ export default class FieldFilterFieldType extends Vue {
 
   public $refs: any
   public fieldTypes = filterFieldTypes
+  public fieldTypesMap = filterFieldTypesMap
+
+  get showValue() {
+    return this.fieldTypesMap[this.value] && this.fieldTypesMap[this.value].name
+  }
 
   handleChange(val: string) {
     this.$emit('input', val)
-    this.$refs.field.hidePop()
+    this.$refs.field.hidePopover()
+    // this.$refs.field.updatePopper()
   }
 }
 </script>

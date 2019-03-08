@@ -1,5 +1,9 @@
 <template>
-  <div :class="$style.sidebar">sidebar</div>
+  <div :class="$style.sidebar">
+    <pre style="height:100%;overflow:auto">
+      {{ JSON.stringify($store.state.listviewProps.filterFields, null, 2)}}
+    </pre>
+  </div>
 </template>
 
 <script lang="ts">

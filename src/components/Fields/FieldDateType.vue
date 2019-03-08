@@ -1,6 +1,6 @@
 <template>
   <FieldItemBasic ref="field" title="日期单位">
-    <div style="font-size:12px;color:#999">{{ listDataMap[value] && listDataMap[value].label }}</div>
+    <div style="font-size:12px;color:#999">{{ showValue }}</div>
     <div slot="pop" :class="$style.popper">
       <div
         v-for="(item, index) in listData"
@@ -19,7 +19,7 @@ import { Vue, Component, Prop, Model } from 'vue-property-decorator'
 // TODO: 与 FieldIcons FieldButtonType 整合
 
 const listData = [
-  { label: '天', value: 'date' },
+  { label: '天（默认）', value: 'date' },
   { label: '周', value: 'week' },
   { label: '月', value: 'month' },
   { label: '年', value: 'year' },
@@ -36,9 +36,13 @@ export default class FieldDateType extends Vue {
   public listData = listData
   public listDataMap = listDataMap
 
+  get showValue() {
+    return this.listDataMap[this.value] && this.listDataMap[this.value].label
+  }
+
   handleChange(val: any) {
     this.$emit('input', val)
-    this.$refs.field.hidePop()
+    this.$refs.field.hidePopover()
   }
 }
 </script>

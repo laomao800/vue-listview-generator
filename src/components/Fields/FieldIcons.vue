@@ -27,7 +27,7 @@ export default class FieldIcons extends Vue {
 
   handleChange(val: string) {
     this.$emit('input', val)
-    this.$refs.field.hidePop()
+    // this.$refs.field.hidePopover()
   }
 }
 </script>

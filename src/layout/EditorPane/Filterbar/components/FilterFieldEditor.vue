@@ -1,5 +1,13 @@
 <template>
-  <ElPopover v-model="visible" placement="right" width="200" trigger="click" transition>
+  <ElPopover
+    ref="popper"
+    v-model="visible"
+    :offset="-10"
+    placement="right-start"
+    width="220"
+    trigger="click"
+    transition
+  >
     <slot slot="reference">
       <span :class="$style.more">
         <SvgIcon name="more" style="color:#999"/>
@@ -140,6 +148,7 @@
         </template>
         <FieldInput
           v-model="internalConfig.componentProps.valueFormat"
+          style="margin-top:6px;"
           title="提交格式"
           placeholder="yyyy-MM-dd HH:mm:ss"
           block
@@ -243,17 +252,28 @@ export default class FilterFieldEditor extends Vue {
   }
 
   @Watch('visible')
-  async visibleChanged(newVal: boolean) {
+  visibleChanged(newVal: boolean) {
     if (newVal) {
-      await this.$nextTick()
-      this.$refs.focusInput.focus()
-      this.$refs.focusInput.$refs.input.select()
+      this.focusFirstInput()
     }
+  }
+
+  @Watch('fieldType')
+  typeChanged() {
+    // 切换类型弹出内容可能有变化，需更新 popper 位置
+    this.$refs.popper.updatePopper()
+    this.focusFirstInput()
   }
 
   @debounce
   syncConfig() {
     this.$emit('change', _.cloneDeep(this.internalConfig))
+  }
+
+  async focusFirstInput() {
+    await this.$nextTick()
+    this.$refs.focusInput.focus()
+    this.$refs.focusInput.$refs.input.select()
   }
 
   handleCopy() {

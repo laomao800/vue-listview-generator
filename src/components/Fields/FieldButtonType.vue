@@ -50,7 +50,7 @@ export default class FieldButtonType extends Vue {
 
   handleChange(val: buttonTypes) {
     this.$emit('input', val)
-    this.$refs.field.hidePop()
+    // this.$refs.field.hidePopover()
   }
 }
 </script>
