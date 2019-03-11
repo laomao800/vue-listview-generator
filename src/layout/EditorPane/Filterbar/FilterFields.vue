@@ -24,40 +24,38 @@ import _ from 'lodash'
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
-import { State as PropState } from '@/store/modules/listviewProps.ts'
+import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
-import EditableListBase from './EditableListBase'
+import EditableListBase from '@/layout/EditorPane/EditableListBase'
 import FilterFieldPreview from './components/FilterFieldPreview.vue'
 import FilterFieldEditor from './components/FilterFieldEditor.vue'
-import AddItemHolder from '@/components/AddItemHolder.vue'
 
-const propModule = namespace('listviewProps')
 const BindState: any = VModelState('listviewProps')
+const PropModule = namespace('listviewProps')
 
 @Component({
   components: {
     FilterFieldPreview,
-    FilterFieldEditor,
-    AddItemHolder
+    FilterFieldEditor
   }
 })
 export default class FilterFields extends EditableListBase {
   @BindState
   public filterFields!: PropState['filterFields']
 
-  @propModule.Action('addFilterField')
+  @PropModule.Action('addFilterField')
   public createHandler!: (payload?: {
     data: FilterField
     insertAfter?: number
   }) => void
 
-  @propModule.Action('updateFilterField')
+  @PropModule.Action('updateFilterField')
   public updateHandler!: (payload: {
     updateIndex: number
     data: FilterField
   }) => void
 
-  @propModule.Action('deleteFilterField')
+  @PropModule.Action('deleteFilterField')
   public deleteHandler!: (deleteIndex: number) => void
 }
 </script>

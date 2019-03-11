@@ -23,40 +23,38 @@ import _ from 'lodash'
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
-import { State as PropState } from '@/store/modules/listviewProps.ts'
+import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
-import EditableListBase from './EditableListBase'
+import EditableListBase from '@/layout/EditorPane/EditableListBase'
 import FilterButtonPreview from './components/FilterButtonPreview.vue'
 import FilterButtonEditor from './components/FilterButtonEditor.vue'
-import AddItemHolder from '@/components/AddItemHolder.vue'
 
-const propModule = namespace('listviewProps')
 const BindState = VModelState('listviewProps')
+const PropModule = namespace('listviewProps')
 
 @Component({
   components: {
     FilterButtonPreview,
-    FilterButtonEditor,
-    AddItemHolder
+    FilterButtonEditor
   }
 })
 export default class FilterButtons extends EditableListBase {
   @BindState
   public filterButtons!: PropState['filterButtons']
 
-  @propModule.Action('addFilterButton')
+  @PropModule.Action('addFilterButton')
   public createHandler!: (payload?: {
     data: FilterButton
     insertAfter?: number
   }) => void
 
-  @propModule.Action('updateFilterButton')
+  @PropModule.Action('updateFilterButton')
   public updateHandler!: (payload: {
     updateIndex: number
     data: FilterButton
   }) => void
 
-  @propModule.Action('deleteFilterButton')
+  @PropModule.Action('deleteFilterButton')
   public deleteHandler!: (payload: any) => void
 }
 </script>

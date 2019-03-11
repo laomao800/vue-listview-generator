@@ -13,6 +13,7 @@ import store from '@/store'
 
 // Base components
 import AceEditor from '@/components/AceEditor.vue'
+import AddItemHolder from '@/components/AddItemHolder.vue'
 import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
 import DragItem from '@/components/DragItem.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
@@ -35,6 +36,7 @@ Vue.use(ElementUI, { size: 'small' })
 Vue.use(Listview)
 Vue.component('Draggable', Draggable)
 Vue.component('AceEditor', AceEditor)
+Vue.component('AddItemHolder', AddItemHolder)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
 Vue.component('DragItem', DragItem)
 Vue.component('PaneTitle', PaneTitle)

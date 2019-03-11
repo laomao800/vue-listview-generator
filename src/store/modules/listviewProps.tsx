@@ -186,6 +186,34 @@ const initialState: State = {
         label: '时间范围'
       }
     }
+  ],
+  tableColumns: [
+    {
+      label: '自定义标签',
+      prop: 'sku',
+      width: 100,
+      align: 'center',
+      fixed: true
+    },
+    {
+      label: '折扣率',
+      align: 'center',
+      formatter: (row: any) => {
+        return row.hasOwnProperty('discount') && row.discount.toFixed(2)
+      }
+    },
+    { label: '修改时间', prop: 'date', align: 'center', fixed: 'right' },
+    {
+      label: '是否启用',
+      align: 'center',
+      render: (prop: any) => {
+        if (prop.row.enable) {
+          return <div style="color:#67c23a">启用</div>
+        } else {
+          return <div style="color:#f56c6c">禁用</div>
+        }
+      }
+    }
   ]
 }
 

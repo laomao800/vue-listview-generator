@@ -32,16 +32,18 @@ export default class AddItemHolder extends Vue {
   align-items: center;
   min-height: 30px;
   padding: 0 10px;
-  margin-left: 20px;
+  margin-top: 6px;
   font-size: 14px;
   line-height: 120%;
   color: #bbb;
   cursor: pointer;
+  background: @main-background-color;
+  border: 1px dotted @color-gray-light-2;
   border-radius: 3px;
   transition: background 120ms ease-in;
 
   &:hover {
-    background-color: #efefef;
+    background-color: @color-gray-light-5;
   }
 }
 </style>
