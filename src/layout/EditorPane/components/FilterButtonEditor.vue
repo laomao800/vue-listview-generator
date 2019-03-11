@@ -2,7 +2,7 @@
   <ElPopover v-model="visible" placement="bottom" width="200" trigger="click" transition>
     <slot slot="reference">
       <span :class="$style.more">
-        <SvgIcon name="more" style="color:#999"/>
+        <SvgIcon name="more"/>
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
@@ -95,6 +95,7 @@ export default class FilterButtonEditor extends Vue {
 
 .more {
   padding: 2px;
+  color: #999;
   cursor: pointer;
   border-radius: 3px;
 

@@ -189,28 +189,41 @@ const initialState: State = {
   ],
   tableColumns: [
     {
-      label: '自定义标签',
-      prop: 'sku',
-      width: 100,
-      align: 'center',
-      fixed: true
-    },
-    {
-      label: '折扣率',
-      align: 'center',
-      formatter: (row: any) => {
-        return row.hasOwnProperty('discount') && row.discount.toFixed(2)
+      id: '0e234105',
+      data: {
+        label: '自定义标签',
+        prop: 'sku',
+        width: 100,
+        align: 'center',
+        fixed: true
       }
     },
-    { label: '修改时间', prop: 'date', align: 'center', fixed: 'right' },
     {
-      label: '是否启用',
-      align: 'center',
-      render: (prop: any) => {
-        if (prop.row.enable) {
-          return <div style="color:#67c23a">启用</div>
-        } else {
-          return <div style="color:#f56c6c">禁用</div>
+      id: '8a7ef70c',
+      data: { label: '修改时间', prop: 'date', align: 'center', fixed: 'right' }
+    },
+    {
+      id: '2420d850',
+      data: {
+        label: '折扣率',
+        align: 'center',
+        formatter: (row: any) => {
+          return row.hasOwnProperty('discount') && row.discount.toFixed(2)
+        }
+      }
+    },
+    {
+      id: '26f109ae',
+      data: {
+        label: '是否启用',
+        align: 'center',
+        render: (prop: any) => {
+          // eslint-disable-next
+          if (prop.row.enable) {
+            return <div style="color:#67c23a">启用</div>
+          } else {
+            return <div style="color:#f56c6c">禁用</div>
+          }
         }
       }
     }

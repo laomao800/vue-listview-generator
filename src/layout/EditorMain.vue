@@ -10,7 +10,9 @@
           <ElTabPane label="搜索栏" name="filterbar">
             <Filterbar/>
           </ElTabPane>
-          <ElTabPane label="内容" name="content">tab3</ElTabPane>
+          <ElTabPane label="内容" name="content">
+            <Content/>
+          </ElTabPane>
         </ElTabs>
       </ElForm>
       <div :class="$style.sidebar">
@@ -29,17 +31,19 @@ import Toolbar from '@/layout/Toolbar.vue'
 import Basic from '@/layout/EditorPane/Basic.vue'
 import DataSource from '@/layout/EditorPane/DataSource.vue'
 import Filterbar from '@/layout/EditorPane/Filterbar/index.vue'
+import Content from '@/layout/EditorPane/Content.vue'
 
 @Component({
   components: {
     Toolbar,
     Basic,
     DataSource,
-    Filterbar
+    Filterbar,
+    Content
   }
 })
 export default class EditorMain extends Vue {
-  public activeTab = 'filterbar'
+  public activeTab = 'content'
 }
 </script>
 

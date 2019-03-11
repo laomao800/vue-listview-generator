@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-field-input" :class="{'editor-field-input--inline': !block}">
+  <div class="field-item editor-field-input" :class="{'editor-field-input--inline': !block}">
     <div class="editor-field-input__title">
       <slot name="title">{{ title }}</slot>
     </div>
@@ -22,7 +22,7 @@ import { parseSizeWithUnit } from '@/utils'
   inheritAttrs: false
 })
 export default class FieldInput extends Vue {
-  @Model('input', { type: String, default: '' }) public value!: string
+  @Model('input', { type: [String, Number], default: '' }) public value!: string
   @Prop({ type: String, default: '' }) title!: string
   @Prop({ type: Boolean, default: false }) block!: boolean
   @Prop({ type: [Number, String] }) inputWidth!: number | string
@@ -51,7 +51,7 @@ export default class FieldInput extends Vue {
 .editor-field-input {
   display: block;
   min-height: 28px;
-  padding: 0 8px;
+  padding: 0 12px;
   margin-bottom: 6px;
   line-height: 120%;
 

@@ -5,6 +5,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class FieldItemBasic extends Vue {
   @Prop({ type: String, default: '' }) public icon!: string
   @Prop({ type: String, default: '' }) public title!: string
+  @Prop({ type: Boolean, default: false }) public static!: boolean
 
   public $style: any
   public $refs: any
@@ -34,7 +35,8 @@ export default class FieldItemBasic extends Vue {
         class={[
           'field-item',
           this.$style.field,
-          this.active && this.$style['field--active']
+          this.active && this.$style['field--active'],
+          this.static && this.$style['field--static']
         ]}
         on-mouseleave={() => (this.active = false)}
       >
@@ -95,17 +97,19 @@ export default class FieldItemBasic extends Vue {
   align-items: center;
   width: 100%;
   min-height: 28px;
-  padding: 0 14px;
+  padding: 0 12px;
   font-size: 14px;
   line-height: 120%;
   color: #666;
-  cursor: pointer;
   user-select: none;
   outline: none;
   transition: background-color 0.12s;
 
+  &:not(&--static) {
+    cursor: pointer;
+  }
   &--active,
-  &:hover {
+  &:not(&--static):hover {
     background-color: @color-gray-light-3;
   }
 
@@ -118,7 +122,6 @@ export default class FieldItemBasic extends Vue {
   }
   .right {
     flex-shrink: 0;
-    margin-right: 8px;
     margin-left: auto;
   }
   .ext {
@@ -127,12 +130,23 @@ export default class FieldItemBasic extends Vue {
     font-size: 12px;
     color: #aaa;
   }
+  .right + .ext {
+    margin-left: 8px;
+  }
 }
 </style>
 
-<style scoped>
-.field-item .el-switch {
-  transform: scale(0.8);
-  transform-origin: 100% 50%;
+<style lang="less">
+.field-item {
+  .el-switch {
+    transform: scale(0.8);
+    transform-origin: 100% 50%;
+  }
+  .el-radio-group {
+    padding: 5px 0;
+  }
+  .el-radio-button__inner {
+    padding: 5px 10px;
+  }
 }
 </style>

@@ -10,7 +10,7 @@
   >
     <slot slot="reference">
       <span :class="$style.more">
-        <SvgIcon name="more" style="color:#999"/>
+        <SvgIcon name="more"/>
       </span>
     </slot>
     <div style="margin:-12px;padding:6px 0;">
@@ -302,6 +302,7 @@ export default class FilterFieldEditor extends Vue {
 
 .more {
   padding: 2px;
+  color: #999;
   cursor: pointer;
   border-radius: 3px;
 

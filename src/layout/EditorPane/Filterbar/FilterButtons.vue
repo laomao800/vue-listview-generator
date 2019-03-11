@@ -26,8 +26,8 @@ import { FilterButton } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
 import EditableListBase from '@/layout/EditorPane/EditableListBase'
-import FilterButtonPreview from './components/FilterButtonPreview.vue'
-import FilterButtonEditor from './components/FilterButtonEditor.vue'
+import FilterButtonPreview from '@/layout/EditorPane/components/FilterButtonPreview.vue'
+import FilterButtonEditor from '@/layout/EditorPane/components/FilterButtonEditor.vue'
 
 const BindState = VModelState('listviewProps')
 const PropModule = namespace('listviewProps')
