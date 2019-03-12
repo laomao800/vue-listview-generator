@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.wrap">
     <div :class="$style.icon">
-      <ElTooltip :content="typeName" :enterable="false">
-        <SvgIcon :name="typeIcon"/>
+      <ElTooltip :content="iconTips" :enterable="false" placement="top">
+        <SvgIcon :name="iconName"/>
       </ElTooltip>
     </div>
     <ElTag v-if="label" :class="$style.label">{{ label }}</ElTag>
@@ -29,11 +29,11 @@ export default class FilterFieldPreview extends Vue {
   @Prop({ type: String, default: '' })
   public model!: FilterField['model']
 
-  get typeIcon() {
+  get iconName() {
     return filterFieldTypesMap[this.type as string].icon
   }
 
-  get typeName() {
+  get iconTips() {
     return filterFieldTypesMap[this.type as string].name
   }
 }

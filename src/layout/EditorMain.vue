@@ -22,6 +22,7 @@
       </div>
     </div>
     <SelectOptionsEditor/>
+    <EditorDialog/>
   </div>
 </template>
 

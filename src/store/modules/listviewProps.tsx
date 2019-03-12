@@ -207,26 +207,24 @@ const initialState: State = {
       data: {
         label: '折扣率',
         align: 'center',
-        formatter: (row: any) => {
-          return row.hasOwnProperty('discount') && row.discount.toFixed(2)
-        }
-      }
-    },
-    {
-      id: '26f109ae',
-      data: {
-        label: '是否启用',
-        align: 'center',
-        render: (prop: any) => {
-          // eslint-disable-next
-          if (prop.row.enable) {
-            return <div style="color:#67c23a">启用</div>
-          } else {
-            return <div style="color:#f56c6c">禁用</div>
-          }
-        }
+        formatter: (row: any) =>
+          row.hasOwnProperty('discount') && row.discount.toFixed(2)
       }
     }
+    // {
+    //   id: '26f109ae',
+    //   data: {
+    //     label: '是否启用',
+    //     align: 'center',
+    //     render: (prop: any) => {
+    //       if (prop.row.enable) {
+    //         return <div style="color:#67c23a">启用</div>
+    //       } else {
+    //         return <div style="color:#f56c6c">禁用</div>
+    //       }
+    //     }
+    //   }
+    // }
   ]
 }
 
@@ -268,6 +266,8 @@ const actions: ActionTree<State, any> = {
   updateField({ commit }, payload) {
     commit('UPDATE_FIELD', payload)
   },
+
+  // FilterButtons
   addFilterButton({ commit }, { data, insertAfter } = {}) {
     commit('LIST_PROP_ADD', {
       stateProp: 'filterButtons',
@@ -288,6 +288,8 @@ const actions: ActionTree<State, any> = {
       deleteIndex
     })
   },
+
+  // FieldFields
   addFilterField({ commit }, { data, insertAfter } = {}) {
     commit('LIST_PROP_ADD', {
       stateProp: 'filterFields',
@@ -309,6 +311,31 @@ const actions: ActionTree<State, any> = {
   deleteFilterField({ commit }, deleteIndex: number) {
     commit('LIST_PROP_DELETE', {
       stateProp: 'filterFields',
+      deleteIndex
+    })
+  },
+
+  // TableColumns
+  addTableColumn({ commit }, { data, insertAfter } = {}) {
+    commit('LIST_PROP_ADD', {
+      stateProp: 'tableColumns',
+      data: data || {
+        label: '列名',
+        prop: 'property_name'
+      },
+      insertAfter
+    })
+  },
+  updateTableColumn({ commit }, { updateIndex, data } = {}) {
+    commit('LIST_PROP_UPDATE', {
+      stateProp: 'tableColumns',
+      data,
+      updateIndex
+    })
+  },
+  deleteTableColumn({ commit }, deleteIndex: number) {
+    commit('LIST_PROP_DELETE', {
+      stateProp: 'tableColumns',
       deleteIndex
     })
   }

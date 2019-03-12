@@ -113,12 +113,19 @@ export default class FieldItemBasic extends Vue {
     background-color: @color-gray-light-3;
   }
 
+  &--static .title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+  }
+
   .icon {
     margin-right: 8px;
     font-size: 16px;
   }
   .title {
     flex: 1 1 auto;
+    white-space: nowrap;
   }
   .right {
     flex-shrink: 0;

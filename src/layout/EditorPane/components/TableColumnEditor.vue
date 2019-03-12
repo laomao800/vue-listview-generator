@@ -1,5 +1,5 @@
 <template>
-  <ElPopover v-model="visible" placement="bottom" width="240" trigger="click" transition>
+  <ElPopover v-model="visible" placement="right" width="240" trigger="click" transition>
     <slot slot="reference">
       <span :class="$style.more">
         <SvgIcon name="more"/>
@@ -18,12 +18,6 @@
         <template slot="append">px</template>
       </FieldInput>
 
-      <FieldDivider/>
-
-      <FieldInput v-model="internalConfig.prop" title="内容属性名" placeholder="内容属性名" maxlength="16"/>
-
-      <!-- <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/> -->
-      <!-- <FieldIcons title="按钮图标" v-model="internalConfig.icon"/> -->
       <FieldItemBasic title="对齐" static>
         <ElRadioGroup v-model="internalConfig.align" size="mini">
           <ElRadioButton :label="undefined">
@@ -40,22 +34,40 @@
 
       <FieldItemBasic title="固定列" static>
         <ElRadioGroup v-model="internalConfig.fixed" size="mini">
-          <ElRadioButton :label="undefined">无</ElRadioButton>
-          <ElRadioButton :label="true">左</ElRadioButton>
-          <ElRadioButton label="right">右</ElRadioButton>
+          <ElRadioButton title="左对齐" :label="undefined">无</ElRadioButton>
+          <ElRadioButton title="居中对齐" :label="true">左</ElRadioButton>
+          <ElRadioButton title="右对齐" label="right">右</ElRadioButton>
         </ElRadioGroup>
       </FieldItemBasic>
 
-      <FieldItemBasic icon="gear" title="自定义文本格式">
-        <span style="font-size:12px;color:#009EF7;">清除</span>
-      </FieldItemBasic>
+      <template v-if="!useJsx">
+        <FieldDivider/>
 
+        <FieldInput
+          v-model="internalConfig.prop"
+          title="内容属性名"
+          placeholder="内容属性名"
+          maxlength="16"
+          style="margin-bottom:4px;"
+        />
+
+        <FieldItemBasic icon="gear" title="内容格式化" @click.native="openFormatterEditor">
+          <span
+            v-if="internalConfig.formatter"
+            style="font-size:12px;color:#009EF7;"
+            @click.stop="deleteFormatter(internalConfig)"
+          >清除</span>
+        </FieldItemBasic>
+      </template>
+
+      <!--
       <FieldDivider/>
 
-      <FieldItemBasic icon="react" title="使用 JSX 内容" @click.native="useJsx = !useJsx">
+      <FieldItemBasic icon="code" title="使用 JSX 内容" @click.native="useJsx = !useJsx">
         <ElSwitch :value="useJsx" size="mini"/>
       </FieldItemBasic>
-
+      <FieldItemBasic v-if="useJsx" icon="function" title="编辑内容" @click.native="openJsxEditor"/>
+      -->
       <FieldDivider/>
 
       <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
@@ -64,34 +76,48 @@
   </ElPopover>
 </template>
 
-<script lang="ts">
+<script lang="tsx">
 import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
-import { FilterButton } from '@laomao800/vue-listview'
+import { TableColumn } from '@laomao800/vue-listview'
+
+const renderFuncString =
+  'function render(scope) {\n' +
+  '  // console.log(scope.row);\n' +
+  '  // console.log(scope.column);\n' +
+  '  // console.log(scope.$index);\n' +
+  '  // return <strong>{scope.row.name}</strong>\n' +
+  '}'
+
+const formatterFuncString =
+  'function formatter(row, column, cellValue, index) {\n' +
+  '  // 可进行简单的文本格式处理后返回，如：\n' +
+  '  // return row.discount.toFixed(2)\n' +
+  '}'
 
 @Component
 export default class TableColumnEditor extends Vue {
   @Prop({ type: Object, default: () => ({}) })
-  public config!: FilterButton
+  public config!: TableColumn
 
   @Prop({ type: Function, default: () => {} })
   public handleDelete!: () => void
 
   public $refs: any
   public visible: boolean = false
-  public internalConfig: FilterButton = {}
+  public internalConfig: TableColumn = {}
   public useJsx = false
 
   @Watch('config', { immediate: true })
-  configChanged(newVal: FilterButton) {
+  configChanged(newVal: TableColumn) {
     if (!_.isEqual(newVal, this.internalConfig)) {
       this.internalConfig = _.cloneDeep(newVal)
     }
   }
 
   @Watch('internalConfig', { deep: true })
-  internalConfigChanged(newVal: FilterButton) {
+  internalConfigChanged(newVal: TableColumn) {
     if (!_.isEqual(newVal, this.config)) {
       this.syncConfig()
     }
@@ -119,6 +145,58 @@ export default class TableColumnEditor extends Vue {
   show() {
     this.visible = true
   }
+
+  async deleteFormatter() {
+    try {
+      await this.$confirm('确认清除格式化方法？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      this.$delete(this.internalConfig, 'formatter')
+    } catch (e) {}
+  }
+
+  openFormatterEditor() {
+    const funcString = _.isFunction(this.internalConfig.formatter)
+      ? this.internalConfig.formatter.toString()
+      : formatterFuncString
+    this.$store.dispatch('editorDialog/show', {
+      data: funcString,
+      title: 'formatter()',
+      onSuccess: (done: () => void, editorContent: string) => {
+        try {
+          // eslint-disable-next-line no-new-func
+          const func = new Function(`return ${editorContent}`)()
+          if (_.isFunction(func)) {
+            this.$set(this.internalConfig, 'formatter', func)
+            done()
+          } else {
+            this.$message.error('内容必须为合法 function')
+          }
+        } catch (e) {
+          this.$message.error(e.toString())
+        }
+      }
+    })
+  }
+
+  // TODO: function JSX parse
+  // openJsxEditor() {
+  //   const funcString = _.isFunction(this.internalConfig.render)
+  //     ? this.internalConfig.render.toString()
+  //     : renderFuncString
+  //   this.$store.dispatch('editorDialog/show', {
+  //     data: funcString,
+  //     title: 'render()',
+  //     onSuccess: (done: () => void, editorContent: string) => {
+  //       // eslint-disable-next-line no-new-func
+  //       const newFunc = new Function(`return ${editorContent}`)()
+  //       this.internalConfig.render = newFunc
+  //       done()
+  //     }
+  //   })
+  // }
 }
 </script>
 

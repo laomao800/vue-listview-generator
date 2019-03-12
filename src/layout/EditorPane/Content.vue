@@ -6,7 +6,6 @@
         <Draggable v-model="tableColumns" :options="{ handle: '.drag-handle', animation: 100 }">
           <DragItem v-for="(item, index) in tableColumns" :key="item.id">
             <TableColumnPreview v-bind="item.data"/>
-            {{ item.data }}
             <TableColumnEditor
               ref="itemEditors"
               slot="right"
@@ -24,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { TableColumn } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps'

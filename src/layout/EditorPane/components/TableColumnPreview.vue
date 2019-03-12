@@ -1,7 +1,9 @@
 <template>
   <div :class="$style.wrap">
     <div :class="$style.icon">
-      <SvgIcon :name="iconName"/>
+      <ElTooltip :content="iconTips" :enterable="false" placement="top">
+        <SvgIcon :name="iconName"/>
+      </ElTooltip>
     </div>
     <ElTag v-if="label" :class="$style.label">{{ label }}</ElTag>
     <ElTag v-if="prop" :class="$style.prop" type="warning">{{ prop }}</ElTag>
@@ -36,6 +38,16 @@ export default class TableColumnPreview extends Vue {
       return 'terminal'
     } else {
       return 'column'
+    }
+  }
+
+  get iconTips() {
+    if (this.render) {
+      return 'JSX'
+    } else if (this.formatter) {
+      return '自定义格式化'
+    } else {
+      return '表格列'
     }
   }
 }

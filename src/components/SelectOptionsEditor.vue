@@ -63,7 +63,7 @@
         </ElTabPane>
         <ElTabPane label="编辑选项 JSON" name="json">
           <div class="options-editor-json">
-            <AceEditor ref="jsonEditor" :content="optionJSONString" height="300" lang="json"/>
+            <AceEditor ref="aceEditor" :content="optionJSONString" height="300" lang="json"/>
           </div>
         </ElTabPane>
       </ElTabs>
@@ -78,7 +78,7 @@
 <script lang="ts">
 import _ from 'lodash'
 import json5 from 'json5'
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State, namespace } from 'vuex-class'
 import { formatJson } from '@/utils'
 
@@ -174,7 +174,7 @@ export default class SelectOptionsEditor extends Vue {
 
   jsonToOptions(): OptionType[] | null {
     try {
-      const parsedData = json5.parse(this.$refs.jsonEditor.getValue())
+      const parsedData = json5.parse(this.$refs.aceEditor.getValue())
       if (validateOptionsData(parsedData)) {
         return parsedData
       } else {
@@ -261,11 +261,5 @@ export default class SelectOptionsEditor extends Vue {
   padding-left: 50px;
   font-size: 12px;
   line-height: 30px;
-}
-.item-label,
-.item-value {
-  display: inline-block;
-  width: 50%;
-  padding: 0 10px;
 }
 </style>

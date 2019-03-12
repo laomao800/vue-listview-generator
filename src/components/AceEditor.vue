@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ height: editorHeight, width: editorWidth }"/>
+  <div :style="{ height: editorHeight, width: editorWidth, fontSize: '14px' }"/>
 </template>
 
 <script lang="ts">
@@ -9,20 +9,25 @@ import 'brace/mode/javascript'
 import 'brace/mode/json'
 import 'brace/mode/jsx'
 import 'brace/theme/monokai'
-import { parseSizeWithUnit } from '@laomao800/vue-listview/src/utils/utils'
+import { parseSizeWithUnit } from '@/utils'
 
 @Component
 export default class AceEditor extends Vue {
   @Prop({ type: String, default: '' })
   public content!: string
+
   @Prop({ type: String, default: 'javascript' })
   public lang!: string
+
   @Prop({ type: Boolean, default: false })
   public readonly!: boolean
-  @Prop({ type: String, default: '300px' })
-  public height!: string
+
+  @Prop({ type: [String, Number], default: 300 })
+  public height!: number
+
   @Prop({ type: String, default: '100%' })
   public width!: string
+
   @Prop({ type: Object, default: () => ({}) })
   public options!: object
 

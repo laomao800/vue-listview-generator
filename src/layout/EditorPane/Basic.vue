@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { ListviewProps } from '@laomao800/vue-listview'
 import { VModelState } from '@/store/helper'
 
