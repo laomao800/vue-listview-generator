@@ -16,7 +16,7 @@
     <div style="margin:-12px;padding:6px 0;">
       <FieldFilterFieldType v-model="curType"/>
 
-      <FieldDivider/>
+      <FieldDivider title="公共属性"/>
 
       <FieldInput
         ref="focusInput"
@@ -41,7 +41,7 @@
         <template slot="append">px</template>
       </FieldInput>
 
-      <FieldDivider v-if="curType !== 'label'"/>
+      <FieldDivider v-if="curType !== 'label'" title="字段配置"/>
 
       <template v-if="curType === 'text'">
         <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
@@ -96,7 +96,6 @@
 
         <FieldInput
           v-model="internalConfig.componentProps.format"
-          style="margin-top:6px;"
           block
           :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
           title="显示格式"
@@ -148,7 +147,6 @@
         </template>
         <FieldInput
           v-model="internalConfig.componentProps.valueFormat"
-          style="margin-top:6px;"
           title="提交格式"
           placeholder="yyyy-MM-dd HH:mm:ss"
           block
@@ -156,7 +154,7 @@
         />
       </template>
 
-      <FieldDivider/>
+      <FieldDivider title="操作"/>
 
       <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
       <FieldItemBasic icon="delete" title="删除" @click.native="handleDelete"/>

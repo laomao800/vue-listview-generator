@@ -20,7 +20,7 @@ import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
 import SelectOptionsEditor from '@/components/SelectOptionsEditor.vue'
-import EditorDialog from '@/components/EditorDialog.vue'
+import AceEditorDialog from '@/components/AceEditorDialog.vue'
 
 // Field config components
 import FieldDivider from '@/components/Fields/FieldDivider.vue'
@@ -44,7 +44,7 @@ Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
 Vue.component('SelectOptionsEditor', SelectOptionsEditor)
-Vue.component('EditorDialog', EditorDialog)
+Vue.component('AceEditorDialog', AceEditorDialog)
 Vue.component('FieldDivider', FieldDivider)
 Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)

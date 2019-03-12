@@ -1,9 +1,9 @@
 <template>
-  <div class="field-item editor-field-input" :class="{'editor-field-input--inline': !block}">
-    <div class="editor-field-input__title">
+  <div class="field-item field-input" :class="{'field-input--inline': !block}">
+    <div class="field-input__title">
       <slot name="title">{{ title }}</slot>
     </div>
-    <div class="editor-field-input__content" :style="{ maxWidth: inputMaxWidth }">
+    <div class="field-input__content" :style="{ maxWidth: inputMaxWidth }">
       <ElInput ref="input" v-model="internalValue" v-bind="$attrs" size="mini">
         <slot slot="prefix" name="prefix"/>
         <slot slot="suffix" name="suffix"/>
@@ -48,14 +48,16 @@ export default class FieldInput extends Vue {
 </script>
 
 <style lang="less" scoped>
-.editor-field-input {
+.field-input {
   display: block;
   min-height: 28px;
   padding: 0 12px;
   margin-bottom: 6px;
   line-height: 120%;
+  user-select: none;
 
   &__title {
+    padding-bottom: 2px;
     font-size: 12px;
     font-weight: 500;
     color: #888;
@@ -63,8 +65,6 @@ export default class FieldInput extends Vue {
   }
 
   &__content {
-    padding: 2px 0;
-
     > * {
       vertical-align: top;
     }
@@ -86,14 +86,18 @@ export default class FieldInput extends Vue {
     margin-left: auto;
   }
 
-  &--inline + & {
-    margin-top: 6px;
+  &--inline ~ & {
+    margin-top: 8px;
   }
 }
 </style>
 
 <style lang="less">
-.editor-field-input {
+.field-input {
+  &:nth-child(1) {
+    margin-top: 4px;
+  }
+
   .el-input__inner {
     padding: 0 10px;
   }

@@ -12,7 +12,7 @@ export interface State {
 const initialState: State = {
   visible: false,
   title: '',
-  lang: 'jsx',
+  lang: 'javascript',
   data: ''
 }
 

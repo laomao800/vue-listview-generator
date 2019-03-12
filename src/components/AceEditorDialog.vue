@@ -16,7 +16,7 @@ import { State, namespace } from 'vuex-class'
 const EditorDialogModule = namespace('editorDialog')
 
 @Component
-export default class EditorDialog extends Vue {
+export default class AceEditorDialog extends Vue {
   @EditorDialogModule.State('visible')
   public visible!: boolean
 
@@ -39,9 +39,11 @@ export default class EditorDialog extends Vue {
   public editorContent: any = ''
 
   @Watch('visible')
-  visibleChanged(val: boolean) {
+  async visibleChanged(val: boolean) {
     if (val) {
       this.updateContent()
+      await this.$nextTick()
+      this.$refs.aceEditor.editor.focus()
     } else {
       // 等待关闭动画播放后再重置数据
       setTimeout(() => {
@@ -62,7 +64,7 @@ export default class EditorDialog extends Vue {
   }
 
   emitData() {
-    const editorContent = this.$refs.aceEditor.getValue()
+    const editorContent = this.$refs.aceEditor.editor.getValue()
     this.$store.dispatch('editorDialog/emit', editorContent)
   }
 }

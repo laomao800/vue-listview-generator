@@ -22,7 +22,7 @@
       </div>
     </div>
     <SelectOptionsEditor/>
-    <EditorDialog/>
+    <AceEditorDialog/>
   </div>
 </template>
 
@@ -44,7 +44,7 @@ import Content from '@/layout/EditorPane/Content.vue'
   }
 })
 export default class EditorMain extends Vue {
-  public activeTab = 'content'
+  public activeTab = 'dataSource'
 }
 </script>
 

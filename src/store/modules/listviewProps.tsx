@@ -211,20 +211,6 @@ const initialState: State = {
           row.hasOwnProperty('discount') && row.discount.toFixed(2)
       }
     }
-    // {
-    //   id: '26f109ae',
-    //   data: {
-    //     label: '是否启用',
-    //     align: 'center',
-    //     render: (prop: any) => {
-    //       if (prop.row.enable) {
-    //         return <div style="color:#67c23a">启用</div>
-    //       } else {
-    //         return <div style="color:#f56c6c">禁用</div>
-    //       }
-    //     }
-    //   }
-    // }
   ]
 }
 

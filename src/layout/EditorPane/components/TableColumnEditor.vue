@@ -1,5 +1,12 @@
 <template>
-  <ElPopover v-model="visible" placement="right" width="240" trigger="click" transition>
+  <ElPopover
+    v-model="visible"
+    :offset="-10"
+    placement="right-start"
+    width="240"
+    trigger="click"
+    transition
+  >
     <slot slot="reference">
       <span :class="$style.more">
         <SvgIcon name="more"/>
@@ -18,7 +25,7 @@
         <template slot="append">px</template>
       </FieldInput>
 
-      <FieldItemBasic title="对齐" static>
+      <FieldItemBasic title="对齐" static style="margin-top:4px">
         <ElRadioGroup v-model="internalConfig.align" size="mini">
           <ElRadioButton :label="undefined">
             <SvgIcon name="align-left"/>
@@ -48,7 +55,7 @@
           title="内容属性名"
           placeholder="内容属性名"
           maxlength="16"
-          style="margin-bottom:4px;"
+          style="margin-bottom:8px"
         />
 
         <FieldItemBasic icon="gear" title="内容格式化" @click.native="openFormatterEditor">

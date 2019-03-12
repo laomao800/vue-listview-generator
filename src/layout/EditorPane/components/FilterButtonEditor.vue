@@ -1,5 +1,12 @@
 <template>
-  <ElPopover v-model="visible" placement="bottom" width="200" trigger="click" transition>
+  <ElPopover
+    v-model="visible"
+    :offset="-10"
+    placement="right-start"
+    width="200"
+    trigger="click"
+    transition
+  >
     <slot slot="reference">
       <span :class="$style.more">
         <SvgIcon name="more"/>
@@ -14,7 +21,7 @@
         maxlength="16"
       />
 
-      <FieldDivider/>
+      <FieldDivider title="按钮样式"/>
 
       <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
       <FieldIcons title="按钮图标" v-model="internalConfig.icon"/>
@@ -25,7 +32,7 @@
         <ElSwitch :value="internalConfig.plain" size="mini"/>
       </FieldItemBasic>
 
-      <FieldDivider/>
+      <FieldDivider title="操作"/>
 
       <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
       <FieldItemBasic icon="delete" title="删除" @click.native="handleDelete"/>

@@ -69,6 +69,7 @@ export default class FieldItemBasic extends Vue {
     return this.isPopField ? (
       // @ts-ignore
       <ElPopover
+        class="field-item--pop"
         ref="popover"
         placement="right"
         trigger="hover"
@@ -144,16 +145,19 @@ export default class FieldItemBasic extends Vue {
 </style>
 
 <style lang="less">
+.field-item--pop {
+  display: flex;
+}
 .field-item {
   .el-switch {
     transform: scale(0.8);
     transform-origin: 100% 50%;
   }
   .el-radio-group {
-    padding: 5px 0;
+    padding: 4px 0;
   }
   .el-radio-button__inner {
-    padding: 5px 10px;
+    padding: 5px 8px;
   }
 }
 </style>
