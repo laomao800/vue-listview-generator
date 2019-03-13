@@ -6,9 +6,6 @@ export default class PopEditorBase extends Vue {
   @Prop({ type: Object, default: () => ({}) })
   public data!: any
 
-  @Prop({ type: Function, default: () => {} })
-  public handleDelete!: () => void
-
   public $refs: any
   public visible: boolean = false
   public editingData: any = {}
@@ -43,17 +40,21 @@ export default class PopEditorBase extends Vue {
     }
   }
 
+  show() {
+    this.visible = true
+  }
+
   @debounce
   syncData() {
     this.$emit('change', _.cloneDeep(this.editingData))
   }
 
-  handleCopy() {
+  emitCopy() {
     this.$emit('copy', _.cloneDeep(this.editingData))
     this.visible = false
   }
 
-  show() {
-    this.visible = true
+  emitDelete() {
+    this.$emit('delete')
   }
 }

@@ -156,8 +156,8 @@
 
       <FieldDivider title="操作"/>
 
-      <FieldItemBasic icon="copy" title="复制" @click.native="handleCopy"/>
-      <FieldItemBasic icon="delete" title="删除" @click.native="handleDelete"/>
+      <FieldItemBasic icon="copy" title="复制" @click.native="emitCopy"/>
+      <FieldItemBasic icon="delete" title="删除" @click.native="emitDelete"/>
     </div>
   </ElPopover>
 </template>

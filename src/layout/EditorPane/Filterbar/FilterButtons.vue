@@ -8,7 +8,7 @@
           ref="itemEditors"
           slot="right"
           :data="item.data"
-          :handle-delete="() => deleteItem(index)"
+          @delete="() => deleteItem(index)"
           @copy="newData => copyItem(newData, index)"
           @change="newVal => updateItem(index, newVal)"
         />
