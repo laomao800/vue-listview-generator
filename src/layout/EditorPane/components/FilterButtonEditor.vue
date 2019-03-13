@@ -15,7 +15,7 @@
     <div style="margin:-12px;padding:6px 0;">
       <FieldInput
         ref="focusInput"
-        v-model="internalConfig.text"
+        v-model="editingData.text"
         title="按钮文本"
         placeholder="按钮文本"
         maxlength="16"
@@ -23,13 +23,10 @@
 
       <FieldDivider title="按钮样式"/>
 
-      <FieldButtonType v-model="internalConfig.type" :plain="internalConfig.plain"/>
-      <FieldIcons title="按钮图标" v-model="internalConfig.icon"/>
-      <FieldItemBasic
-        title="线框型按钮"
-        @click.native="$set(internalConfig, 'plain', !internalConfig.plain)"
-      >
-        <ElSwitch :value="internalConfig.plain" size="mini"/>
+      <FieldButtonType v-model="editingData.type" :plain="editingData.plain"/>
+      <FieldIcons title="按钮图标" v-model="editingData.icon"/>
+      <FieldItemBasic title="线框型按钮" @click.native="$set(editingData, 'plain', !editingData.plain)">
+        <ElSwitch :value="editingData.plain" size="mini"/>
       </FieldItemBasic>
 
       <FieldDivider title="操作"/>
@@ -41,60 +38,11 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { debounce } from 'decko'
-import { FilterButton } from '@laomao800/vue-listview'
+import { Component } from 'vue-property-decorator'
+import PopEditorBase from '../PopEditorBase'
 
 @Component
-export default class FilterButtonEditor extends Vue {
-  @Prop({ type: Object, default: () => ({}) })
-  public config!: FilterButton
-
-  @Prop({ type: Function, default: () => {} })
-  public handleDelete!: () => void
-
-  public $refs: any
-  public visible: boolean = false
-  public internalConfig: FilterButton = {}
-
-  @Watch('config', { immediate: true })
-  configChanged(newVal: FilterButton) {
-    if (!_.isEqual(newVal, this.internalConfig)) {
-      this.internalConfig = _.cloneDeep(newVal)
-    }
-  }
-
-  @Watch('internalConfig', { deep: true })
-  internalConfigChanged(newVal: FilterButton) {
-    if (!_.isEqual(newVal, this.config)) {
-      this.syncConfig()
-    }
-  }
-
-  @Watch('visible')
-  async visibleChanged(newVal: boolean) {
-    if (newVal) {
-      await this.$nextTick()
-      this.$refs.focusInput.focus()
-      this.$refs.focusInput.$refs.input.select()
-    }
-  }
-
-  @debounce
-  syncConfig() {
-    this.$emit('change', _.cloneDeep(this.internalConfig))
-  }
-
-  handleCopy() {
-    this.$emit('copy', _.cloneDeep(this.internalConfig))
-    this.visible = false
-  }
-
-  show() {
-    this.visible = true
-  }
-}
+export default class FilterButtonEditor extends PopEditorBase {}
 </script>
 
 <style lang="less" module>

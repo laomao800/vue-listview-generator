@@ -10,7 +10,7 @@ interface UpdateType {
   data: any
 }
 
-export default class EditableListBasic extends Vue {
+export default class EditableListBase extends Vue {
   public createHandler(payload?: { data: any; insertAfter?: number }) {
     console.warn('createHandler 未实现')
   }

@@ -7,8 +7,7 @@
         <FilterFieldEditor
           ref="itemEditors"
           slot="right"
-          :field-type="item.data.type"
-          :config="item.data"
+          :data="item.data"
           :handle-delete="() => deleteItem(index)"
           @copy="newData => copyItem(newData, index)"
           @change="newVal => updateItem(index, newVal)"
@@ -26,7 +25,7 @@ import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
-import EditableListBase from '@/layout/EditorPane/EditableListBase'
+import EditableListBase from '../EditableListBase'
 import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
 import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
 

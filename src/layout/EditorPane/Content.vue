@@ -9,7 +9,7 @@
             <TableColumnEditor
               ref="itemEditors"
               slot="right"
-              :config="item.data"
+              :data="item.data"
               :handle-delete="() => deleteItem(index)"
               @copy="newData => copyItem(newData, index)"
               @change="newVal => updateItem(index, newVal)"
@@ -28,7 +28,7 @@ import { namespace } from 'vuex-class'
 import { TableColumn } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
-import EditableListBase from '@/layout/EditorPane/EditableListBase'
+import EditableListBase from './EditableListBase'
 import TableColumnPreview from '@/layout/EditorPane/components/TableColumnPreview.vue'
 import TableColumnEditor from '@/layout/EditorPane/components/TableColumnEditor.vue'
 

@@ -3,7 +3,7 @@
     <PaneTitle level="1" title="顶部通栏配置"/>
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="列表标题" subtitle="headerTitle" inline/>
+      <PaneTitle slot="label" level="2" title="页面标题" subtitle="headerTitle" inline/>
       <ElInput v-model="headerTitle"/>
       <TipsBlock>显示于顶部面包屑左侧的列表标题</TipsBlock>
     </ElFormItem>

@@ -15,18 +15,18 @@
     <div style="margin:-12px;padding:6px 0;">
       <FieldInput
         ref="focusInput"
-        v-model="internalConfig.label"
+        v-model="editingData.label"
         title="列头文本"
         placeholder="列头文本"
         maxlength="16"
       />
 
-      <FieldInput v-model.number="internalConfig.width" title="列宽" type="number" clearable>
+      <FieldInput v-model.number="editingData.width" title="列宽" type="number" clearable>
         <template slot="append">px</template>
       </FieldInput>
 
       <FieldItemBasic title="对齐" static style="margin-top:4px">
-        <ElRadioGroup v-model="internalConfig.align" size="mini">
+        <ElRadioGroup v-model="editingData.align" size="mini">
           <ElRadioButton :label="undefined">
             <SvgIcon name="align-left"/>
           </ElRadioButton>
@@ -40,7 +40,7 @@
       </FieldItemBasic>
 
       <FieldItemBasic title="固定列" static>
-        <ElRadioGroup v-model="internalConfig.fixed" size="mini">
+        <ElRadioGroup v-model="editingData.fixed" size="mini">
           <ElRadioButton title="左对齐" :label="undefined">无</ElRadioButton>
           <ElRadioButton title="居中对齐" :label="true">左</ElRadioButton>
           <ElRadioButton title="右对齐" label="right">右</ElRadioButton>
@@ -51,7 +51,7 @@
         <FieldDivider/>
 
         <FieldInput
-          v-model="internalConfig.prop"
+          v-model="editingData.prop"
           title="内容属性名"
           placeholder="内容属性名"
           maxlength="16"
@@ -60,9 +60,9 @@
 
         <FieldItemBasic icon="gear" title="内容格式化" @click.native="openFormatterEditor">
           <span
-            v-if="internalConfig.formatter"
+            v-if="editingData.formatter"
             style="font-size:12px;color:#009EF7;"
-            @click.stop="deleteFormatter(internalConfig)"
+            @click.stop="deleteFormatter(editingData)"
           >清除</span>
         </FieldItemBasic>
       </template>
@@ -85,9 +85,8 @@
 
 <script lang="tsx">
 import _ from 'lodash'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { debounce } from 'decko'
-import { TableColumn } from '@laomao800/vue-listview'
+import { Component } from 'vue-property-decorator'
+import PopEditorBase from '../PopEditorBase'
 
 const renderFuncString =
   'function render(scope) {\n' +
@@ -104,54 +103,8 @@ const formatterFuncString =
   '}'
 
 @Component
-export default class TableColumnEditor extends Vue {
-  @Prop({ type: Object, default: () => ({}) })
-  public config!: TableColumn
-
-  @Prop({ type: Function, default: () => {} })
-  public handleDelete!: () => void
-
-  public $refs: any
-  public visible: boolean = false
-  public internalConfig: TableColumn = {}
+export default class TableColumnEditor extends PopEditorBase {
   public useJsx = false
-
-  @Watch('config', { immediate: true })
-  configChanged(newVal: TableColumn) {
-    if (!_.isEqual(newVal, this.internalConfig)) {
-      this.internalConfig = _.cloneDeep(newVal)
-    }
-  }
-
-  @Watch('internalConfig', { deep: true })
-  internalConfigChanged(newVal: TableColumn) {
-    if (!_.isEqual(newVal, this.config)) {
-      this.syncConfig()
-    }
-  }
-
-  @Watch('visible')
-  async visibleChanged(newVal: boolean) {
-    if (newVal) {
-      await this.$nextTick()
-      this.$refs.focusInput.focus()
-      this.$refs.focusInput.$refs.input.select()
-    }
-  }
-
-  @debounce
-  syncConfig() {
-    this.$emit('change', _.cloneDeep(this.internalConfig))
-  }
-
-  handleCopy() {
-    this.$emit('copy', _.cloneDeep(this.internalConfig))
-    this.visible = false
-  }
-
-  show() {
-    this.visible = true
-  }
 
   async deleteFormatter() {
     try {
@@ -160,13 +113,13 @@ export default class TableColumnEditor extends Vue {
         cancelButtonText: '取消',
         type: 'warning'
       })
-      this.$delete(this.internalConfig, 'formatter')
+      this.$delete(this.editingData, 'formatter')
     } catch (e) {}
   }
 
   openFormatterEditor() {
-    const funcString = _.isFunction(this.internalConfig.formatter)
-      ? this.internalConfig.formatter.toString()
+    const funcString = _.isFunction(this.editingData.formatter)
+      ? this.editingData.formatter.toString()
       : formatterFuncString
     this.$store.dispatch('editorDialog/show', {
       data: funcString,
@@ -176,7 +129,7 @@ export default class TableColumnEditor extends Vue {
           // eslint-disable-next-line no-new-func
           const func = new Function(`return ${editorContent}`)()
           if (_.isFunction(func)) {
-            this.$set(this.internalConfig, 'formatter', func)
+            this.$set(this.editingData, 'formatter', func)
             done()
           } else {
             this.$message.error('内容必须为合法 function')
@@ -190,8 +143,8 @@ export default class TableColumnEditor extends Vue {
 
   // TODO: function JSX parse
   // openJsxEditor() {
-  //   const funcString = _.isFunction(this.internalConfig.render)
-  //     ? this.internalConfig.render.toString()
+  //   const funcString = _.isFunction(this.editingData.render)
+  //     ? this.editingData.render.toString()
   //     : renderFuncString
   //   this.$store.dispatch('editorDialog/show', {
   //     data: funcString,
@@ -199,7 +152,7 @@ export default class TableColumnEditor extends Vue {
   //     onSuccess: (done: () => void, editorContent: string) => {
   //       // eslint-disable-next-line no-new-func
   //       const newFunc = new Function(`return ${editorContent}`)()
-  //       this.internalConfig.render = newFunc
+  //       this.editingData.render = newFunc
   //       done()
   //     }
   //   })

@@ -20,19 +20,19 @@
 
       <FieldInput
         ref="focusInput"
-        v-model="internalConfig.label"
+        v-model="editingData.label"
         title="文本标签"
         placeholder="文本标签"
         maxlength="16"
       />
       <FieldInput
-        v-if="internalConfig.type !== 'label'"
-        v-model="internalConfig.model"
+        v-if="editingData.type !== 'label'"
+        v-model="modelName"
         title="参数名"
         placeholder="参数名"
       />
       <FieldInput
-        v-model.number="internalConfig.width"
+        v-model.number="editingData.width"
         :placeholder="widthPlaceholder"
         title="宽度"
         type="number"
@@ -44,26 +44,26 @@
       <FieldDivider v-if="curType !== 'label'" title="字段配置"/>
 
       <template v-if="curType === 'text'">
-        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
-        <FieldIcons title="后置图标" v-model="internalConfig.componentProps.suffixIcon"/>
+        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+        <FieldIcons title="后置图标" v-model="editingData.componentProps.suffixIcon"/>
       </template>
 
       <template v-else-if="curType === 'number'">
         <FieldInput
           title="最小值"
-          v-model.number="internalConfig.componentProps.min"
+          v-model.number="editingData.componentProps.min"
           type="number"
           input-width="70"
         />
         <FieldInput
           title="最大值"
-          v-model.number="internalConfig.componentProps.max"
+          v-model.number="editingData.componentProps.max"
           type="number"
           input-width="70"
         />
         <FieldInput
           title="控制器步进值"
-          v-model.number="internalConfig.componentProps.step"
+          v-model.number="editingData.componentProps.step"
           type="number"
           placeholder="1"
           input-width="70"
@@ -73,17 +73,17 @@
       <!-- 下拉选择类 -->
       <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
         <FieldItemBasic icon="gear" title="配置选项" @click.native="editSelectOptions">
-          <span style="color:#999;">({{ internalConfig.options.length }}项)</span>
+          <span style="color:#999;">({{ editingData.options.length }}项)</span>
         </FieldItemBasic>
       </template>
 
       <!-- 日期类 -->
       <template v-else-if="['date', 'dateRange', 'dateTime', 'dateTimeRange'].includes(curType)">
         <template v-if="curType === 'date'">
-          <FieldDateType v-model="internalConfig.componentProps.type"/>
+          <FieldDateType v-model="editingData.componentProps.type"/>
         </template>
 
-        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
+        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
 
         <template v-if="curType === 'dateTime'">
           <!-- 无 -->
@@ -95,14 +95,14 @@
         </template>
 
         <FieldInput
-          v-model="internalConfig.componentProps.format"
+          v-model="editingData.componentProps.format"
           block
           :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
           title="显示格式"
           clearable
         />
         <FieldInput
-          v-model="internalConfig.componentProps.valueFormat"
+          v-model="editingData.componentProps.valueFormat"
           block
           :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
           title="提交格式"
@@ -112,20 +112,20 @@
 
       <!-- 时间类 -->
       <template v-else-if="['timeSelect', 'timePicker', 'timePickerRange'].includes(curType)">
-        <FieldIcons title="前置图标" v-model="internalConfig.componentProps.prefixIcon"/>
+        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
         <template v-if="curType === 'timeSelect'">
           <FieldInput
-            v-model="internalConfig.componentProps.pickerOptions.start"
+            v-model="editingData.componentProps.pickerOptions.start"
             title="开始时间"
             placeholder="09:00"
           />
           <FieldInput
-            v-model="internalConfig.componentProps.pickerOptions.end"
+            v-model="editingData.componentProps.pickerOptions.end"
             title="结束时间"
             placeholder="18:00"
           />
           <FieldInput
-            v-model="internalConfig.componentProps.pickerOptions.step"
+            v-model="editingData.componentProps.pickerOptions.step"
             title="选项跨度"
             placeholder="00:30"
           />
@@ -135,18 +135,18 @@
         </template>
         <template v-else-if="curType === 'timePickerRange'">
           <FieldInput
-            v-model="internalConfig.componentProps.startPlaceholder"
+            v-model="editingData.componentProps.startPlaceholder"
             title="开始占位内容"
             placeholder="开始时间"
           />
           <FieldInput
-            v-model="internalConfig.componentProps.endPlaceholder"
+            v-model="editingData.componentProps.endPlaceholder"
             title="结束占位内容"
             placeholder="结束时间"
           />
         </template>
         <FieldInput
-          v-model="internalConfig.componentProps.valueFormat"
+          v-model="editingData.componentProps.valueFormat"
           title="提交格式"
           placeholder="yyyy-MM-dd HH:mm:ss"
           block
@@ -164,132 +164,95 @@
 
 <script lang="ts">
 import _ from 'lodash'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { debounce } from 'decko'
+import { Component, Prop, Watch } from 'vue-property-decorator'
 import { FilterField } from '@laomao800/vue-listview'
 import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
+import PopEditorBase from '../PopEditorBase'
 
-interface AllFieldConfig {
+interface AllFieldData {
   [k: string]: FilterField
 }
 
-function getAllFieldConfig() {
-  const fieldConfig: AllFieldConfig = {}
-  for (const [typeName, typeConfig] of Object.entries(filterFieldTypesMap)) {
-    const config: FilterField = {
+function getAllFieldData() {
+  const fieldData: AllFieldData = {}
+  for (const [typeName, typeData] of Object.entries(filterFieldTypesMap)) {
+    const data: FilterField = {
       type: typeName as FilterField['type'],
-      label: typeConfig.name,
+      label: typeData.name,
       model: typeName,
       componentProps: typeName === 'timeSelect' ? { pickerOptions: {} } : {}
     }
     if (['select', 'multipleSelect', 'cascader'].includes(typeName)) {
-      config.options = []
+      data.options = []
     }
-    fieldConfig[typeName] = config
+    fieldData[typeName] = data
   }
-  return fieldConfig
+  return fieldData
+}
+
+const widthPresetMap: {
+  [k: string]: number
+} = {
+  text: 180,
+  number: 100,
+  select: 180,
+  multipleSelect: 180,
+  cascader: 180,
+  date: 180,
+  dateTime: 200,
+  dateRange: 240,
+  dateTimeRange: 360,
+  timeSelect: 120,
+  timePicker: 120,
+  timePickerRange: 200
 }
 
 @Component
-export default class FilterFieldEditor extends Vue {
-  @Prop({ type: String, required: true, default: 'text' })
-  public fieldType!: FilterField['type']
-
-  @Prop({ type: Object, default: () => ({}) })
-  public config!: FilterField
-
-  @Prop({ type: Function, default: () => {} })
-  public handleDelete!: () => void
-
-  public $refs: any
-  public visible: boolean = false
-  public allFieldConfig = getAllFieldConfig()
-  public curType = this.config.type!
-
-  get internalConfig() {
-    return this.allFieldConfig[this.curType]
-  }
+export default class FilterFieldEditor extends PopEditorBase {
+  public allFieldData = getAllFieldData()
+  public curType = this.data.type!
+  public modelName = ''
 
   get widthPlaceholder() {
-    return (
-      // @ts-ignore
-      {
-        text: 180,
-        number: 100,
-        select: 180,
-        multipleSelect: 180,
-        cascader: 180,
-        date: 180,
-        dateTime: 200,
-        dateRange: 240,
-        dateTimeRange: 360,
-        timeSelect: 120,
-        timePicker: 120,
-        timePickerRange: 200
-      }[this.curType] || ''
-    )
+    return widthPresetMap[this.curType] || ''
   }
 
-  @Watch('config', { immediate: true })
-  configChanged(newVal: FilterField) {
+  @Watch('data', { immediate: true })
+  dataChanged(newVal: FilterField) {
     this.curType = newVal.type!
-    if (!_.isEqual(newVal, this.internalConfig)) {
-      const target = this.allFieldConfig[this.curType!]
-      const newConfig = _.merge(target, _.cloneDeep(newVal))
-      this.allFieldConfig[this.curType!] = newConfig
+    this.modelName = this.modelName || newVal.model || ''
+    if (!_.isEqual(newVal, this.editingData)) {
+      const target = this.allFieldData[this.curType!]
+      const newData = _.merge(target, _.cloneDeep(newVal))
+      this.allFieldData[this.curType!] = newData
     }
   }
 
-  @Watch('internalConfig', { deep: true })
-  internalConfigChanged(newVal: FilterField, oldVal: FilterField) {
-    if (!_.isEqual(newVal, this.config)) {
-      // TODO: model 值只用内部 data 中转
-      newVal.model = oldVal.model
-      this.syncConfig()
-    }
-  }
-
-  @Watch('visible')
-  visibleChanged(newVal: boolean) {
-    if (newVal) {
-      this.focusFirstInput()
-    }
-  }
-
-  @Watch('fieldType')
-  typeChanged() {
+  @Watch('curType')
+  async typeChanged() {
+    this.editingData = this.allFieldData[this.curType]
     // 切换类型弹出内容可能有变化，需更新 popper 位置
-    this.$refs.popper.updatePopper()
-    this.focusFirstInput()
-  }
-
-  @debounce
-  syncConfig() {
-    this.$emit('change', _.cloneDeep(this.internalConfig))
-  }
-
-  async focusFirstInput() {
     await this.$nextTick()
-    this.$refs.focusInput.focus()
-    this.$refs.focusInput.$refs.input.select()
+    this.$refs.popper.updatePopper()
+    this.autoFocusInput()
   }
 
-  handleCopy() {
-    this.$emit('copy', _.cloneDeep(this.internalConfig))
-    this.visible = false
+  @Watch('modelName')
+  modelChanged(newVal: string) {
+    this.editingData.model = newVal
   }
 
-  show() {
-    this.visible = true
+  created() {
+    this.editingData = this.allFieldData[this.curType]
   }
 
   async editSelectOptions() {
     try {
       const newOptions = await this.$store.dispatch(
         'optionsEditor/edit',
-        this.internalConfig.options
+        this.editingData.options
       )
-      this.internalConfig.options = newOptions
+      this.editingData.options = newOptions
     } catch (e) {}
   }
 }
