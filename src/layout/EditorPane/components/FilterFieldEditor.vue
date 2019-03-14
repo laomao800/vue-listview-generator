@@ -1,165 +1,150 @@
 <template>
-  <ElPopover
-    ref="popper"
-    v-model="visible"
-    :offset="-10"
-    placement="right-start"
-    width="220"
-    trigger="click"
-    transition
-  >
-    <slot slot="reference">
-      <span :class="$style.more">
-        <SvgIcon name="more"/>
-      </span>
-    </slot>
-    <div style="margin:-12px;padding:6px 0;">
-      <FieldFilterFieldType v-model="curType"/>
+  <PopEditorWrap v-model="visible">
+    <FieldFilterFieldType v-model="curType"/>
 
-      <FieldDivider title="公共属性"/>
+    <FieldDivider title="公共属性"/>
 
+    <FieldInput
+      ref="focusInput"
+      v-model="editingData.label"
+      title="文本标签"
+      placeholder="文本标签"
+      maxlength="16"
+    />
+    <FieldInput
+      v-if="editingData.type !== 'label'"
+      v-model="modelName"
+      title="参数名"
+      placeholder="参数名"
+    />
+    <FieldInput
+      v-model.number="editingData.width"
+      :placeholder="widthPlaceholder"
+      title="宽度"
+      type="number"
+      clearable
+    >
+      <template slot="append">px</template>
+    </FieldInput>
+
+    <FieldDivider v-if="curType !== 'label'" title="字段配置"/>
+
+    <template v-if="curType === 'text'">
+      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+      <FieldIcons title="后置图标" v-model="editingData.componentProps.suffixIcon"/>
+    </template>
+
+    <template v-else-if="curType === 'number'">
       <FieldInput
-        ref="focusInput"
-        v-model="editingData.label"
-        title="文本标签"
-        placeholder="文本标签"
-        maxlength="16"
-      />
-      <FieldInput
-        v-if="editingData.type !== 'label'"
-        v-model="modelName"
-        title="参数名"
-        placeholder="参数名"
-      />
-      <FieldInput
-        v-model.number="editingData.width"
-        :placeholder="widthPlaceholder"
-        title="宽度"
+        title="最小值"
+        v-model.number="editingData.componentProps.min"
         type="number"
+        input-width="70"
+      />
+      <FieldInput
+        title="最大值"
+        v-model.number="editingData.componentProps.max"
+        type="number"
+        input-width="70"
+      />
+      <FieldInput
+        title="控制器步进值"
+        v-model.number="editingData.componentProps.step"
+        type="number"
+        placeholder="1"
+        input-width="70"
+      />
+    </template>
+
+    <!-- 下拉选择类 -->
+    <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
+      <FieldItemBasic icon="gear" title="配置选项" @click.native="editSelectOptions">
+        <span style="color:#999;">({{ editingData.options.length }}项)</span>
+      </FieldItemBasic>
+    </template>
+
+    <!-- 日期类 -->
+    <template v-else-if="['date', 'dateRange', 'dateTime', 'dateTimeRange'].includes(curType)">
+      <template v-if="curType === 'date'">
+        <FieldDateType v-model="editingData.componentProps.type"/>
+      </template>
+
+      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+
+      <template v-if="curType === 'dateTime'">
+        <!-- 无 -->
+      </template>
+
+      <template v-if="['dateRange', 'dateTimeRange'].includes(curType)">
+        <FieldInput title="开始占位内容" placeholder="开始日期"/>
+        <FieldInput title="结束占位内容" placeholder="结束日期"/>
+      </template>
+
+      <FieldInput
+        v-model="editingData.componentProps.format"
+        block
+        :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
+        title="显示格式"
         clearable
-      >
-        <template slot="append">px</template>
-      </FieldInput>
+      />
+      <FieldInput
+        v-model="editingData.componentProps.valueFormat"
+        block
+        :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
+        title="提交格式"
+        clearable
+      />
+    </template>
 
-      <FieldDivider v-if="curType !== 'label'" title="字段配置"/>
-
-      <template v-if="curType === 'text'">
-        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
-        <FieldIcons title="后置图标" v-model="editingData.componentProps.suffixIcon"/>
-      </template>
-
-      <template v-else-if="curType === 'number'">
+    <!-- 时间类 -->
+    <template v-else-if="['timeSelect', 'timePicker', 'timePickerRange'].includes(curType)">
+      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+      <template v-if="curType === 'timeSelect'">
         <FieldInput
-          title="最小值"
-          v-model.number="editingData.componentProps.min"
-          type="number"
-          input-width="70"
+          v-model="editingData.componentProps.pickerOptions.start"
+          title="开始时间"
+          placeholder="09:00"
         />
         <FieldInput
-          title="最大值"
-          v-model.number="editingData.componentProps.max"
-          type="number"
-          input-width="70"
+          v-model="editingData.componentProps.pickerOptions.end"
+          title="结束时间"
+          placeholder="18:00"
         />
         <FieldInput
-          title="控制器步进值"
-          v-model.number="editingData.componentProps.step"
-          type="number"
-          placeholder="1"
-          input-width="70"
+          v-model="editingData.componentProps.pickerOptions.step"
+          title="选项跨度"
+          placeholder="00:30"
         />
       </template>
-
-      <!-- 下拉选择类 -->
-      <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
-        <FieldItemBasic icon="gear" title="配置选项" @click.native="editSelectOptions">
-          <span style="color:#999;">({{ editingData.options.length }}项)</span>
-        </FieldItemBasic>
+      <template v-else-if="curType === 'timePicker'">
+        <!-- 无 -->
       </template>
-
-      <!-- 日期类 -->
-      <template v-else-if="['date', 'dateRange', 'dateTime', 'dateTimeRange'].includes(curType)">
-        <template v-if="curType === 'date'">
-          <FieldDateType v-model="editingData.componentProps.type"/>
-        </template>
-
-        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
-
-        <template v-if="curType === 'dateTime'">
-          <!-- 无 -->
-        </template>
-
-        <template v-if="['dateRange', 'dateTimeRange'].includes(curType)">
-          <FieldInput title="开始占位内容" placeholder="开始日期"/>
-          <FieldInput title="结束占位内容" placeholder="结束日期"/>
-        </template>
-
+      <template v-else-if="curType === 'timePickerRange'">
         <FieldInput
-          v-model="editingData.componentProps.format"
-          block
-          :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
-          title="显示格式"
-          clearable
+          v-model="editingData.componentProps.startPlaceholder"
+          title="开始占位内容"
+          placeholder="开始时间"
         />
         <FieldInput
-          v-model="editingData.componentProps.valueFormat"
-          block
-          :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
-          title="提交格式"
-          clearable
+          v-model="editingData.componentProps.endPlaceholder"
+          title="结束占位内容"
+          placeholder="结束时间"
         />
       </template>
+      <FieldInput
+        v-model="editingData.componentProps.valueFormat"
+        title="提交格式"
+        placeholder="yyyy-MM-dd HH:mm:ss"
+        block
+        clearable
+      />
+    </template>
 
-      <!-- 时间类 -->
-      <template v-else-if="['timeSelect', 'timePicker', 'timePickerRange'].includes(curType)">
-        <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
-        <template v-if="curType === 'timeSelect'">
-          <FieldInput
-            v-model="editingData.componentProps.pickerOptions.start"
-            title="开始时间"
-            placeholder="09:00"
-          />
-          <FieldInput
-            v-model="editingData.componentProps.pickerOptions.end"
-            title="结束时间"
-            placeholder="18:00"
-          />
-          <FieldInput
-            v-model="editingData.componentProps.pickerOptions.step"
-            title="选项跨度"
-            placeholder="00:30"
-          />
-        </template>
-        <template v-else-if="curType === 'timePicker'">
-          <!-- 无 -->
-        </template>
-        <template v-else-if="curType === 'timePickerRange'">
-          <FieldInput
-            v-model="editingData.componentProps.startPlaceholder"
-            title="开始占位内容"
-            placeholder="开始时间"
-          />
-          <FieldInput
-            v-model="editingData.componentProps.endPlaceholder"
-            title="结束占位内容"
-            placeholder="结束时间"
-          />
-        </template>
-        <FieldInput
-          v-model="editingData.componentProps.valueFormat"
-          title="提交格式"
-          placeholder="yyyy-MM-dd HH:mm:ss"
-          block
-          clearable
-        />
-      </template>
+    <FieldDivider title="操作"/>
 
-      <FieldDivider title="操作"/>
-
-      <FieldItemBasic icon="copy" title="复制" @click.native="emitCopy"/>
-      <FieldItemBasic icon="delete" title="删除" @click.native="emitDelete"/>
-    </div>
-  </ElPopover>
+    <FieldItemBasic icon="copy" title="复制" @click.native="emitCopy"/>
+    <FieldItemBasic icon="delete" title="删除" @click.native="emitDelete"/>
+  </PopEditorWrap>
 </template>
 
 <script lang="ts">
@@ -168,6 +153,7 @@ import { Component, Prop, Watch } from 'vue-property-decorator'
 import { FilterField } from '@laomao800/vue-listview'
 import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
 import PopEditorBase from '../PopEditorBase'
+import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 
 interface AllFieldData {
   [k: string]: FilterField
@@ -207,7 +193,11 @@ const widthPresetMap: {
   timePickerRange: 200
 }
 
-@Component
+@Component({
+  components: {
+    PopEditorWrap
+  }
+})
 export default class FilterFieldEditor extends PopEditorBase {
   public allFieldData = getAllFieldData()
   public curType = this.data.type!
@@ -257,18 +247,3 @@ export default class FilterFieldEditor extends PopEditorBase {
   }
 }
 </script>
-
-<style lang="less" module>
-@import url('~@/style/theme.less');
-
-.more {
-  padding: 2px;
-  color: #999;
-  cursor: pointer;
-  border-radius: 3px;
-
-  &:hover {
-    background: @color-gray-light-2;
-  }
-}
-</style>

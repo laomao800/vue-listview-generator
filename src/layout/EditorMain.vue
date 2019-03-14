@@ -8,7 +8,14 @@
             <DataSource/>
           </ElTabPane>
           <ElTabPane label="搜索栏" name="filterbar">
-            <Filterbar/>
+            <ElRow :gutter="16">
+              <ElCol :span="8">
+                <FilterButtons/>
+              </ElCol>
+              <ElCol :span="10">
+                <FilterFields/>
+              </ElCol>
+            </ElRow>
           </ElTabPane>
           <ElTabPane label="内容" name="content">
             <Content/>
@@ -31,7 +38,8 @@ import { Vue, Component } from 'vue-property-decorator'
 import Toolbar from '@/layout/Toolbar.vue'
 import Basic from '@/layout/EditorPane/Basic.vue'
 import DataSource from '@/layout/EditorPane/DataSource.vue'
-import Filterbar from '@/layout/EditorPane/Filterbar/index.vue'
+import FilterButtons from '@/layout/EditorPane/FilterButtons.vue'
+import FilterFields from '@/layout/EditorPane/FilterFields.vue'
 import Content from '@/layout/EditorPane/Content.vue'
 
 @Component({
@@ -39,7 +47,8 @@ import Content from '@/layout/EditorPane/Content.vue'
     Toolbar,
     Basic,
     DataSource,
-    Filterbar,
+    FilterButtons,
+    FilterFields,
     Content
   }
 })

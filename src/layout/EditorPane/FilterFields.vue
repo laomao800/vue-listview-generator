@@ -25,7 +25,7 @@ import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
 import { State as PropState } from '@/store/modules/listviewProps'
 import { VModelState } from '@/store/helper'
-import EditableListBase from '../EditableListBase'
+import EditableListBase from './EditableListBase'
 import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
 import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
 
