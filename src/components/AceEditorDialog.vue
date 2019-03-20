@@ -1,10 +1,10 @@
 <template>
   <ElDialog :title="title || '编辑'" :visible="visible" width="640px">
     <AceEditor ref="aceEditor" :content="editorContent" :height="editorHeight" :lang="lang"/>
-    <div slot="footer">
+    <slot name="footer" slot="footer">
       <ElButton @click="hideDialog">取 消</ElButton>
-      <ElButton type="primary" @click="emitData">确 定</ElButton>
-    </div>
+      <ElButton type="primary" @click="emitContent">确 定</ElButton>
+    </slot>
   </ElDialog>
 </template>
 
@@ -13,7 +13,7 @@ import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State, namespace } from 'vuex-class'
 
-const EditorDialogModule = namespace('editorDialog')
+const EditorDialogModule = namespace('aceEditorDialog')
 
 @Component
 export default class AceEditorDialog extends Vue {
@@ -26,8 +26,8 @@ export default class AceEditorDialog extends Vue {
   @EditorDialogModule.State('lang')
   public lang!: any
 
-  @EditorDialogModule.State('data')
-  public data!: any
+  @EditorDialogModule.State('content')
+  public content!: any
 
   @EditorDialogModule.Action('hide')
   public hideDialog!: void
@@ -52,18 +52,18 @@ export default class AceEditorDialog extends Vue {
     }
   }
 
-  @Watch('data')
-  dataChanged() {
+  @Watch('content')
+  contentChanged() {
     if (this.visible) {
       this.updateContent()
     }
   }
 
   updateContent() {
-    this.editorContent = this.data
+    this.editorContent = this.content
   }
 
-  emitData() {
+  emitContent() {
     const editorContent = this.$refs.aceEditor.editor.getValue()
     this.$store.dispatch('editorDialog/emit', editorContent)
   }

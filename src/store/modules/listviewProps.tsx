@@ -2,7 +2,8 @@ import { MutationTree, GetterTree, ActionTree } from 'vuex'
 import {
   ListviewProps,
   FilterButton,
-  FilterField
+  FilterField,
+  TableColumn
 } from '@laomao800/vue-listview'
 import { uuid } from '@/utils'
 
@@ -29,6 +30,7 @@ export interface State {
   contentMessage: ListviewProps['contentMessage']
   filterButtons: ToList<FilterButton>
   filterFields: ToList<FilterField>
+  tableColumns: ToList<TableColumn>
 }
 
 interface MutateListPayload {
@@ -70,7 +72,20 @@ const initialState: State = {
   pageSize: 20,
   pageSizes: [20, 50, 100],
   contentMessage: null,
-  filterButtons: [],
+  filterButtons: [
+    {
+      id: '0e234106',
+      data: { type: 'success', icon: 'el-icon-plus', text: '添加' }
+    },
+    {
+      id: '8a7ef70d',
+      data: { type: 'danger', icon: 'el-icon-delete', text: '删除' }
+    },
+    {
+      id: '2420d851',
+      data: { type: 'warning', icon: 'el-icon-info', text: '警告' }
+    }
+  ],
   filterFields: [
     {
       id: '0e234105-cf49-46a0-b5a3-1f104c1903cd',
@@ -214,7 +229,16 @@ const initialState: State = {
   ]
 }
 
-const getters: GetterTree<State, any> = {}
+const getters: GetterTree<State, any> = {
+  result(state) {
+    return {
+      ...state,
+      filterButtons: state.filterButtons.map(item => item.data),
+      filterFields: state.filterFields.map(item => item.data),
+      tableColumns: state.tableColumns.map(item => item.data)
+    }
+  }
+}
 
 const mutations: MutationTree<State> = {
   UPDATE_FIELD(state: State, payload) {

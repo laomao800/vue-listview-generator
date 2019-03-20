@@ -1,7 +1,12 @@
 <template>
   <div :class="[$style.wrap, (level && $style[`level-${level}`]), (inline && $style.inline)]">
-    <span :class="$style.title">{{ title }}</span>
-    <small v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</small>
+    <div :class="$style.title">
+      {{ title }}
+      <small v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</small>
+    </div>
+    <span v-if="$slots.right" :class="$style.right">
+      <slot name="right"/>
+    </span>
   </div>
 </template>
 
@@ -43,6 +48,7 @@ export default class PaneTitle extends Vue {
   padding: 0 8px;
 
   .title {
+    flex: 1;
     font-size: 14px;
     color: #666;
   }
@@ -62,6 +68,10 @@ export default class PaneTitle extends Vue {
       text-transform: uppercase;
     }
   }
+
+  .right {
+    margin-left: auto;
+  }
 }
 
 .level-1 {
@@ -80,7 +90,7 @@ export default class PaneTitle extends Vue {
 
 .level-2 {
   position: relative;
-  display: block;
+  display: flex;
   padding-left: 11px;
 
   &::before {

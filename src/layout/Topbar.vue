@@ -17,7 +17,8 @@ export default class Topbar extends Vue {}
 .topbar {
   display: flex;
   height: 50px;
-  background-color: @color-primary;
+  background-color: @topbar-background-color;
+  border-bottom: 1px solid darken(@topbar-background-color, 10);
 }
 .logo {
   display: flex;

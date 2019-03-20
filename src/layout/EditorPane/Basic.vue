@@ -44,8 +44,9 @@
     <PaneTitle level="1" title="布局配置"/>
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="拉伸高度" subtitle="fullHeight" inline/>
-      <ElSwitch v-model="fullHeight"/>
+      <PaneTitle slot="label" level="2" title="拉伸高度" subtitle="fullHeight" inline>
+        <ElSwitch slot="right" v-model="fullHeight"/>
+      </PaneTitle>
       <TipsBlock>
         全屏效果，开启后
         <code>&lt;listview /&gt;</code>
@@ -61,8 +62,10 @@
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="使用分页" subtitle="usePage" inline/>
-      <ElSwitch v-model="usePage"/>
+      <PaneTitle slot="label" level="2" title="使用分页" subtitle="usePage" inline>
+        <ElSwitch slot="right" v-model="usePage"/>
+      </PaneTitle>
+      <!-- TODO: 自定义分页参数名 -->
     </ElFormItem>
 
     <ElFormItem v-show="usePage">
@@ -173,6 +176,7 @@ export default class Basic extends Vue {
 
 <style>
 .basic-wrap .el-form-item__label {
+  display: block;
   padding-bottom: 0;
 }
 </style>

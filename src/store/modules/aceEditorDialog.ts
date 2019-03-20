@@ -6,21 +6,21 @@ export interface State {
   visible: boolean
   title: string
   lang: string
-  data: any
+  content: any
 }
 
 const initialState: State = {
   visible: false,
   title: '',
   lang: 'javascript',
-  data: ''
+  content: ''
 }
 
 const getters: GetterTree<State, any> = {}
 
 const mutations: MutationTree<State> = {
-  SET_EDITOR_DATA(state: State, payload: any) {
-    state.data = payload
+  SET_EDITOR_CONTENT(state: State, payload: any) {
+    state.content = payload
   },
   SET_EDITOR_VISIBLE(state: State, payload: boolean) {
     state.visible = payload
@@ -39,17 +39,17 @@ const actions: ActionTree<State, any> = {
   show(
     { commit },
     payload: {
-      data?: any
+      content?: any
       title?: string
       lang?: string
       onSuccess: () => void
     } = {
-      data: null,
+      content: null,
       onSuccess: () => {}
     }
   ) {
-    const { data, title, lang, onSuccess } = payload
-    data && commit('SET_EDITOR_DATA', data)
+    const { content, title, lang, onSuccess } = payload
+    content && commit('SET_EDITOR_CONTENT', content)
     title && commit('SET_EDITOR_TITLE', title)
     lang && commit('SET_EDITOR_LANG', lang)
     commit('SET_EDITOR_VISIBLE', true)
@@ -59,7 +59,7 @@ const actions: ActionTree<State, any> = {
   },
   hide({ commit }) {
     emitResolver = null
-    commit('SET_EDITOR_DATA', null)
+    commit('SET_EDITOR_CONTENT', null)
     commit('SET_EDITOR_VISIBLE', false)
   },
   emit({ dispatch }, payload: any) {

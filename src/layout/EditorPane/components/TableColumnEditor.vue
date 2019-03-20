@@ -112,7 +112,7 @@ export default class TableColumnEditor extends PopEditorBase {
     const funcString = _.isFunction(this.editingData.formatter)
       ? this.editingData.formatter.toString()
       : formatterFuncString
-    this.$store.dispatch('editorDialog/show', {
+    this.$store.dispatch('aceEditorDialog/show', {
       data: funcString,
       title: 'formatter()',
       onSuccess: (done: () => void, editorContent: string) => {
@@ -137,7 +137,7 @@ export default class TableColumnEditor extends PopEditorBase {
   //   const funcString = _.isFunction(this.editingData.render)
   //     ? this.editingData.render.toString()
   //     : renderFuncString
-  //   this.$store.dispatch('editorDialog/show', {
+  //   this.$store.dispatch('aceEditorDialog/show', {
   //     data: funcString,
   //     title: 'render()',
   //     onSuccess: (done: () => void, editorContent: string) => {

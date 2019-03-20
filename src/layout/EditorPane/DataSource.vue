@@ -41,7 +41,7 @@
           v-model="interContentMessage.type"
           clearable
           placeholder="选择图标"
-          style="width:120px"
+          style="width:140px"
         >
           <span slot="prefix" style="margin-left: 4px;margin-top: -2px;">
             <i
@@ -53,6 +53,7 @@
           <ElOption value>无图标</ElOption>
           <ElOption v-for="(item, index) in iconMap" :key="index" :value="index">
             <i :class="item.icon" :style="`color:${item.color}`"/>
+            {{ index }}
           </ElOption>
         </ElSelect>
         <ElInput v-model="interContentMessage.message" placeholder="暂无数据" style="margin-left:5px"/>
@@ -146,15 +147,29 @@ const BindState = VModelState('listviewProps')
   }
 })
 export default class DataSource extends Vue {
-  @BindState public requestUrl!: ListviewProps['requestUrl']
-  @BindState public requestMethod!: ListviewProps['requestMethod']
-  @BindState public autoload!: ListviewProps['autoload']
-  @BindState public contentMessage!: ListviewProps['contentMessage']
-  @BindState public contentDataMap!: ListviewProps['contentDataMap']
-  @BindState public validateResponse!: ListviewProps['validateResponse']
-  // prettier-ignore
-  @BindState public resolveResponseErrorMessage!: ListviewProps['resolveResponseErrorMessage']
-  @BindState public requestHandler!: ListviewProps['requestHandler']
+  @BindState
+  public requestUrl!: ListviewProps['requestUrl']
+
+  @BindState
+  public requestMethod!: ListviewProps['requestMethod']
+
+  @BindState
+  public autoload!: ListviewProps['autoload']
+
+  @BindState
+  public contentMessage!: ListviewProps['contentMessage']
+
+  @BindState
+  public contentDataMap!: ListviewProps['contentDataMap']
+
+  @BindState
+  public validateResponse!: ListviewProps['validateResponse']
+
+  @BindState
+  public resolveResponseErrorMessage!: ListviewProps['resolveResponseErrorMessage']
+
+  @BindState
+  public requestHandler!: ListviewProps['requestHandler']
 
   public configType: 'default' | 'custom' = 'default'
   public setContentDataMap = false

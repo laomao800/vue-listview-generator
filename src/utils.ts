@@ -33,3 +33,26 @@ export function uuid() {
     return r.toString(16)
   })
 }
+
+export const JSONfn = {
+  stringify(obj: object, space?: number) {
+    return JSON.stringify(
+      obj,
+      function(key, value) {
+        return typeof value === 'function' ? value.toString() : value
+      },
+      space
+    )
+  },
+  parse(str: string) {
+    return JSON.parse(str, function(key, value) {
+      if (typeof value !== 'string') return value
+      if (value.substring(0, 8) === 'function') {
+        // eslint-disable-next-line no-new-func
+        const newFunc = new Function(`return ${value}`)()
+        return newFunc
+      }
+      return value
+    })
+  }
+}
