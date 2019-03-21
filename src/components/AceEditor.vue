@@ -25,7 +25,7 @@ export default class AceEditor extends Vue {
   @Prop({ type: [String, Number], default: 300 })
   public height!: number
 
-  @Prop({ type: String, default: '100%' })
+  @Prop({ type: [String, Number], default: '100%' })
   public width!: string
 
   @Prop({ type: Object, default: () => ({}) })

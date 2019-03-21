@@ -3,24 +3,6 @@
     <!-- <Toolbar/> -->
     <div :class="$style.content">
       <div :class="$style.main">
-        <div :class="$style.actionbar">
-          <ElButtonGroup>
-            <ElButton
-              :class="$style.act"
-              size="mini"
-              type="success"
-              plain
-              icon="el-icon-picture-outline"
-            >预览</ElButton>
-            <ElButton
-              :class="$style.act"
-              size="mini"
-              icon="el-icon-document"
-              @click="checkCurConfig"
-            >查看配置</ElButton>
-            <ElButton :class="$style.act" size="mini" icon="el-icon-download">导出配置</ElButton>
-          </ElButtonGroup>
-        </div>
         <ElForm label-width="140px" @submit.native.prevent>
           <ElTabs class="editor-tabs" v-model="activeTab" type="card">
             <ElTabPane label="数据源" name="dataSource">
@@ -61,7 +43,6 @@ import DataSource from '@/layout/EditorPane/DataSource.vue'
 import FilterButtons from '@/layout/EditorPane/FilterButtons.vue'
 import FilterFields from '@/layout/EditorPane/FilterFields.vue'
 import Content from '@/layout/EditorPane/Content.vue'
-import { JSONfn } from '@/utils'
 
 @Component({
   components: {
@@ -75,19 +56,6 @@ import { JSONfn } from '@/utils'
 })
 export default class EditorMain extends Vue {
   public activeTab = 'dataSource'
-
-  checkCurConfig() {
-    this.$store.dispatch('aceEditorDialog/show', {
-      content:
-        'const listviewProps = ' +
-        JSONfn.stringify(this.$store.getters['listviewProps/result'], 2)
-          .replace(/"function/g, 'function')
-          .replace(/\}"/g, '}')
-          .replace(/\\n/g, '\n'),
-      width: 800,
-      title: '查看配置'
-    })
-  }
 }
 </script>
 

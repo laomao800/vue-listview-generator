@@ -73,9 +73,13 @@
         </TipsBlock>
         <ElRow :gutter="10">
           <ElCol :span="8">
-            <div class="pane__header" style="margin-bottom:5px">
-              <span class="pane__title">映射配置</span>
-            </div>
+            <PaneTitle
+              level="2"
+              title="映射配置"
+              subtitle="contentDataMap"
+              inline
+              style="margin-bottom:5px"
+            />
             <AceEditor
               ref="contentDataMapEditor"
               :content="formatJson(contentDataMap)"
@@ -85,10 +89,15 @@
             />
           </ElCol>
           <ElCol :span="16">
-            <div class="pane__header" style="margin-bottom:5px">
-              <ElButton type="primary" size="mini" style="float:right">测试映射结果</ElButton>
-              <span class="pane__title">映射数据</span>
-            </div>
+            <PaneTitle
+              level="2"
+              title="映射数据"
+              subtitle="contentDataMap"
+              inline
+              style="margin-bottom:5px"
+            >
+              <ElButton slot="right" type="primary" size="mini">测试映射结果</ElButton>
+            </PaneTitle>
             <AceEditor
               :content="formatJson(contentDataResult)"
               :readonly="true"

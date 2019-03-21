@@ -5,68 +5,73 @@ export interface State {
   [x: string]: any
   visible: boolean
   title: string
-  lang: string
-  content: any
+  editorProps: Partial<{
+    [x: string]: any
+    width: number
+    height: number
+    lang: string
+    content: any
+    readonly: boolean
+    options: object
+  }>
 }
 
-const initialState: State = {
-  visible: false,
-  title: '',
-  lang: 'javascript',
-  content: ''
+function getInitialState(): State {
+  return {
+    visible: false,
+    title: '',
+    editorProps: {
+      lang: 'javascript',
+      content: '',
+      width: 800,
+      height: 600,
+      readonly: false
+    }
+  }
 }
+
+const initialState = getInitialState()
 
 const getters: GetterTree<State, any> = {}
 
 const mutations: MutationTree<State> = {
-  SET_EDITOR_CONTENT(state: State, payload: any) {
-    state.content = payload
+  SET_DIALOG_CONFIG(state: State, payload: any) {
+    Object.keys(payload).forEach(key => {
+      if (state.hasOwnProperty(key)) {
+        state[key] = payload[key]
+      }
+    })
   },
-  SET_EDITOR_VISIBLE(state: State, payload: boolean) {
-    state.visible = payload
-  },
-  SET_EDITOR_TITLE(state: State, payload: string) {
-    state.title = payload
-  },
-  SET_EDITOR_LANG(state: State, payload: string) {
-    state.lang = payload
+  SET_EDITOR_CONFIG(state: State, payload: any) {
+    Object.keys(payload).forEach(key => {
+      if (state.editorProps.hasOwnProperty(key)) {
+        state.editorProps[key] = payload[key]
+      }
+    })
   }
 }
 
 let emitResolver: any
 
 const actions: ActionTree<State, any> = {
-  show(
-    { commit },
-    payload: {
-      content?: any
-      title?: string
-      lang?: string
-      onSuccess: () => void
-    } = {
-      content: null,
-      onSuccess: () => {}
-    }
-  ) {
-    const { content, title, lang, onSuccess } = payload
-    content && commit('SET_EDITOR_CONTENT', content)
-    title && commit('SET_EDITOR_TITLE', title)
-    lang && commit('SET_EDITOR_LANG', lang)
-    commit('SET_EDITOR_VISIBLE', true)
+  show({ commit }, payload: Partial<State['editorProps']>) {
+    const { onSuccess, title, ...editorConfig } = payload
+    commit('SET_EDITOR_CONFIG', editorConfig)
+    commit('SET_DIALOG_CONFIG', { visible: true, title })
     return new Promise(resolve => {
       emitResolver = onSuccess || resolve
     })
   },
   hide({ commit }) {
     emitResolver = null
-    commit('SET_EDITOR_CONTENT', null)
-    commit('SET_EDITOR_VISIBLE', false)
+    commit('SET_DIALOG_CONFIG', { visible: false })
+
+    setTimeout(() => {
+      commit('SET_DIALOG_CONFIG', getInitialState())
+    }, 200)
   },
   emit({ dispatch }, payload: any) {
     emitResolver && emitResolver(() => dispatch('hide'), payload)
-  },
-  setLang({ commit }, payload: string) {
-    commit('SET_EDITOR_LANG', payload)
   }
 }
 

@@ -65,6 +65,7 @@
       <PaneTitle slot="label" level="2" title="使用分页" subtitle="usePage" inline>
         <ElSwitch slot="right" v-model="usePage"/>
       </PaneTitle>
+      <TipsBlock>开启分页会在请求时参数自动附加上 page_index 和 page_size 2 个参数。</TipsBlock>
       <!-- TODO: 自定义分页参数名 -->
     </ElFormItem>
 
@@ -76,10 +77,10 @@
     </ElFormItem>
     <ElFormItem v-show="usePage">
       <PaneTitle slot="label" level="2" title="可选分页" subtitle="pageSizes" inline/>
+      <TipsBlock>用于在分页“每页数量”可选值，至少保留一项。</TipsBlock>
       <ElCheckboxGroup v-model="inputPageSizes" :min="1" :class="$style.optionsGrid">
         <ElCheckbox v-for="(val, index) in 10" :key="index" :value="val * 10" :label="val * 10"/>
       </ElCheckboxGroup>
-      <TipsBlock>用于在分页“每页数量”可选值，至少保留一项。</TipsBlock>
     </ElFormItem>
   </div>
 </template>
@@ -159,7 +160,7 @@ export default class Basic extends Vue {
 @import url('~@/style/theme.less');
 
 .wrap {
-  padding: 12px;
+  padding: 18px;
 }
 .optionsGrid {
   display: grid;
