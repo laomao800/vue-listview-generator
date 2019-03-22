@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Commit, Dispatch } from 'vuex'
+import Vuex from 'vuex'
 import modules from './modules'
 
 Vue.use(Vuex)

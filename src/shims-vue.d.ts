@@ -5,5 +5,4 @@ declare module '*.vue' {
 
 declare module 'vuedraggable'
 declare module 'has-values'
-declare module 'prettier/standalone'
-declare module 'prettier/parser-babylon'
+declare module 'vuex-map-fields'

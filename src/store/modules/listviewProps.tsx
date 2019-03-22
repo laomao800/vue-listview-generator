@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { MutationTree, GetterTree, ActionTree } from 'vuex'
 import {
   ListviewProps,
@@ -41,6 +42,24 @@ interface MutateListPayload {
   deleteIndex?: number
 }
 
+function separateFuncInObj(obj: any, funcMap: any = {}) {
+  Object.keys(obj).forEach(key => {
+    const value = obj[key]
+    if (_.isFunction(value)) {
+      const id = uuid()
+      funcMap[id] = value
+      obj[key] = `$func_${id}$`
+    } else if (_.isPlainObject(value)) {
+      separateFuncInObj(value, funcMap)
+    } else if (Array.isArray(value)) {
+      value.forEach(item => {
+        separateFuncInObj(item, funcMap)
+      })
+    }
+  })
+  return [obj, funcMap]
+}
+
 const initialState: State = {
   requestUrl:
     'https://easy-mock.com/mock/5aee142c96e73977996d13b6/listview/list',
@@ -49,7 +68,7 @@ const initialState: State = {
     items: 'result.items',
     total: 'result.total_count'
   },
-  validateResponse(response: any) {
+  validateResponse: function(response: any) {
     try {
       return response.is_success
     } catch (e) {
@@ -229,16 +248,7 @@ const initialState: State = {
   ]
 }
 
-const getters: GetterTree<State, any> = {
-  result(state) {
-    return {
-      ...state,
-      filterButtons: state.filterButtons.map(item => item.data),
-      filterFields: state.filterFields.map(item => item.data),
-      tableColumns: state.tableColumns.map(item => item.data)
-    }
-  }
-}
+const getters: GetterTree<State, any> = {}
 
 const mutations: MutationTree<State> = {
   UPDATE_FIELD(state: State, payload) {
@@ -348,6 +358,10 @@ const actions: ActionTree<State, any> = {
       stateProp: 'tableColumns',
       deleteIndex
     })
+  },
+
+  getResult({ state }) {
+    return separateFuncInObj(_.cloneDeep(state))
   }
 }
 

@@ -1,5 +1,11 @@
 <template>
-  <ElDialog :title="title || '查看'" :visible.sync="editorVisible" width="fit-content">
+  <ElDialog
+    :title="title || '查看'"
+    :visible.sync="editorVisible"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    width="fit-content"
+  >
     <AceEditor ref="aceEditor" v-bind="editorProps"/>
     <slot name="footer" slot="footer">
       <ElButton @click="hideDialog">取 消</ElButton>
@@ -48,7 +54,6 @@ export default class AceEditorDialog extends Vue {
     if (val) {
       await this.$nextTick()
       this.$refs.aceEditor.editor.focus()
-    } else {
     }
   }
 

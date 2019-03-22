@@ -67,7 +67,7 @@
       <div v-show="setContentDataMap">
         <TipsBlock>
           如果使用默认表格视图，
-          <strong>必须</strong>提供的 2 个必要属性，
+          <strong style="color:#f90">必须</strong>提供的 2 个必要属性，
           <code>items: object[]</code> （用于表格数据）和
           <code>total: number</code> （用于分页组件）。
         </TipsBlock>
@@ -147,17 +147,30 @@ import { debounce } from 'decko'
 import { ListviewProps } from '@laomao800/vue-listview'
 import { VModelState } from '@/store/helper'
 import { formatJson } from '@/utils'
+import { mapFields } from 'vuex-map-fields'
 
 const BindState = VModelState('listviewProps')
 
 @Component({
+  computed: {
+    ...mapFields('listviewProps', [
+      'requestUrl'
+      // 'requestMethod',
+      // 'autoload',
+      // 'contentMessage',
+      // 'contentDataMap',
+      // 'validateResponse',
+      // 'resolveResponseErrorMessage',
+      // 'requestHandler'
+    ])
+  },
   methods: {
     formatJson
   }
 })
 export default class DataSource extends Vue {
-  @BindState
-  public requestUrl!: ListviewProps['requestUrl']
+  // @BindState
+  // public requestUrl!: ListviewProps['requestUrl']
 
   @BindState
   public requestMethod!: ListviewProps['requestMethod']

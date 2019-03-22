@@ -3,6 +3,7 @@
 
 import _ from 'lodash'
 import { ModuleTree } from 'vuex'
+import { getField, updateField } from 'vuex-map-fields'
 
 interface ModuleWrap {
   modules: ModuleTree<any>
@@ -18,6 +19,7 @@ function getNamespace(subtree: ModuleWrap, path: string[]): ModuleWrap {
     namespaced: true,
     ...subtree.modules[namespace]
   }
+
   return getNamespace(subtree.modules[namespace] as ModuleWrap, path)
 }
 
@@ -44,10 +46,19 @@ requireModule.keys().forEach((fileName: string) => {
   const { modules } = getNamespace(root, modulePath)
 
   // 添加获取到的模块内容
-  modules[modulePath.pop() as string] = {
+  const module = {
     namespaced: true,
     ...requireModule(fileName)
   }
+  module.getters = {
+    ...(module.getters || {}),
+    getField
+  }
+  module.mutations = {
+    ...(module.mutations || {}),
+    updateField
+  }
+  modules[modulePath.pop() as string] = module
 })
 
 export default root.modules

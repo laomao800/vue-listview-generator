@@ -18,14 +18,18 @@
         <span>导出配置</span>
       </span>
     </div>
+    <div :class="[$style.actionbar, $style.right]">
+      <a href="https://laomao800.github.io/vue-listview/" :class="$style.act">
+        <SvgIcon name="question"/>
+        <span>Listview 文档</span>
+      </a>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { JSONfn } from '@/utils'
-import prettier from 'prettier/standalone'
-import parserBabylon from 'prettier/parser-babylon'
 import json5 from 'json5'
 import { version } from '../../package.json'
 
@@ -33,18 +37,15 @@ import { version } from '../../package.json'
 export default class Topbar extends Vue {
   public version = version
 
-  checkCurConfig() {
+  async checkCurConfig() {
+    const [propsData, funcMap] = await this.$store.dispatch(
+      'listviewProps/getResult'
+    )
     const propString = json5
-      .stringify(
-        this.$store.getters['listviewProps/result'],
-        function(key, value) {
-          return typeof value === 'function' ? value.toString() : value
-        },
-        2
-      )
-      .replace(/['"]function\s\w+\(/g, 'function(')
-      .replace(/\}['"]/g, '}')
-      .replace(/\\n/g, '\n')
+      .stringify(propsData, null, 2)
+      .replace(/['"]\$func_(.{6})\$['"]/g, function() {
+        return funcMap[arguments[1]].toString()
+      })
 
     this.$store.dispatch('aceEditorDialog/show', {
       content: `const listviewProps = ${propString}`,
@@ -87,6 +88,11 @@ export default class Topbar extends Vue {
 }
 .actionbar {
   display: flex;
+}
+.right {
+  margin-left: auto;
+  border-left: 1px solid lighten(@topbar-background-color, 5);
+  box-shadow: darken(@topbar-background-color, 5) 0 0 0 1px;
 }
 .act {
   display: flex;

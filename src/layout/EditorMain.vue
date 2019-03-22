@@ -3,7 +3,7 @@
     <!-- <Toolbar/> -->
     <div :class="$style.content">
       <div :class="$style.main">
-        <ElForm label-width="140px" @submit.native.prevent>
+        <ElForm label-width="140px" @submit.native.prevent style="height:100%">
           <ElTabs class="editor-tabs" v-model="activeTab" type="card">
             <ElTabPane label="数据源" name="dataSource">
               <DataSource/>
