@@ -35,6 +35,7 @@ export default class App extends Vue {}
 .content {
   display: flex;
   flex: 1;
+  overflow: hidden;
   background: @main-background-color;
 }
 .sidebar {
