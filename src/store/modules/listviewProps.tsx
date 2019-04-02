@@ -56,13 +56,6 @@ function separateFuncInObj(obj: any, funcMap: any = {}) {
 }
 
 const initialState: State = {
-  headerTitle: '',
-  headerNav: [],
-  fullHeight: true,
-  height: '',
-  usePage: true,
-  pageSize: 20,
-  pageSizes: [20, 50, 100],
   filterButtons: [
     {
       id: '0e234106',

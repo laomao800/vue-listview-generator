@@ -8,14 +8,14 @@
     </ElFormItem>
 
     <ElFormItem v-if="requestType === 'custom'" label="请求方法名">
-      <ElInput v-model="requestHandler" placeholder="requestHandler"/>
+      <ElInput v-model.trim="requestHandler" placeholder="requestHandler"/>
       <TipsBlock>自定义请求方法，需要返回 Promise ，会将响应的内容往后传递给响应值验证及映射等后续流程处理。</TipsBlock>
     </ElFormItem>
 
     <template v-else-if="requestType === 'default'">
       <ElFormItem label="数据接口">
         <div style="display:flex">
-          <ElInput v-model="requestUrl" placeholder="请求接口地址">
+          <ElInput v-model.trim="requestUrl" placeholder="请求接口地址">
             <ElSelect slot="prepend" v-model="requestMethod" style="width:100px">
               <ElOption label="GET" value="get"/>
               <ElOption label="POST" value="post"/>
@@ -56,7 +56,11 @@
             {{ index }}
           </ElOption>
         </ElSelect>
-        <ElInput v-model="interContentMessage.message" placeholder="暂无数据" style="margin-left:5px"/>
+        <ElInput
+          v-model.trim="interContentMessage.message"
+          placeholder="暂无数据"
+          style="margin-left:5px"
+        />
       </div>
     </ElFormItem>
 

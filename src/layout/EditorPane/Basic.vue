@@ -4,7 +4,7 @@
 
     <ElFormItem>
       <PaneTitle slot="label" level="2" title="页面标题" subtitle="headerTitle" inline/>
-      <ElInput v-model="headerTitle"/>
+      <ElInput v-model.trim="headerTitle"/>
       <TipsBlock>显示于顶部面包屑左侧的列表标题</TipsBlock>
     </ElFormItem>
 
@@ -56,7 +56,7 @@
 
     <ElFormItem v-show="!fullHeight">
       <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
-      <ElInput v-model="height" style="width:100px"/>
+      <ElInput v-model.trim="height" style="width:100px"/>
       <TipsBlock inline>(300, 300px, 50%)</TipsBlock>
       <TipsBlock>设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。若不指定则为根据内容自动高度。</TipsBlock>
     </ElFormItem>
@@ -88,35 +88,27 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { ListviewProps } from '@laomao800/vue-listview'
-import { VModelState } from '@/store/helper'
+import { mapFields } from 'vuex-map-fields'
 
-const BindState = VModelState('listviewProps')
-
-@Component
+@Component({
+  computed: {
+    ...mapFields('editor/basic', {
+      // props
+      headerTitle: 'props.headerTitle',
+      headerNav: 'props.headerNav',
+      fullHeight: 'props.fullHeight',
+      height: 'props.height',
+      usePage: 'props.usePage',
+      pageSize: 'props.pageSize',
+      pageSizes: 'props.pageSizes'
+    })
+  }
+})
 export default class Basic extends Vue {
-  public $refs: any
-
-  @BindState
-  public headerTitle!: ListviewProps['headerTitle']
-
-  @BindState
   public headerNav!: ListviewProps['headerNav']
-
-  @BindState
-  public fullHeight!: ListviewProps['fullHeight']
-
-  @BindState
-  public height!: ListviewProps['height']
-
-  @BindState
-  public usePage!: ListviewProps['usePage']
-
-  @BindState
-  public pageSize!: ListviewProps['pageSize']
-
-  @BindState
   public pageSizes!: ListviewProps['pageSizes']
-
+  public pageSize!: ListviewProps['pageSize']
+  public $refs: any
   public navInputVisible = false
   public navText = ''
 
