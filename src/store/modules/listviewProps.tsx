@@ -1,11 +1,5 @@
 import _ from 'lodash'
 import { MutationTree, GetterTree, ActionTree } from 'vuex'
-import {
-  ListviewProps,
-  FilterButton,
-  FilterField,
-  TableColumn
-} from '@laomao800/vue-listview'
 import { uuid } from '@/utils'
 
 type ToList<T> = {
@@ -15,23 +9,24 @@ type ToList<T> = {
 
 export interface State {
   [x: string]: any
-  requestUrl: ListviewProps['requestUrl']
-  requestMethod: ListviewProps['requestMethod']
-  contentDataMap: ListviewProps['contentDataMap']
-  validateResponse: ListviewProps['validateResponse']
-  resolveResponseErrorMessage: ListviewProps['resolveResponseErrorMessage']
-  autoload: ListviewProps['autoload']
-  headerTitle: ListviewProps['headerTitle']
-  headerNav: ListviewProps['headerNav']
-  fullHeight: ListviewProps['fullHeight']
-  height: ListviewProps['height']
-  usePage: ListviewProps['usePage']
-  pageSize: ListviewProps['pageSize']
-  pageSizes: ListviewProps['pageSizes']
-  contentMessage: ListviewProps['contentMessage']
-  filterButtons: ToList<FilterButton>
-  filterFields: ToList<FilterField>
-  tableColumns: ToList<TableColumn>
+  // requestUrl: ListviewProps['requestUrl']
+  // requestMethod: ListviewProps['requestMethod']
+  // requestHandler: any
+  // contentDataMap: ListviewProps['contentDataMap']
+  // validateResponse: ListviewProps['validateResponse']
+  // resolveResponseErrorMessage: ListviewProps['resolveResponseErrorMessage']
+  // autoload: ListviewProps['autoload']
+  // headerTitle: ListviewProps['headerTitle']
+  // headerNav: ListviewProps['headerNav']
+  // fullHeight: ListviewProps['fullHeight']
+  // height: ListviewProps['height']
+  // usePage: ListviewProps['usePage']
+  // pageSize: ListviewProps['pageSize']
+  // pageSizes: ListviewProps['pageSizes']
+  // contentMessage: ListviewProps['contentMessage']
+  // filterButtons: ToList<FilterButton>
+  // filterFields: ToList<FilterField>
+  // tableColumns: ToList<TableColumn>
 }
 
 interface MutateListPayload {
@@ -61,28 +56,6 @@ function separateFuncInObj(obj: any, funcMap: any = {}) {
 }
 
 const initialState: State = {
-  requestUrl:
-    'https://easy-mock.com/mock/5aee142c96e73977996d13b6/listview/list',
-  requestMethod: 'post',
-  contentDataMap: {
-    items: 'result.items',
-    total: 'result.total_count'
-  },
-  validateResponse: function(response: any) {
-    try {
-      return response.is_success
-    } catch (e) {
-      return false
-    }
-  },
-  resolveResponseErrorMessage(response: any) {
-    try {
-      return response.error_info.msg
-    } catch (e) {
-      return '未知错误'
-    }
-  },
-  autoload: true,
   headerTitle: '',
   headerNav: [],
   fullHeight: true,
@@ -90,7 +63,6 @@ const initialState: State = {
   usePage: true,
   pageSize: 20,
   pageSizes: [20, 50, 100],
-  contentMessage: null,
   filterButtons: [
     {
       id: '0e234106',

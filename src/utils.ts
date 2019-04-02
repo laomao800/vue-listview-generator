@@ -34,25 +34,24 @@ export function uuid() {
   })
 }
 
-export const JSONfn = {
-  stringify(obj: object, space?: number) {
-    return JSON.stringify(
-      obj,
-      function(key, value) {
-        return typeof value === 'function' ? value.toString() : value
-      },
-      space
-    )
-  },
-  parse(str: string) {
-    return JSON.parse(str, function(key, value) {
-      if (typeof value !== 'string') return value
-      if (value.substring(0, 8) === 'function') {
-        // eslint-disable-next-line no-new-func
-        const newFunc = new Function(`return ${value}`)()
-        return newFunc
-      }
-      return value
-    })
+export function isFunctionString(input: string) {
+  try {
+    // eslint-disable-next-line no-new-func
+    const func = new Function(`return ${input}`)()
+    return _.isFunction(func)
+  } catch (e) {}
+  return false
+}
+
+export function createFunction(input: string) {
+  try {
+    // eslint-disable-next-line no-new-func
+    const func = new Function(`return ${input.trim()}`)()
+    if (_.isFunction(func)) {
+      return func
+    }
+  } catch (e) {
+    console.error(e)
   }
+  return () => {}
 }

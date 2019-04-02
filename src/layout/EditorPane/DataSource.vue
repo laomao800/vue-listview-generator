@@ -1,18 +1,18 @@
 <template>
   <div>
     <ElFormItem label="配置类型">
-      <ElRadioGroup v-model="configType">
+      <ElRadioGroup v-model="requestType">
         <ElRadio label="default">URL 地址</ElRadio>
         <ElRadio label="custom">自定义请求方法</ElRadio>
       </ElRadioGroup>
     </ElFormItem>
 
-    <ElFormItem v-if="configType === 'custom'" label="请求方法名">
+    <ElFormItem v-if="requestType === 'custom'" label="请求方法名">
       <ElInput v-model="requestHandler" placeholder="requestHandler"/>
       <TipsBlock>自定义请求方法，需要返回 Promise ，会将响应的内容往后传递给响应值验证及映射等后续流程处理。</TipsBlock>
     </ElFormItem>
 
-    <template v-else-if="configType === 'default'">
+    <template v-else-if="requestType === 'default'">
       <ElFormItem label="数据接口">
         <div style="display:flex">
           <ElInput v-model="requestUrl" placeholder="请求接口地址">
@@ -34,9 +34,9 @@
 
     <ElFormItem v-show="!autoload">
       <PaneTitle slot="label" title="初始文案" subtitle="contentMessage"/>
-      <ElSwitch v-model="useContentMessage"/>
+      <ElSwitch v-model="setContentMessage"/>
       <TipsBlock inline>是否使用自定义初始文案，若不设置，对于默认表格视图会显示“暂无数据”。</TipsBlock>
-      <div v-show="useContentMessage" style="display:flex;padding-top:10px;">
+      <div v-show="setContentMessage" style="display:flex;padding-top:10px;">
         <ElSelect
           v-model="interContentMessage.type"
           clearable
@@ -82,10 +82,10 @@
             />
             <AceEditor
               ref="contentDataMapEditor"
-              :content="formatJson(contentDataMap)"
+              :content="interContentDataMap"
               lang="javascript"
               height="200px"
-              @change="dataMapChange"
+              @change="val => editorContentChange('contentDataMap', val)"
             />
           </ElCol>
           <ElCol :span="16">
@@ -117,7 +117,12 @@
         <code>true</code> 。
       </TipsBlock>
       <div v-show="setValidateResponse">
-        <AceEditor :content="validateResponse.toString()" height="200px" lang="javascript"/>
+        <AceEditor
+          :content="interValidateResponse"
+          height="200px"
+          lang="javascript"
+          @change="val => editorContentChange('validateResponse', val)"
+        />
       </div>
     </ElFormItem>
 
@@ -126,15 +131,19 @@
       <ElSwitch v-model="setResolveResponseErrorMessage"/>
       <TipsBlock inline>
         在
-        <code>validateResponse</code> 返回
-        <code>false</code> 表示请求失败后，会调用
-        <code>resolveResponseErrorMessage</code> 解析错误提示信息用于显示于页面中央。
+        <strong>
+          响应验证
+          <code>(validateResponse)</code>
+        </strong>
+        返回
+        <code>false</code> 表示请求失败后，会调用以下方法解析错误提示信息用于显示于页面中央。
       </TipsBlock>
       <div v-show="setResolveResponseErrorMessage">
         <AceEditor
-          :content="resolveResponseErrorMessage.toString()"
+          :content="interResErrMsg"
           height="200px"
           lang="javascript"
+          @change="val => editorContentChange('resolveResponseErrorMessage', val)"
         />
       </div>
     </ElFormItem>
@@ -142,80 +151,89 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import _ from 'lodash'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { ListviewProps } from '@laomao800/vue-listview'
-import { VModelState } from '@/store/helper'
-import { formatJson } from '@/utils'
+import { formatJson, isFunctionString } from '@/utils'
 import { mapFields } from 'vuex-map-fields'
-
-const BindState = VModelState('listviewProps')
 
 @Component({
   computed: {
-    ...mapFields('listviewProps', [
-      'requestUrl'
-      // 'requestMethod',
-      // 'autoload',
-      // 'contentMessage',
-      // 'contentDataMap',
-      // 'validateResponse',
-      // 'resolveResponseErrorMessage',
-      // 'requestHandler'
-    ])
+    ...mapFields('editor/dataSource', {
+      requestType: 'requestType',
+      setContentDataMap: 'setContentDataMap',
+      setResolveResponseErrorMessage: 'setResolveResponseErrorMessage',
+      setValidateResponse: 'setValidateResponse',
+      setContentMessage: 'setContentMessage',
+      // props
+      requestUrl: 'props.requestUrl',
+      requestMethod: 'props.requestMethod',
+      autoload: 'props.autoload',
+      contentMessage: 'props.contentMessage',
+      contentDataMap: 'props.contentDataMap',
+      validateResponse: 'props.validateResponse',
+      resolveResponseErrorMessage: 'props.resolveResponseErrorMessage',
+      requestHandler: 'props.requestHandler'
+    })
   },
   methods: {
     formatJson
   }
 })
 export default class DataSource extends Vue {
-  // @BindState
-  // public requestUrl!: ListviewProps['requestUrl']
-
-  @BindState
-  public requestMethod!: ListviewProps['requestMethod']
-
-  @BindState
-  public autoload!: ListviewProps['autoload']
-
-  @BindState
-  public contentMessage!: ListviewProps['contentMessage']
-
-  @BindState
   public contentDataMap!: ListviewProps['contentDataMap']
+  public contentMessage!: ListviewProps['contentMessage']
+  public validateResponse!: string
+  public resolveResponseErrorMessage!: string
 
-  @BindState
-  public validateResponse!: ListviewProps['validateResponse']
-
-  @BindState
-  public resolveResponseErrorMessage!: ListviewProps['resolveResponseErrorMessage']
-
-  @BindState
-  public requestHandler!: ListviewProps['requestHandler']
-
-  public configType: 'default' | 'custom' = 'default'
-  public setContentDataMap = false
-  public setResolveResponseErrorMessage = false
-  public setValidateResponse = false
-  public useContentMessage = false
   public contentDataResult = null
-  public interContentMessage = {
+  public interContentDataMap = ''
+  public interContentMessage: any = {
     type: 'info',
     message: '初次打开页面不加载数据，请组合条件进行搜索。'
   }
+  public interValidateResponse = ''
+  public interResErrMsg = ''
+  public iconMap = {
+    success: { color: '#6ac243', icon: 'el-icon-success' },
+    warning: { color: '#f90', icon: 'el-icon-warning' },
+    info: { color: '#459ffc', icon: 'el-icon-info' },
+    error: { color: '#f56c6c', icon: 'el-icon-error' }
+  }
 
-  get iconMap() {
-    return {
-      success: { color: '#6ac243', icon: 'el-icon-success' },
-      warning: { color: '#f90', icon: 'el-icon-warning' },
-      info: { color: '#459ffc', icon: 'el-icon-info' },
-      error: { color: '#f56c6c', icon: 'el-icon-error' }
-    }
+  @Watch('setContentMessage')
+  @Watch('interContentMessage', { deep: true })
+  @debounce(200)
+  messageChange() {
+    this.contentMessage = _.cloneDeep(this.interContentMessage)
+  }
+
+  created() {
+    this.interContentDataMap = formatJson(this.contentDataMap)
+    this.interValidateResponse = (this.validateResponse as string).trim()
+    this.interResErrMsg = (this.resolveResponseErrorMessage as string).trim()
   }
 
   @debounce(200)
-  dataMapChange(val: string) {
-    console.log(val)
+  editorContentChange(name: string, newVal: string) {
+    switch (name) {
+      case 'contentDataMap':
+        try {
+          const parsedValue = JSON.parse(newVal)
+          if (_.isPlainObject(parsedValue)) {
+            this.contentDataMap = parsedValue
+          }
+        } catch (e) {}
+        break
+      case 'validateResponse':
+      case 'resolveResponseErrorMessage':
+        if (isFunctionString(newVal)) {
+          // @ts-ignore
+          this[name] = newVal
+        }
+        break
+    }
   }
 }
 </script>

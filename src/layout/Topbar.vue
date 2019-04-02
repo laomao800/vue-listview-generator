@@ -29,7 +29,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { JSONfn } from '@/utils'
 import json5 from 'json5'
 import { version } from '../../package.json'
 
@@ -61,6 +60,15 @@ export default class Topbar extends Vue {
 <style lang="less" module>
 @import url('~@/style/theme.less');
 
+.shadow-border-left() {
+  border-left: 1px solid lighten(@topbar-background-color, 5);
+  box-shadow: darken(@topbar-background-color, 5) 0 0 0 1px;
+}
+.shadow-border-right() {
+  border-right: 1px solid darken(@topbar-background-color, 5);
+  box-shadow: lighten(@topbar-background-color, 5) 0 0 0 1px;
+}
+
 .topbar {
   display: flex;
   height: 50px;
@@ -75,8 +83,7 @@ export default class Topbar extends Vue {
   color: @logo-text-color;
   cursor: default;
   user-select: none;
-  border-right: 1px solid darken(@topbar-background-color, 5);
-  box-shadow: lighten(@topbar-background-color, 5) 0 0 0 1px;
+  .shadow-border-right();
 
   small {
     padding-left: 0.2em;
@@ -91,8 +98,7 @@ export default class Topbar extends Vue {
 }
 .right {
   margin-left: auto;
-  border-left: 1px solid lighten(@topbar-background-color, 5);
-  box-shadow: darken(@topbar-background-color, 5) 0 0 0 1px;
+  .shadow-border-left();
 }
 .act {
   display: flex;
@@ -100,6 +106,7 @@ export default class Topbar extends Vue {
   padding: 0 1em;
   font-size: 14px;
   color: @topbar-text-color;
+  text-decoration: none;
   cursor: pointer;
 
   svg {
@@ -111,6 +118,7 @@ export default class Topbar extends Vue {
   }
 
   &:hover {
+    color: @topbar-text-color;
     background-color: rgba(255, 255, 255, 0.1);
   }
 }
