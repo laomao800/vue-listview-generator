@@ -23,25 +23,24 @@ import _ from 'lodash'
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
+import { mapFields } from 'vuex-map-fields'
 import { State as PropState } from '@/store/modules/listviewProps'
-import { VModelState } from '@/store/helper'
 import EditableListBase from './EditableListBase'
 import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
 import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
 
-const BindState: any = VModelState('listviewProps')
-const PropModule = namespace('listviewProps')
+const PropModule = namespace('editor/filterbar')
 
 @Component({
   components: {
     FilterFieldPreview,
     FilterFieldEditor
+  },
+  computed: {
+    ...mapFields('editor/filterbar', ['filterFields'])
   }
 })
 export default class FilterFields extends EditableListBase {
-  @BindState
-  public filterFields!: PropState['filterFields']
-
   @PropModule.Action('addFilterField')
   public createHandler!: (payload?: {
     data: FilterField

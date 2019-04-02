@@ -23,10 +23,10 @@ import _ from 'lodash'
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
+import { mapFields } from 'vuex-map-fields'
 import EditableListBase from './EditableListBase'
 import FilterButtonPreview from '@/layout/EditorPane/components/FilterButtonPreview.vue'
 import FilterButtonEditor from '@/layout/EditorPane/components/FilterButtonEditor.vue'
-import { mapFields } from 'vuex-map-fields'
 
 const PropModule = namespace('editor/filterbar')
 
@@ -36,7 +36,7 @@ const PropModule = namespace('editor/filterbar')
     FilterButtonEditor
   },
   computed: {
-    ...mapFields('editor/filterbar', ['filterButtons', 'filterFields'])
+    ...mapFields('editor/filterbar', ['filterButtons'])
   }
 })
 export default class FilterButtons extends EditableListBase {
