@@ -57,23 +57,29 @@ export const getters: GetterTree<typeof state, any> = {
     if (!props.autoload) {
       finalProps['autoload'] = false
     }
+
     if (props.requestMethod !== 'get') {
       finalProps['requestMethod'] = props.requestMethod
     }
+
     if (requestType !== 'default') {
       finalProps['requestHandler'] = props.requestHandler
     }
+
     if (setContentDataMap) {
       finalProps['contentDataMap'] = props.contentDataMap
     }
+
     if (setContentMessage) {
       finalProps['contentMessage'] = props.contentMessage
     }
+
     if (setResolveResponseErrorMessage) {
       finalProps['resolveResponseErrorMessage'] = createFunction(
         props.resolveResponseErrorMessage
       )
     }
+
     if (setValidateResponse) {
       finalProps['validateResponse'] = createFunction(props.validateResponse)
     }
