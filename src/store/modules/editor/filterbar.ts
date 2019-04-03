@@ -1,20 +1,16 @@
 import _ from 'lodash'
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { FilterButton, FilterField } from '@laomao800/vue-listview'
-import { uuid } from '@/utils'
+import {
+  LIST_STATE_ADD,
+  LIST_STATE_UPDATE,
+  LIST_STATE_DELETE
+} from '@/store/listStateMutations'
 
 type ToList<T> = {
   id: string
   data: T
 }[]
-
-interface MutateListPayload {
-  stateProp: string
-  data?: any
-  insertAfter?: number
-  updateIndex?: number
-  deleteIndex?: number
-}
 
 export const state: {
   [x: string]: any
@@ -156,11 +152,11 @@ export const getters: GetterTree<typeof state, any> = {
     const finalProps: any = {}
 
     if (filterButtons.length > 0) {
-      finalProps['filterButtons'] = filterButtons
+      finalProps['filterButtons'] = filterButtons.map(item => item.data)
     }
 
     if (filterFields.length > 0) {
-      finalProps['filterFields'] = filterFields
+      finalProps['filterFields'] = filterFields.map(item => item.data)
     }
 
     return finalProps
@@ -168,51 +164,34 @@ export const getters: GetterTree<typeof state, any> = {
 }
 
 export const mutations: MutationTree<typeof state> = {
-  LIST_PROP_ADD(state, payload: MutateListPayload) {
-    const { stateProp, data, insertAfter = -1 } = payload
-    const target = state[stateProp]
-    const newData = { id: uuid(), data }
-    if (insertAfter > -1) {
-      target.splice(insertAfter + 1, 0, newData)
-    } else {
-      target.push(newData)
-    }
-  },
-  LIST_PROP_UPDATE(state, payload: MutateListPayload) {
-    const { stateProp, data, updateIndex } = payload
-    const target = state[stateProp]
-    target[updateIndex!].data = data
-  },
-  LIST_PROP_DELETE(state, payload: MutateListPayload) {
-    const { stateProp, deleteIndex } = payload
-    const target = state[stateProp]
-    target.splice(deleteIndex, 1)
-  }
+  LIST_STATE_ADD,
+  LIST_STATE_UPDATE,
+  LIST_STATE_DELETE
 }
 
 export const actions: ActionTree<typeof state, any> = {
   addFilterButton({ commit }, { data, insertAfter } = {}) {
-    commit('LIST_PROP_ADD', {
+    commit('LIST_STATE_ADD', {
       stateProp: 'filterButtons',
       data: data || { text: '按钮文本' },
       insertAfter
     })
   },
   updateFilterButton({ commit }, { updateIndex, data } = {}) {
-    commit('LIST_PROP_UPDATE', {
+    commit('LIST_STATE_UPDATE', {
       stateProp: 'filterButtons',
       data,
       updateIndex
     })
   },
   deleteFilterButton({ commit }, deleteIndex: number) {
-    commit('LIST_PROP_DELETE', {
+    commit('LIST_STATE_DELETE', {
       stateProp: 'filterButtons',
       deleteIndex
     })
   },
   addFilterField({ commit }, { data, insertAfter } = {}) {
-    commit('LIST_PROP_ADD', {
+    commit('LIST_STATE_ADD', {
       stateProp: 'filterFields',
       data: data || {
         type: 'text',
@@ -223,14 +202,14 @@ export const actions: ActionTree<typeof state, any> = {
     })
   },
   updateFilterField({ commit }, { updateIndex, data } = {}) {
-    commit('LIST_PROP_UPDATE', {
+    commit('LIST_STATE_UPDATE', {
       stateProp: 'filterFields',
       data,
       updateIndex
     })
   },
   deleteFilterField({ commit }, deleteIndex: number) {
-    commit('LIST_PROP_DELETE', {
+    commit('LIST_STATE_DELETE', {
       stateProp: 'filterFields',
       deleteIndex
     })

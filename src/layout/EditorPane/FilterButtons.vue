@@ -28,7 +28,7 @@ import EditableListBase from './EditableListBase'
 import FilterButtonPreview from '@/layout/EditorPane/components/FilterButtonPreview.vue'
 import FilterButtonEditor from '@/layout/EditorPane/components/FilterButtonEditor.vue'
 
-const PropModule = namespace('editor/filterbar')
+const Module = namespace('editor/filterbar')
 
 @Component({
   components: {
@@ -40,19 +40,19 @@ const PropModule = namespace('editor/filterbar')
   }
 })
 export default class FilterButtons extends EditableListBase {
-  @PropModule.Action('addFilterButton')
+  @Module.Action('addFilterButton')
   public createHandler!: (payload?: {
     data: FilterButton
     insertAfter?: number
   }) => void
 
-  @PropModule.Action('updateFilterButton')
+  @Module.Action('updateFilterButton')
   public updateHandler!: (payload: {
     updateIndex: number
     data: FilterButton
   }) => void
 
-  @PropModule.Action('deleteFilterButton')
+  @Module.Action('deleteFilterButton')
   public deleteHandler!: (payload: any) => void
 }
 </script>

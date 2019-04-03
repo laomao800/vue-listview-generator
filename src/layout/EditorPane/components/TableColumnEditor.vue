@@ -38,14 +38,15 @@
       <FieldDivider/>
 
       <FieldInput
+        v-if="!editingData.formatter"
         v-model="editingData.prop"
-        title="内容属性名"
-        placeholder="内容属性名"
+        title="属性名"
+        placeholder="属性名"
         maxlength="16"
         style="margin-bottom:8px"
       />
 
-      <FieldItemBasic icon="gear" title="内容格式化" @click.native="openFormatterEditor">
+      <FieldItemBasic icon="gear" title="自定义内容" @click.native="openFormatterEditor">
         <span
           v-if="editingData.formatter"
           style="font-size:12px;color:#009EF7;"
@@ -74,6 +75,7 @@ import _ from 'lodash'
 import { Component } from 'vue-property-decorator'
 import PopEditorBase from '../PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
+import { isFunctionString } from '@/utils'
 
 const renderFuncString =
   'function render(scope) {\n' +
@@ -109,21 +111,26 @@ export default class TableColumnEditor extends PopEditorBase {
   }
 
   openFormatterEditor() {
-    const funcString = _.isFunction(this.editingData.formatter)
-      ? this.editingData.formatter.toString()
-      : formatterFuncString
+    let funcString = ''
+    const existFormatter = this.editingData.formatter
+    if (_.isString(existFormatter)) {
+      // if (isFunctionString(existFormatter)) {
+      funcString = this.editingData.formatter
+    } else if (_.isFunction(existFormatter)) {
+      funcString = existFormatter.toString().trim()
+    }
+    funcString = funcString || formatterFuncString
+
     this.$store.dispatch('aceEditorDialog/show', {
-      data: funcString,
+      content: funcString,
       title: 'formatter()',
       onSuccess: (done: () => void, editorContent: string) => {
         try {
-          // eslint-disable-next-line no-new-func
-          const func = new Function(`return ${editorContent}`)()
-          if (_.isFunction(func)) {
-            this.$set(this.editingData, 'formatter', func)
+          if (isFunctionString(editorContent)) {
+            this.$set(this.editingData, 'formatter', editorContent)
             done()
           } else {
-            this.$message.error('内容必须为合法 function')
+            this.$message.error('内容必须为合法 function 定义')
           }
         } catch (e) {
           this.$message.error(e.toString())

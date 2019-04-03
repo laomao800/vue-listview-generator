@@ -26,38 +26,36 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { TableColumn } from '@laomao800/vue-listview'
-import { State as PropState } from '@/store/modules/listviewProps'
-import { VModelState } from '@/store/helper'
+import { mapFields } from 'vuex-map-fields'
 import EditableListBase from './EditableListBase'
 import TableColumnPreview from '@/layout/EditorPane/components/TableColumnPreview.vue'
 import TableColumnEditor from '@/layout/EditorPane/components/TableColumnEditor.vue'
 
-const BindState = VModelState('listviewProps')
-const PropModule = namespace('listviewProps')
+const Module = namespace('editor/content')
 
 @Component({
   components: {
     TableColumnPreview,
     TableColumnEditor
+  },
+  computed: {
+    ...mapFields('editor/content', ['tableColumns'])
   }
 })
 export default class Content extends EditableListBase {
-  @BindState
-  public tableColumns!: PropState['tableColumns']
-
-  @PropModule.Action('addTableColumn')
+  @Module.Action('addTableColumn')
   public createHandler!: (payload?: {
     data: TableColumn
     insertAfter?: number
   }) => void
 
-  @PropModule.Action('updateTableColumn')
+  @Module.Action('updateTableColumn')
   public updateHandler!: (payload: {
     updateIndex: number
     data: TableColumn
   }) => void
 
-  @PropModule.Action('deleteTableColumn')
+  @Module.Action('deleteTableColumn')
   public deleteHandler!: (payload: any) => void
 }
 </script>

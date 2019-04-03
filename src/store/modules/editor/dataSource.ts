@@ -18,24 +18,20 @@ export const state = {
       items: 'result.items',
       total: 'result.total_count'
     },
-    validateResponse: `
-function validateResponse(response) {
+    validateResponse: `function validateResponse(response) {
   try {
     return response.is_success
   } catch (e) {
     return false
   }
-}
-    `,
-    resolveResponseErrorMessage: `
-function resolveResponseErrorMessage(response) {
+}`,
+    resolveResponseErrorMessage: `function resolveResponseErrorMessage(response) {
   try {
     return response.error_info.msg
   } catch (e) {
     return '未知错误'
   }
-}
-    `
+}`
   }
 }
 
@@ -50,9 +46,7 @@ export const getters: GetterTree<typeof state, any> = {
       props
     } = state
 
-    const finalProps: any = {
-      requestUrl: props.requestUrl
-    }
+    const finalProps: any = {}
 
     if (!props.autoload) {
       finalProps['autoload'] = false
@@ -62,7 +56,9 @@ export const getters: GetterTree<typeof state, any> = {
       finalProps['requestMethod'] = props.requestMethod
     }
 
-    if (requestType !== 'default') {
+    if (requestType === 'default') {
+      finalProps['requestUrl'] = props.requestUrl
+    } else {
       finalProps['requestHandler'] = props.requestHandler
     }
 

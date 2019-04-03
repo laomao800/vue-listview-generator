@@ -24,12 +24,11 @@ import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
 import { mapFields } from 'vuex-map-fields'
-import { State as PropState } from '@/store/modules/listviewProps'
 import EditableListBase from './EditableListBase'
 import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
 import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
 
-const PropModule = namespace('editor/filterbar')
+const Module = namespace('editor/filterbar')
 
 @Component({
   components: {
@@ -41,19 +40,19 @@ const PropModule = namespace('editor/filterbar')
   }
 })
 export default class FilterFields extends EditableListBase {
-  @PropModule.Action('addFilterField')
+  @Module.Action('addFilterField')
   public createHandler!: (payload?: {
     data: FilterField
     insertAfter?: number
   }) => void
 
-  @PropModule.Action('updateFilterField')
+  @Module.Action('updateFilterField')
   public updateHandler!: (payload: {
     updateIndex: number
     data: FilterField
   }) => void
 
-  @PropModule.Action('deleteFilterField')
+  @Module.Action('deleteFilterField')
   public deleteHandler!: (deleteIndex: number) => void
 }
 </script>

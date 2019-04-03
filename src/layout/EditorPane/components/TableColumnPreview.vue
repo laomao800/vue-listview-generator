@@ -25,7 +25,7 @@ export default class TableColumnPreview extends Vue {
   @Prop({ type: String, default: '' })
   public prop!: TableColumn['prop']
 
-  @Prop({ type: Function, default: null })
+  @Prop({ type: [Function, String], default: null })
   public formatter!: TableColumn['formatter']
 
   @Prop({ type: Function, default: null })
