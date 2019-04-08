@@ -19,7 +19,7 @@
       </span>
     </div>
     <div :class="[$style.actionbar, $style.right]">
-      <a href="https://laomao800.github.io/vue-listview/" :class="$style.act">
+      <a href="https://laomao800.github.io/vue-listview/" target="_blank" :class="$style.act">
         <SvgIcon name="question"/>
         <span>Listview 文档</span>
       </a>
@@ -29,7 +29,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import json5 from 'json5'
 import { version } from '../../package.json'
 
 @Component
@@ -37,17 +36,10 @@ export default class Topbar extends Vue {
   public version = version
 
   async checkCurConfig() {
-    const [propsData, funcMap] = await this.$store.dispatch(
-      'listviewProps/getResult'
-    )
-    const propString = json5
-      .stringify(propsData, null, 2)
-      .replace(/['"]\$func_(.{6})\$['"]/g, function() {
-        return funcMap[arguments[1]].toString()
-      })
+    const configString = await this.$store.dispatch('getConfigString')
 
     this.$store.dispatch('aceEditorDialog/show', {
-      content: `const listviewProps = ${propString}`,
+      content: `const listviewProps = ${configString}`,
       width: 800,
       height: 500,
       readonly: true,

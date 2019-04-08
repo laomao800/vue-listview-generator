@@ -1,5 +1,7 @@
-import { GetterTree } from 'vuex'
+import { ActionTree } from 'vuex'
 import { createFunction } from '@/utils'
+
+export const mapFields = true
 
 export const state = {
   requestType: 'default',
@@ -35,51 +37,52 @@ export const state = {
   }
 }
 
-export const getters: GetterTree<typeof state, any> = {
-  props(state) {
-    const {
-      requestType,
-      setContentDataMap,
-      setResolveResponseErrorMessage,
-      setValidateResponse,
-      setContentMessage,
-      props
-    } = state
+export const actions: ActionTree<typeof state, any> = {
+  getConfig({ state }) {
+    {
+      const {
+        requestType,
+        setContentDataMap,
+        setResolveResponseErrorMessage,
+        setValidateResponse,
+        setContentMessage,
+        props
+      } = state
+      const finalProps: any = {}
 
-    const finalProps: any = {}
+      if (!props.autoload) {
+        finalProps['autoload'] = false
+      }
 
-    if (!props.autoload) {
-      finalProps['autoload'] = false
+      if (props.requestMethod !== 'get') {
+        finalProps['requestMethod'] = props.requestMethod
+      }
+
+      if (requestType === 'default') {
+        finalProps['requestUrl'] = props.requestUrl
+      } else {
+        finalProps['requestHandler'] = props.requestHandler
+      }
+
+      if (setContentDataMap) {
+        finalProps['contentDataMap'] = props.contentDataMap
+      }
+
+      if (setContentMessage) {
+        finalProps['contentMessage'] = props.contentMessage
+      }
+
+      if (setResolveResponseErrorMessage) {
+        finalProps['resolveResponseErrorMessage'] = createFunction(
+          props.resolveResponseErrorMessage
+        )
+      }
+
+      if (setValidateResponse) {
+        finalProps['validateResponse'] = createFunction(props.validateResponse)
+      }
+
+      return finalProps
     }
-
-    if (props.requestMethod !== 'get') {
-      finalProps['requestMethod'] = props.requestMethod
-    }
-
-    if (requestType === 'default') {
-      finalProps['requestUrl'] = props.requestUrl
-    } else {
-      finalProps['requestHandler'] = props.requestHandler
-    }
-
-    if (setContentDataMap) {
-      finalProps['contentDataMap'] = props.contentDataMap
-    }
-
-    if (setContentMessage) {
-      finalProps['contentMessage'] = props.contentMessage
-    }
-
-    if (setResolveResponseErrorMessage) {
-      finalProps['resolveResponseErrorMessage'] = createFunction(
-        props.resolveResponseErrorMessage
-      )
-    }
-
-    if (setValidateResponse) {
-      finalProps['validateResponse'] = createFunction(props.validateResponse)
-    }
-
-    return finalProps
   }
 }

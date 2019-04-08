@@ -50,13 +50,15 @@ requireModule.keys().forEach((fileName: string) => {
     namespaced: true,
     ...requireModule(fileName)
   }
-  module.getters = {
-    ...(module.getters || {}),
-    getField
-  }
-  module.mutations = {
-    ...(module.mutations || {}),
-    updateField
+  if (module.mapFields) {
+    module.getters = {
+      ...(module.getters || {}),
+      getField
+    }
+    module.mutations = {
+      ...(module.mutations || {}),
+      updateField
+    }
   }
   modules[modulePath.pop() as string] = module
 })

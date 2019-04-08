@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 import { FilterButton, FilterField } from '@laomao800/vue-listview'
 import {
   LIST_STATE_ADD,
@@ -11,6 +11,8 @@ type ToList<T> = {
   id: string
   data: T
 }[]
+
+export const mapFields = true
 
 export const state: {
   [x: string]: any
@@ -145,10 +147,15 @@ export const state: {
   ]
 }
 
-export const getters: GetterTree<typeof state, any> = {
-  props(state) {
-    const { filterButtons, filterFields } = state
+export const mutations: MutationTree<typeof state> = {
+  LIST_STATE_ADD,
+  LIST_STATE_UPDATE,
+  LIST_STATE_DELETE
+}
 
+export const actions: ActionTree<typeof state, any> = {
+  getConfig({ state }) {
+    const { filterButtons, filterFields } = state
     const finalProps: any = {}
 
     if (filterButtons.length > 0) {
@@ -160,16 +167,8 @@ export const getters: GetterTree<typeof state, any> = {
     }
 
     return finalProps
-  }
-}
+  },
 
-export const mutations: MutationTree<typeof state> = {
-  LIST_STATE_ADD,
-  LIST_STATE_UPDATE,
-  LIST_STATE_DELETE
-}
-
-export const actions: ActionTree<typeof state, any> = {
   addFilterButton({ commit }, { data, insertAfter } = {}) {
     commit('LIST_STATE_ADD', {
       stateProp: 'filterButtons',
@@ -177,6 +176,7 @@ export const actions: ActionTree<typeof state, any> = {
       insertAfter
     })
   },
+
   updateFilterButton({ commit }, { updateIndex, data } = {}) {
     commit('LIST_STATE_UPDATE', {
       stateProp: 'filterButtons',
@@ -184,12 +184,14 @@ export const actions: ActionTree<typeof state, any> = {
       updateIndex
     })
   },
+
   deleteFilterButton({ commit }, deleteIndex: number) {
     commit('LIST_STATE_DELETE', {
       stateProp: 'filterButtons',
       deleteIndex
     })
   },
+
   addFilterField({ commit }, { data, insertAfter } = {}) {
     commit('LIST_STATE_ADD', {
       stateProp: 'filterFields',
@@ -201,6 +203,7 @@ export const actions: ActionTree<typeof state, any> = {
       insertAfter
     })
   },
+
   updateFilterField({ commit }, { updateIndex, data } = {}) {
     commit('LIST_STATE_UPDATE', {
       stateProp: 'filterFields',
@@ -208,6 +211,7 @@ export const actions: ActionTree<typeof state, any> = {
       updateIndex
     })
   },
+
   deleteFilterField({ commit }, deleteIndex: number) {
     commit('LIST_STATE_DELETE', {
       stateProp: 'filterFields',

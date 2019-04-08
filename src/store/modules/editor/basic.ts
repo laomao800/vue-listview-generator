@@ -1,5 +1,7 @@
 import _ from 'lodash'
-import { GetterTree } from 'vuex'
+import { ActionTree } from 'vuex'
+
+export const mapFields = true
 
 export const state = {
   props: {
@@ -13,10 +15,9 @@ export const state = {
   }
 }
 
-export const getters: GetterTree<typeof state, any> = {
-  props(state) {
+export const actions: ActionTree<typeof state, any> = {
+  getConfig({ state }, runtime = false) {
     const { props } = state
-
     const finalProps: any = {}
 
     if (props.headerTitle) {

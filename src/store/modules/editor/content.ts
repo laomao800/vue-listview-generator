@@ -1,11 +1,12 @@
 import _ from 'lodash'
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 import { TableColumn } from '@laomao800/vue-listview'
 import {
   LIST_STATE_ADD,
   LIST_STATE_UPDATE,
   LIST_STATE_DELETE
 } from '@/store/listStateMutations'
+import { createFunction, isFunctionString } from '@/utils'
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 type Merge<M, N> = Omit<M, Extract<keyof M, keyof N>> & N
@@ -22,6 +23,8 @@ type ToList<T> = {
   id: string
   data: T
 }[]
+
+export const mapFields = true
 
 export const state: {
   [x: string]: any
@@ -56,20 +59,6 @@ export const state: {
   ]
 }
 
-export const getters: GetterTree<typeof state, any> = {
-  props(state) {
-    const { tableColumns } = state
-
-    const finalProps: any = {}
-
-    if (tableColumns.length > 0) {
-      finalProps['tableColumns'] = tableColumns.map(item => item.data)
-    }
-
-    return finalProps
-  }
-}
-
 export const mutations: MutationTree<typeof state> = {
   LIST_STATE_ADD,
   LIST_STATE_UPDATE,
@@ -77,6 +66,30 @@ export const mutations: MutationTree<typeof state> = {
 }
 
 export const actions: ActionTree<typeof state, any> = {
+  getConfig({ state }, runtime = false) {
+    const { tableColumns } = state
+    const finalProps: any = {}
+
+    if (tableColumns.length > 0) {
+      if (runtime) {
+        finalProps['tableColumns'] = tableColumns.map(item => {
+          if (isFunctionString(item.data.formatter)) {
+            item.data.formatter = createFunction(item.data.formatter)
+          }
+          // TODO:
+          // if (isFunctionString(item.data.render)) {
+          //   item.data.render = createFunction(item.data.render)
+          // }
+          return item.data
+        })
+      } else {
+        finalProps['tableColumns'] = tableColumns.map(item => item.data)
+      }
+    }
+
+    return finalProps
+  },
+
   addTableColumn({ commit }, { data, insertAfter } = {}) {
     commit('LIST_STATE_ADD', {
       stateProp: 'tableColumns',
@@ -87,6 +100,7 @@ export const actions: ActionTree<typeof state, any> = {
       insertAfter
     })
   },
+
   updateTableColumn({ commit }, { updateIndex, data } = {}) {
     commit('LIST_STATE_UPDATE', {
       stateProp: 'tableColumns',
@@ -94,6 +108,7 @@ export const actions: ActionTree<typeof state, any> = {
       updateIndex
     })
   },
+
   deleteTableColumn({ commit }, deleteIndex: number) {
     commit('LIST_STATE_DELETE', {
       stateProp: 'tableColumns',
