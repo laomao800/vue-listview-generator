@@ -76,6 +76,13 @@ import { Component } from 'vue-property-decorator'
 import PopEditorBase from '../PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 import { isFunctionString } from '@/utils'
+import codeDialogServices from '@/service/CodeDialog'
+
+const formatterDialog = codeDialogServices({
+  width: 800,
+  height: 300,
+  title: 'formatter()'
+})
 
 const renderFuncString =
   'function render(scope) {\n' +
@@ -114,19 +121,16 @@ export default class TableColumnEditor extends PopEditorBase {
     let funcString = ''
     const existFormatter = this.editingData.formatter
     if (_.isString(existFormatter)) {
-      // if (isFunctionString(existFormatter)) {
       funcString = this.editingData.formatter
     } else if (_.isFunction(existFormatter)) {
       funcString = existFormatter.toString().trim()
     }
     funcString = funcString || formatterFuncString
 
-    this.$store.dispatch('codeDialog/show', {
+    formatterDialog.show({
       content: funcString,
-      title: 'formatter()',
-      height: 300,
       buttons: [
-        { text: '取消', click: () => this.$store.dispatch('codeDialog/hide') },
+        { text: '取消', click: () => formatterDialog.hide() },
         {
           text: '确定',
           type: 'primary',
@@ -134,7 +138,7 @@ export default class TableColumnEditor extends PopEditorBase {
             try {
               if (isFunctionString(content)) {
                 this.$set(this.editingData, 'formatter', content)
-                this.$store.dispatch('codeDialog/hide')
+                formatterDialog.hide()
               } else {
                 this.$message.error('内容必须为合法 function 定义')
               }

@@ -1,12 +1,13 @@
 <template>
   <ElDialog
     :title="title || '查看'"
-    :visible.sync="editorVisible"
+    :visible.sync="visible"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     width="fit-content"
+    @closed="handleClosed"
   >
-    <AceEditor ref="aceEditor" v-bind="editorProps"/>
+    <AceEditor ref="aceEditor" :content="content" :width="width" :height="height" :lang="lang"/>
     <slot name="footer" slot="footer">
       <ElButton
         v-for="(button, index) in buttons"
@@ -21,40 +22,19 @@
 <script lang="ts">
 import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { State, namespace } from 'vuex-class'
-
-const EditorDialogModule = namespace('codeDialog')
 
 @Component
 export default class CodeDialog extends Vue {
-  @Prop({})
-  public footer!: any
-
-  @EditorDialogModule.State('visible')
-  public visible!: boolean
-
-  @EditorDialogModule.State('title')
-  public title!: string
-
-  @EditorDialogModule.State('buttons')
-  public buttons!: object[]
-
-  @EditorDialogModule.State('editorProps')
-  public editorProps!: any
-
-  @EditorDialogModule.Action('hide')
-  public hideDialog!: void
-
   public $refs: any
-  public editorContent: any = ''
 
-  get editorVisible() {
-    return this.visible
-  }
-
-  set editorVisible(val) {
-    !val && this.$store.dispatch('codeDialog/hide')
-  }
+  public visible: boolean = false
+  public title: string = ''
+  public content: string = ''
+  public width: number = 800
+  public height: number = 600
+  public buttons: any[] = []
+  public lang: string = 'javascript'
+  public readonly: boolean = false
 
   @Watch('visible')
   async visibleChanged(val: boolean) {
@@ -64,11 +44,16 @@ export default class CodeDialog extends Vue {
     }
   }
 
-  handleButtonClick(button) {
+  handleButtonClick(button: any) {
     if (_.isFunction(button.click)) {
       const content = this.$refs.aceEditor.editor.getValue()
       button.click(content)
     }
+  }
+
+  handleClosed() {
+    document.body.removeChild(this.$el)
+    this.$destroy()
   }
 }
 </script>

@@ -30,6 +30,15 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { version } from '../../package.json'
+import codeDialogServices from '@/service/CodeDialog'
+
+const configDialog = codeDialogServices({
+  width: 800,
+  height: 500,
+  readonly: true,
+  title: '查看配置',
+  buttons: [{ text: '取消', click: () => configDialog.hide() }]
+})
 
 @Component
 export default class Topbar extends Vue {
@@ -37,17 +46,7 @@ export default class Topbar extends Vue {
 
   async checkCurConfig() {
     const configString = await this.$store.dispatch('getConfigString')
-
-    this.$store.dispatch('codeDialog/show', {
-      content: `const listviewProps = ${configString}`,
-      width: 800,
-      height: 500,
-      readonly: true,
-      title: '查看配置',
-      buttons: [
-        { text: '取消', click: () => this.$store.dispatch('codeDialog/hide') }
-      ]
-    })
+    configDialog.show(`const listviewProps = ${configString}`)
   }
 }
 </script>
