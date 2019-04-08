@@ -34,7 +34,7 @@ export function uuid() {
   })
 }
 
-export function isFunctionString(input: string) {
+export function isFunctionString(input: any) {
   try {
     // eslint-disable-next-line no-new-func
     const func = new Function(`return ${input}`)()
@@ -43,7 +43,7 @@ export function isFunctionString(input: string) {
   return false
 }
 
-export function createFunction(input: string) {
+export function createFunction(input: any) {
   try {
     // eslint-disable-next-line no-new-func
     const func = new Function(`return ${input.trim()}`)()

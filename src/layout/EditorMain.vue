@@ -1,6 +1,5 @@
 <template>
   <div :class="$style.wrap" class="editor-wrap">
-    <!-- <Toolbar/> -->
     <div :class="$style.content">
       <div :class="$style.main">
         <ElForm label-width="140px" @submit.native.prevent style="height:100%">
@@ -37,7 +36,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Toolbar from '@/layout/Toolbar.vue'
 import Basic from '@/layout/EditorPane/Basic.vue'
 import DataSource from '@/layout/EditorPane/DataSource.vue'
 import FilterButtons from '@/layout/EditorPane/FilterButtons.vue'
@@ -46,7 +44,6 @@ import Content from '@/layout/EditorPane/Content.vue'
 
 @Component({
   components: {
-    Toolbar,
     Basic,
     DataSource,
     FilterButtons,
