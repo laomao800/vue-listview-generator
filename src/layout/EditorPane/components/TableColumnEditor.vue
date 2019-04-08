@@ -78,12 +78,6 @@ import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 import { isFunctionString } from '@/utils'
 import codeDialogServices from '@/service/CodeDialog'
 
-const formatterDialog = codeDialogServices({
-  width: 800,
-  height: 300,
-  title: 'formatter()'
-})
-
 const renderFuncString =
   'function render(scope) {\n' +
   '  // console.log(scope.row);\n' +
@@ -92,10 +86,10 @@ const renderFuncString =
   '  // return <strong>{scope.row.name}</strong>\n' +
   '}'
 
-const formatterFuncString =
+const defaultFormatterFuncString =
   'function formatter(row, column, cellValue, index) {\n' +
   '  // 可进行简单的文本格式处理后返回，如：\n' +
-  '  // return row.discount.toFixed(2)\n' +
+  '  return row.number_property.toFixed(2)\n' +
   '}'
 
 @Component({
@@ -123,12 +117,15 @@ export default class TableColumnEditor extends PopEditorBase {
     if (_.isString(existFormatter)) {
       funcString = this.editingData.formatter
     } else if (_.isFunction(existFormatter)) {
-      funcString = existFormatter.toString().trim()
+      funcString = existFormatter.toString()
     }
-    funcString = funcString || formatterFuncString
+    funcString = funcString || defaultFormatterFuncString
 
-    formatterDialog.show({
+    const formatterDialog = codeDialogServices({
+      title: 'formatter()',
       content: funcString,
+      width: 800,
+      height: 300,
       buttons: [
         { text: '取消', click: () => formatterDialog.hide() },
         {

@@ -52,7 +52,7 @@ export const state: {
         align: 'center',
         formatter:
           'function formatter(row) {\n' +
-          "  return row.hasOwnProperty('discount') && row.discount.toFixed(2);\n" +
+          "  return row.hasOwnProperty('discount') && row.discount.toFixed(2)\n" +
           '}'
       }
     }
@@ -71,20 +71,17 @@ export const actions: ActionTree<typeof state, any> = {
     const finalProps: any = {}
 
     if (tableColumns.length > 0) {
-      if (runtime) {
-        finalProps['tableColumns'] = tableColumns.map(item => {
-          if (isFunctionString(item.data.formatter)) {
-            item.data.formatter = createFunction(item.data.formatter)
-          }
-          // TODO:
-          // if (isFunctionString(item.data.render)) {
-          //   item.data.render = createFunction(item.data.render)
-          // }
-          return item.data
-        })
-      } else {
-        finalProps['tableColumns'] = tableColumns.map(item => item.data)
-      }
+      const cloneColumns = _.cloneDeep(tableColumns)
+      finalProps['tableColumns'] = cloneColumns.map(item => {
+        if (item.data.formatter) {
+          item.data.formatter = createFunction(item.data.formatter)
+        }
+        // TODO:
+        // if (isFunctionString(item.data.render)) {
+        //   item.data.render = createFunction(item.data.render)
+        // }
+        return item.data
+      })
     }
 
     return finalProps

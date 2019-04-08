@@ -4,10 +4,17 @@
     :visible.sync="visible"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    width="fit-content"
+    :width="width || 'fit-content'"
     @closed="handleClosed"
   >
-    <AceEditor ref="aceEditor" :content="content" :width="width" :height="height" :lang="lang"/>
+    <AceEditor
+      ref="aceEditor"
+      :content="content"
+      :height="height"
+      :lang="lang"
+      :readonly="readonly"
+      width="100%"
+    />
     <slot name="footer" slot="footer">
       <ElButton
         v-for="(button, index) in buttons"

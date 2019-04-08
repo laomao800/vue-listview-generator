@@ -80,7 +80,7 @@ import _ from 'lodash'
 import json5 from 'json5'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State, namespace } from 'vuex-class'
-import { formatJson } from '@/utils'
+import { prettifyJsonStringify } from '@/utils'
 
 interface OptionType {
   label: string
@@ -166,7 +166,9 @@ export default class SelectOptionsEditor extends Vue {
         }
         break
       case 'json':
-        this.optionJSONString = formatJson(this.internalOptions.slice(0, -1))
+        this.optionJSONString = prettifyJsonStringify(
+          this.internalOptions.slice(0, -1)
+        )
         break
     }
     return true

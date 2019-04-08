@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import json5 from 'json5'
@@ -33,12 +34,10 @@ const store = new Vuex.Store({
       const configString = json5.stringify(
         config,
         function(key: string, value: any) {
-          if (key === 'formatter') {
-            if (isFunctionString(value)) {
-              const id = uuid()
-              funcMap[id] = createFunction(value)
-              return `${funcDelimiters[0]}${id}${funcDelimiters[1]}`
-            }
+          if (_.isFunction(value)) {
+            const id = uuid()
+            funcMap[id] = value
+            return `${funcDelimiters[0]}${id}${funcDelimiters[1]}`
           } else if (key === 'render') {
             // TODO: return
           }
@@ -52,7 +51,10 @@ const store = new Vuex.Store({
         'g'
       )
       return configString.replace(funcPlaceHolderReg, function() {
-        return funcMap[arguments[1]].toString()
+        try {
+          return funcMap[arguments[1]].toString()
+        } catch (e) {}
+        return "''"
       })
     }
   }

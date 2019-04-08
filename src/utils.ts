@@ -1,9 +1,30 @@
 import _ from 'lodash'
+import * as prettier from 'prettier/standalone'
+import * as prettierBabylon from 'prettier/parser-babylon'
 
-export function formatJson(val: any, defaultValue: string = ''): string {
-  return _.isPlainObject(val) || Array.isArray(val)
-    ? JSON.stringify(val, null, 2)
-    : defaultValue
+export function prettify(code: string, prettierOptions = {}) {
+  return prettier.format(code, {
+    printWidth: 120,
+    tabWidth: 2,
+    useTabs: false,
+    semi: false,
+    singleQuote: true,
+    parser: 'babel',
+    plugins: [prettierBabylon],
+    ...prettierOptions
+  })
+}
+
+export function prettifyJson(data: any): string {
+  return prettify(JSON.stringify(data), {
+    parser: 'json5'
+  })
+}
+
+export function prettifyJsonStringify(data: any): string {
+  return prettify(JSON.stringify(data), {
+    parser: 'json-stringify'
+  })
 }
 
 /**
@@ -50,8 +71,6 @@ export function createFunction(input: any) {
     if (_.isFunction(func)) {
       return func
     }
-  } catch (e) {
-    console.error(e)
-  }
+  } catch (e) {}
   return () => {}
 }

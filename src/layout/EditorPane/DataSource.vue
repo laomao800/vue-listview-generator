@@ -103,7 +103,7 @@
               <ElButton slot="right" type="primary" size="mini">测试映射结果</ElButton>
             </PaneTitle>
             <AceEditor
-              :content="formatJson(contentDataResult)"
+              :content="prettifyJson(contentDataResult)"
               :readonly="true"
               height="200px"
               lang="javascript"
@@ -159,7 +159,7 @@ import _ from 'lodash'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { ListviewProps } from '@laomao800/vue-listview'
-import { formatJson, isFunctionString } from '@/utils'
+import { prettifyJson, isFunctionString, prettifyJsonStringify } from '@/utils'
 import { mapFields } from 'vuex-map-fields'
 
 @Component({
@@ -182,7 +182,7 @@ import { mapFields } from 'vuex-map-fields'
     })
   },
   methods: {
-    formatJson
+    prettifyJson
   }
 })
 export default class DataSource extends Vue {
@@ -214,9 +214,9 @@ export default class DataSource extends Vue {
   }
 
   created() {
-    this.interContentDataMap = formatJson(this.contentDataMap)
-    this.interValidateResponse = (this.validateResponse as string).trim()
-    this.interResErrMsg = (this.resolveResponseErrorMessage as string).trim()
+    this.interContentDataMap = prettifyJsonStringify(this.contentDataMap)
+    this.interValidateResponse = this.validateResponse
+    this.interResErrMsg = this.resolveResponseErrorMessage
   }
 
   @debounce(200)
