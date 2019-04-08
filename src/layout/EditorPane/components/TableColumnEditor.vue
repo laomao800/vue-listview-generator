@@ -121,39 +121,30 @@ export default class TableColumnEditor extends PopEditorBase {
     }
     funcString = funcString || formatterFuncString
 
-    this.$store.dispatch('aceEditorDialog/show', {
+    this.$store.dispatch('codeDialog/show', {
       content: funcString,
       title: 'formatter()',
-      onSuccess: (done: () => void, editorContent: string) => {
-        try {
-          if (isFunctionString(editorContent)) {
-            this.$set(this.editingData, 'formatter', editorContent)
-            done()
-          } else {
-            this.$message.error('内容必须为合法 function 定义')
+      height: 300,
+      buttons: [
+        { text: '取消', click: () => this.$store.dispatch('codeDialog/hide') },
+        {
+          text: '确定',
+          type: 'primary',
+          click: (content: string) => {
+            try {
+              if (isFunctionString(content)) {
+                this.$set(this.editingData, 'formatter', content)
+                this.$store.dispatch('codeDialog/hide')
+              } else {
+                this.$message.error('内容必须为合法 function 定义')
+              }
+            } catch (e) {
+              this.$message.error(e.toString())
+            }
           }
-        } catch (e) {
-          this.$message.error(e.toString())
         }
-      }
+      ]
     })
   }
-
-  // TODO: function JSX parse
-  // openJsxEditor() {
-  //   const funcString = _.isFunction(this.editingData.render)
-  //     ? this.editingData.render.toString()
-  //     : renderFuncString
-  //   this.$store.dispatch('aceEditorDialog/show', {
-  //     data: funcString,
-  //     title: 'render()',
-  //     onSuccess: (done: () => void, editorContent: string) => {
-  //       // eslint-disable-next-line no-new-func
-  //       const newFunc = new Function(`return ${editorContent}`)()
-  //       this.editingData.render = newFunc
-  //       done()
-  //     }
-  //   })
-  // }
 }
 </script>

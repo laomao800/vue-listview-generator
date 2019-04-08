@@ -8,8 +8,12 @@
   >
     <AceEditor ref="aceEditor" v-bind="editorProps"/>
     <slot name="footer" slot="footer">
-      <ElButton @click="hideDialog">取 消</ElButton>
-      <ElButton type="primary" @click="emitContent">确 定</ElButton>
+      <ElButton
+        v-for="(button, index) in buttons"
+        :key="index"
+        :type="button.type"
+        @click="handleButtonClick(button)"
+      >{{ button.text }}</ElButton>
     </slot>
   </ElDialog>
 </template>
@@ -19,10 +23,10 @@ import _ from 'lodash'
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { State, namespace } from 'vuex-class'
 
-const EditorDialogModule = namespace('aceEditorDialog')
+const EditorDialogModule = namespace('codeDialog')
 
 @Component
-export default class AceEditorDialog extends Vue {
+export default class CodeDialog extends Vue {
   @Prop({})
   public footer!: any
 
@@ -31,6 +35,9 @@ export default class AceEditorDialog extends Vue {
 
   @EditorDialogModule.State('title')
   public title!: string
+
+  @EditorDialogModule.State('buttons')
+  public buttons!: object[]
 
   @EditorDialogModule.State('editorProps')
   public editorProps!: any
@@ -46,7 +53,7 @@ export default class AceEditorDialog extends Vue {
   }
 
   set editorVisible(val) {
-    !val && this.$store.dispatch('aceEditorDialog/hide')
+    !val && this.$store.dispatch('codeDialog/hide')
   }
 
   @Watch('visible')
@@ -57,9 +64,11 @@ export default class AceEditorDialog extends Vue {
     }
   }
 
-  emitContent() {
-    const editorContent = this.$refs.aceEditor.editor.getValue()
-    this.$store.dispatch('aceEditorDialog/emit', editorContent)
+  handleButtonClick(button) {
+    if (_.isFunction(button.click)) {
+      const content = this.$refs.aceEditor.editor.getValue()
+      button.click(content)
+    }
   }
 }
 </script>

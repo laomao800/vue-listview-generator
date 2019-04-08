@@ -30,7 +30,7 @@
       </div>
     </div>
     <SelectOptionsEditor/>
-    <AceEditorDialog/>
+    <CodeDialog/>
   </div>
 </template>
 

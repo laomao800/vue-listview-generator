@@ -38,12 +38,15 @@ export default class Topbar extends Vue {
   async checkCurConfig() {
     const configString = await this.$store.dispatch('getConfigString')
 
-    this.$store.dispatch('aceEditorDialog/show', {
+    this.$store.dispatch('codeDialog/show', {
       content: `const listviewProps = ${configString}`,
       width: 800,
       height: 500,
       readonly: true,
-      title: '查看配置'
+      title: '查看配置',
+      buttons: [
+        { text: '取消', click: () => this.$store.dispatch('codeDialog/hide') }
+      ]
     })
   }
 }

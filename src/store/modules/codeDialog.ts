@@ -20,6 +20,7 @@ function getInitialState(): State {
   return {
     visible: false,
     title: '',
+    buttons: [],
     editorProps: {
       lang: 'javascript',
       content: '',
@@ -51,27 +52,17 @@ const mutations: MutationTree<State> = {
   }
 }
 
-let emitResolver: any
-
 const actions: ActionTree<State, any> = {
   show({ commit }, payload: Partial<State['editorProps']>) {
-    const { onSuccess, title, ...editorConfig } = payload
+    const { buttons, title, ...editorConfig } = payload
+    commit('SET_DIALOG_CONFIG', { visible: true, title, buttons })
     commit('SET_EDITOR_CONFIG', editorConfig)
-    commit('SET_DIALOG_CONFIG', { visible: true, title })
-    return new Promise(resolve => {
-      emitResolver = onSuccess || resolve
-    })
   },
   hide({ commit }) {
-    emitResolver = null
     commit('SET_DIALOG_CONFIG', { visible: false })
-
     setTimeout(() => {
       commit('SET_DIALOG_CONFIG', getInitialState())
-    }, 200)
-  },
-  emit({ dispatch }, payload: any) {
-    emitResolver && emitResolver(() => dispatch('hide'), payload)
+    }, 500)
   }
 }
 

@@ -44,13 +44,21 @@ export default class AceEditor extends Vue {
   onContentChanged(val: string) {
     this.editor.setValue(val, 1)
   }
+
   @Watch('lang')
   onLangChanged(val: string) {
     this.editor.getSession().setMode(`ace/mode/${val}`)
   }
+
   @Watch('readonly')
   onReadonlyChanged(val: boolean) {
     this.editor.setReadOnly(val)
+  }
+
+  @Watch('editorHeight')
+  @Watch('editorWidth')
+  onSizeChanged() {
+    this.editor.resize()
   }
 
   getValue() {
