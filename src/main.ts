@@ -17,9 +17,8 @@ import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
-import SelectOptionsEditor from '@/components/SelectOptionsEditor.vue'
 import SortableList from '@/components/SortableList.vue'
-import SortableField from '@/components/SortableField.vue'
+import SortableItem from '@/components/SortableItem.vue'
 
 // Field config components
 import FieldDivider from '@/components/Fields/FieldDivider.vue'
@@ -40,9 +39,8 @@ Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
-Vue.component('SelectOptionsEditor', SelectOptionsEditor)
 Vue.component('SortableList', SortableList)
-Vue.component('SortableField', SortableField)
+Vue.component('SortableItem', SortableItem)
 Vue.component('FieldDivider', FieldDivider)
 Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)

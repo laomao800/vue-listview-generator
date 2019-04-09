@@ -180,9 +180,7 @@ export default class SelectOptionsEditor extends Vue {
       if (validateOptionsData(parsedData)) {
         return parsedData
       } else {
-        throw Error(
-          '选项必须符合类型 {label: string, value: string | number}[] 。'
-        )
+        throw Error('选项必须符合类型 {label: string, value: any}[] 。')
       }
     } catch (error) {
       this.$message.error(error.toString())

@@ -58,7 +58,7 @@
 
     <!-- 下拉选择类 -->
     <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
-      <FieldItemBasic icon="gear" title="配置选项" @click.native="editSelectOptions">
+      <FieldItemBasic icon="gear" title="配置选项" @click.native="showOptionsDialog">
         <span style="color:#999;">({{ editingData.options.length }}项)</span>
       </FieldItemBasic>
     </template>
@@ -154,6 +154,7 @@ import { FilterField } from '@laomao800/vue-listview'
 import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
 import PopEditorBase from '../PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
+import SelectOptionsEditor from '@/service/SelectOptionsEditor'
 
 interface AllFieldData {
   [k: string]: FilterField
@@ -236,12 +237,11 @@ export default class FilterFieldEditor extends PopEditorBase {
     this.editingData = this.allFieldData[this.curType]
   }
 
-  async editSelectOptions() {
+  async showOptionsDialog() {
     try {
-      const newOptions = await this.$store.dispatch(
-        'optionsEditor/edit',
-        this.editingData.options
-      )
+      const newOptions = await SelectOptionsEditor({
+        options: this.editingData.options
+      })
       this.editingData.options = newOptions
     } catch (e) {}
   }

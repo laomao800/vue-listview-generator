@@ -4,7 +4,7 @@
     :visible.sync="visible"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    :width="width || 'fit-content'"
+    :width="width ? width.toString() : 'fit-content'"
     @closed="handleClosed"
   >
     <AceEditor
