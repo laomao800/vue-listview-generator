@@ -3,8 +3,14 @@
     <ElRow :gutter="16">
       <ElCol :span="10">
         <PaneTitle level="2" title="表格列" subtitle="tableColumns" inline style="margin-bottom:8px"/>
-        <Draggable v-model="tableColumns" :options="{ handle: '.drag-handle', animation: 100 }">
-          <DragItem v-for="(item, index) in tableColumns" :key="item.id">
+        <SortableList
+          v-model="tableColumns"
+          lock-axis="y"
+          :transition-duration="120"
+          :lock-to-container-edges="true"
+          :use-drag-handle="true"
+        >
+          <SortableField v-for="(item, index) in tableColumns" :index="index" :key="item.id">
             <TableColumnPreview v-bind="item.data"/>
             <TableColumnEditor
               ref="itemEditors"
@@ -14,8 +20,8 @@
               @copy="newData => copyItem(newData, index)"
               @change="newVal => updateItem(index, newVal)"
             />
-          </DragItem>
-        </Draggable>
+          </SortableField>
+        </SortableList>
         <AddItemHolder text="新建列" @click="createItem"/>
       </ElCol>
     </ElRow>

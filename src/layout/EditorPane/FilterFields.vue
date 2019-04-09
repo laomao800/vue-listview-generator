@@ -1,8 +1,14 @@
 <template>
   <div>
     <PaneTitle level="2" title="搜索栏字段" subtitle="filterFields" inline style="margin-bottom:8px"/>
-    <Draggable v-model="filterFields" :options="{ handle: '.drag-handle', animation: 100 }">
-      <DragItem v-for="(item, index) in filterFields" :key="item.id">
+    <SortableList
+      v-model="filterFields"
+      lock-axis="y"
+      :transition-duration="120"
+      :lock-to-container-edges="true"
+      :use-drag-handle="true"
+    >
+      <SortableField v-for="(item, index) in filterFields" :index="index" :key="item.id">
         <FilterFieldPreview v-bind="item.data"/>
         <FilterFieldEditor
           ref="itemEditors"
@@ -12,8 +18,8 @@
           @copy="newData => copyItem(newData, index)"
           @change="newVal => updateItem(index, newVal)"
         />
-      </DragItem>
-    </Draggable>
+      </SortableField>
+    </SortableList>
     <AddItemHolder text="新建字段" @click="createItem"/>
   </div>
 </template>

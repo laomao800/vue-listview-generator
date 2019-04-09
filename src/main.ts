@@ -2,7 +2,6 @@ import Vue from 'vue'
 import 'normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Draggable from 'vuedraggable'
 import Listview from '@laomao800/vue-listview'
 
 // App base
@@ -15,11 +14,12 @@ import store from '@/store'
 import AceEditor from '@/components/AceEditor.vue'
 import AddItemHolder from '@/components/AddItemHolder.vue'
 import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
-import DragItem from '@/components/DragItem.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
 import SelectOptionsEditor from '@/components/SelectOptionsEditor.vue'
+import SortableList from '@/components/SortableList.vue'
+import SortableField from '@/components/SortableField.vue'
 
 // Field config components
 import FieldDivider from '@/components/Fields/FieldDivider.vue'
@@ -34,15 +34,15 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI, { size: 'small' })
 Vue.use(Listview)
-Vue.component('Draggable', Draggable)
 Vue.component('AceEditor', AceEditor)
 Vue.component('AddItemHolder', AddItemHolder)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
-Vue.component('DragItem', DragItem)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
 Vue.component('SelectOptionsEditor', SelectOptionsEditor)
+Vue.component('SortableList', SortableList)
+Vue.component('SortableField', SortableField)
 Vue.component('FieldDivider', FieldDivider)
 Vue.component('FieldItemBasic', FieldItemBasic)
 Vue.component('FieldButtonType', FieldButtonType)

@@ -1,8 +1,14 @@
 <template>
   <div>
     <PaneTitle level="2" title="操作区域按钮" subtitle="filterButtons" inline style="margin-bottom:8px"/>
-    <Draggable v-model="filterButtons" :options="{ handle: '.drag-handle', animation: 100 }">
-      <DragItem v-for="(item, index) in filterButtons" :key="item.id">
+    <SortableList
+      v-model="filterButtons"
+      lock-axis="y"
+      :transition-duration="120"
+      :lock-to-container-edges="true"
+      :use-drag-handle="true"
+    >
+      <SortableField v-for="(item, index) in filterButtons" :index="index" :key="item.id">
         <FilterButtonPreview v-bind="item.data"/>
         <FilterButtonEditor
           ref="itemEditors"
@@ -12,8 +18,8 @@
           @copy="newData => copyItem(newData, index)"
           @change="newVal => updateItem(index, newVal)"
         />
-      </DragItem>
-    </Draggable>
+      </SortableField>
+    </SortableList>
     <AddItemHolder text="新建按钮" @click="createItem"/>
   </div>
 </template>
