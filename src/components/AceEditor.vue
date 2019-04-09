@@ -8,7 +8,7 @@ import ace from 'brace'
 import 'brace/mode/javascript'
 import 'brace/mode/json'
 import 'brace/mode/jsx'
-import 'brace/theme/monokai'
+import 'brace/theme/tomorrow_night_bright'
 import { parseSizeWithUnit } from '@/utils'
 
 @Component
@@ -69,7 +69,7 @@ export default class AceEditor extends Vue {
     const editor = ace.edit(this.$el as HTMLElement)
     editor.$blockScrolling = Infinity
     editor.setReadOnly(this.readonly)
-    editor.setTheme('ace/theme/monokai')
+    editor.setTheme('ace/theme/tomorrow_night_bright')
     editor.getSession().setUseWrapMode(true)
     editor.setOptions({
       mode: `ace/mode/${this.lang}`,
