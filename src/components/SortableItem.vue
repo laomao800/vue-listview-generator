@@ -23,7 +23,7 @@ import { ElementMixin, HandleDirective } from 'vue-slicksort'
   mixins: [ElementMixin],
   directives: { handle: HandleDirective }
 })
-export default class SortableField {}
+export default class SortableItem {}
 </script>
 
 <style lang="less" module>

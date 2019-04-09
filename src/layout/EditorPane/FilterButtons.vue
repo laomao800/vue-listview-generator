@@ -8,7 +8,7 @@
       :lock-to-container-edges="true"
       :use-drag-handle="true"
     >
-      <SortableField v-for="(item, index) in filterButtons" :index="index" :key="item.id">
+      <SortableItem v-for="(item, index) in filterButtons" :index="index" :key="item.id">
         <FilterButtonPreview v-bind="item.data"/>
         <FilterButtonEditor
           ref="itemEditors"
@@ -18,7 +18,7 @@
           @copy="newData => copyItem(newData, index)"
           @change="newVal => updateItem(index, newVal)"
         />
-      </SortableField>
+      </SortableItem>
     </SortableList>
     <AddItemHolder text="新建按钮" @click="createItem"/>
   </div>

@@ -10,7 +10,7 @@
           :lock-to-container-edges="true"
           :use-drag-handle="true"
         >
-          <SortableField v-for="(item, index) in tableColumns" :index="index" :key="item.id">
+          <SortableItem v-for="(item, index) in tableColumns" :index="index" :key="item.id">
             <TableColumnPreview v-bind="item.data"/>
             <TableColumnEditor
               ref="itemEditors"
@@ -20,7 +20,7 @@
               @copy="newData => copyItem(newData, index)"
               @change="newVal => updateItem(index, newVal)"
             />
-          </SortableField>
+          </SortableItem>
         </SortableList>
         <AddItemHolder text="新建列" @click="createItem"/>
       </ElCol>
