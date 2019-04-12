@@ -14,18 +14,7 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   actions: {
     getConfig({ dispatch }, runtime) {
-      const basicPromise = dispatch('editor/basic/getConfig', runtime)
-      const dataSourcePromise = dispatch('editor/dataSource/getConfig', runtime)
-      const filterbarPromise = dispatch('editor/filterbar/getConfig', runtime)
-      const contentPromise = dispatch('editor/content/getConfig', runtime)
-      return Promise.all([
-        basicPromise,
-        dataSourcePromise,
-        filterbarPromise,
-        contentPromise
-      ]).then(resArr => {
-        return Object.assign({}, ...resArr)
-      })
+      return dispatch('project/getConfig', runtime)
     },
     async getConfigString({ dispatch }) {
       const config = await dispatch('getConfig')

@@ -92,16 +92,15 @@ import { mapFields } from 'vuex-map-fields'
 
 @Component({
   computed: {
-    ...mapFields('editor/basic', {
-      // props
-      headerTitle: 'props.headerTitle',
-      headerNav: 'props.headerNav',
-      fullHeight: 'props.fullHeight',
-      height: 'props.height',
-      usePage: 'props.usePage',
-      pageSize: 'props.pageSize',
-      pageSizes: 'props.pageSizes'
-    })
+    ...mapFields('project', [
+      'headerTitle',
+      'headerNav',
+      'fullHeight',
+      'height',
+      'usePage',
+      'pageSize',
+      'pageSizes'
+    ])
   }
 })
 export default class Basic extends Vue {

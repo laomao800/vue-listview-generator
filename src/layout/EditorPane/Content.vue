@@ -22,7 +22,7 @@
             />
           </SortableItem>
         </SortableList>
-        <AddItemHolder text="新建列" @click="createItem"/>
+        <AddItemHolder text="新建列" @click="() => createItem()"/>
       </ElCol>
     </ElRow>
   </div>
@@ -37,7 +37,7 @@ import EditableListBase from './EditableListBase'
 import TableColumnPreview from '@/layout/EditorPane/components/TableColumnPreview.vue'
 import TableColumnEditor from '@/layout/EditorPane/components/TableColumnEditor.vue'
 
-const Module = namespace('editor/content')
+const Module = namespace('project')
 
 @Component({
   components: {
@@ -45,23 +45,26 @@ const Module = namespace('editor/content')
     TableColumnEditor
   },
   computed: {
-    ...mapFields('editor/content', ['tableColumns'])
+    ...mapFields('project', ['tableColumns'])
   }
 })
 export default class Content extends EditableListBase {
-  @Module.Action('addTableColumn')
-  public createHandler!: (payload?: {
-    data: TableColumn
-    insertAfter?: number
-  }) => void
+  @Module.Action('addListItem')
+  public createHandler!: () => void
 
-  @Module.Action('updateTableColumn')
-  public updateHandler!: (payload: {
-    updateIndex: number
-    data: TableColumn
-  }) => void
+  @Module.Action('updateListItem')
+  public updateHandler!: () => void
 
-  @Module.Action('deleteTableColumn')
-  public deleteHandler!: (payload: any) => void
+  @Module.Action('deleteListItem')
+  public deleteHandler!: () => void
+
+  constructor() {
+    super()
+    this.stateField = 'tableColumns'
+    this.defaultData = {
+      label: '列名',
+      prop: 'property_name'
+    }
+  }
 }
 </script>

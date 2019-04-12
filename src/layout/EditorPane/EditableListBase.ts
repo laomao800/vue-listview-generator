@@ -1,33 +1,39 @@
 import { Vue } from 'vue-property-decorator'
 
-interface CreateType {
+export interface CreatePayload {
+  stateProp: string
   data: any
-  insertAfter: number
+  insertAfter?: number
 }
-
-interface UpdateType {
-  updateIndex: number
+export interface UpdatePayload {
+  stateProp: string
   data: any
+  updateIndex: number
+}
+export interface DeletePayload {
+  stateProp: string
+  deleteIndex: number
 }
 
 export default class EditableListBase extends Vue {
-  public createHandler(payload?: { data: any; insertAfter?: number }) {
-    console.warn('createHandler 未实现')
+  public createHandler(payload?: CreatePayload) {
+    throw new Error('createHandler 未实现')
   }
-  public updateHandler(payload: { updateIndex: number; data: any }) {
-    console.warn('updateHandler 未实现')
+  public updateHandler(payload: UpdatePayload) {
+    throw new Error('updateHandler 未实现')
   }
-  public deleteHandler(deleteIndex: number): void {
-    console.warn('deleteHandler 未实现')
+  public deleteHandler(payload: DeletePayload) {
+    throw new Error('deleteHandler 未实现')
   }
 
-  constructor() {
-    super()
-    this.createItem = this.createItem.bind(this)
-  }
+  public stateField: string = ''
+  public defaultData: any = {}
 
   createItem() {
-    this.createHandler()
+    this.createHandler({
+      stateProp: this.stateField,
+      data: this.defaultData
+    })
     // 此处 nextTick 无效，需使用 setTimeout 避免过快触发关闭弹出编辑组件
     setTimeout(() => {
       const editors: any = this.$refs.itemEditors
@@ -40,6 +46,7 @@ export default class EditableListBase extends Vue {
 
   copyItem(data: any, insertAfter: number) {
     this.createHandler({
+      stateProp: this.stateField,
       data,
       insertAfter
     })
@@ -47,6 +54,7 @@ export default class EditableListBase extends Vue {
 
   updateItem(updateIndex: number, data: any) {
     this.updateHandler({
+      stateProp: this.stateField,
       updateIndex,
       data
     })
@@ -59,7 +67,10 @@ export default class EditableListBase extends Vue {
         cancelButtonText: '取消',
         type: 'warning'
       })
-      this.deleteHandler(deleteIndex)
+      this.deleteHandler({
+        stateProp: this.stateField,
+        deleteIndex
+      })
     } catch (e) {}
   }
 }

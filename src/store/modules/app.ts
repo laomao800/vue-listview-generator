@@ -17,7 +17,14 @@ const DATA_KEY = 'project-data'
 const state: State = {
   version: version,
   isSaving: false,
-  updatedAt: null
+  updatedAt: null,
+
+  // DataSource Pane
+  requestType: 'default',
+  setContentDataMap: false,
+  setResolveResponseErrorMessage: false,
+  setValidateResponse: false,
+  setContentMessage: false
 }
 
 const mutations: MutationTree<State> = {}
@@ -55,4 +62,5 @@ const actions: ActionTree<State, any> = {
   clearProject() {}
 }
 
+export const mapFields = true
 export { state, mutations, actions }

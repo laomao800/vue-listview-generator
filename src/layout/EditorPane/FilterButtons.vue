@@ -20,7 +20,7 @@
         />
       </SortableItem>
     </SortableList>
-    <AddItemHolder text="新建按钮" @click="createItem"/>
+    <AddItemHolder text="新建按钮" @click="() => createItem()"/>
   </div>
 </template>
 
@@ -30,11 +30,15 @@ import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterButton } from '@laomao800/vue-listview'
 import { mapFields } from 'vuex-map-fields'
-import EditableListBase from './EditableListBase'
+import EditableListBase, {
+  CreatePayload,
+  UpdatePayload,
+  DeletePayload
+} from './EditableListBase'
 import FilterButtonPreview from '@/layout/EditorPane/components/FilterButtonPreview.vue'
 import FilterButtonEditor from '@/layout/EditorPane/components/FilterButtonEditor.vue'
 
-const Module = namespace('editor/filterbar')
+const Module = namespace('project')
 
 @Component({
   components: {
@@ -42,23 +46,23 @@ const Module = namespace('editor/filterbar')
     FilterButtonEditor
   },
   computed: {
-    ...mapFields('editor/filterbar', ['filterButtons'])
+    ...mapFields('project', ['filterButtons'])
   }
 })
 export default class FilterButtons extends EditableListBase {
-  @Module.Action('addFilterButton')
-  public createHandler!: (payload?: {
-    data: FilterButton
-    insertAfter?: number
-  }) => void
+  @Module.Action('addListItem')
+  public createHandler!: (payload: any) => void
 
-  @Module.Action('updateFilterButton')
-  public updateHandler!: (payload: {
-    updateIndex: number
-    data: FilterButton
-  }) => void
+  @Module.Action('updateListItem')
+  public updateHandler!: (payload: any) => void
 
-  @Module.Action('deleteFilterButton')
+  @Module.Action('deleteListItem')
   public deleteHandler!: (payload: any) => void
+
+  constructor() {
+    super()
+    this.stateField = 'filterButtons'
+    this.defaultData = { text: '按钮文本' }
+  }
 }
 </script>

@@ -164,22 +164,23 @@ import { mapFields } from 'vuex-map-fields'
 
 @Component({
   computed: {
-    ...mapFields('editor/dataSource', {
-      requestType: 'requestType',
-      setContentDataMap: 'setContentDataMap',
-      setResolveResponseErrorMessage: 'setResolveResponseErrorMessage',
-      setValidateResponse: 'setValidateResponse',
-      setContentMessage: 'setContentMessage',
-      // props
-      requestUrl: 'props.requestUrl',
-      requestMethod: 'props.requestMethod',
-      autoload: 'props.autoload',
-      contentMessage: 'props.contentMessage',
-      contentDataMap: 'props.contentDataMap',
-      validateResponse: 'props.validateResponse',
-      resolveResponseErrorMessage: 'props.resolveResponseErrorMessage',
-      requestHandler: 'props.requestHandler'
-    })
+    ...mapFields('project', [
+      'requestUrl',
+      'requestMethod',
+      'autoload',
+      'contentMessage',
+      'contentDataMap',
+      'validateResponse',
+      'resolveResponseErrorMessage',
+      'requestHandler'
+    ]),
+    ...mapFields('app', [
+      'requestType',
+      'setContentDataMap',
+      'setResolveResponseErrorMessage',
+      'setValidateResponse',
+      'setContentMessage'
+    ])
   },
   methods: {
     prettifyJson

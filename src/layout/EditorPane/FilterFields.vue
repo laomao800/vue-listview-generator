@@ -20,7 +20,7 @@
         />
       </SortableItem>
     </SortableList>
-    <AddItemHolder text="新建字段" @click="createItem"/>
+    <AddItemHolder text="新建字段" @click="() => createItem()"/>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ import EditableListBase from './EditableListBase'
 import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
 import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
 
-const Module = namespace('editor/filterbar')
+const Module = namespace('project')
 
 @Component({
   components: {
@@ -42,23 +42,27 @@ const Module = namespace('editor/filterbar')
     FilterFieldEditor
   },
   computed: {
-    ...mapFields('editor/filterbar', ['filterFields'])
+    ...mapFields('project', ['filterFields'])
   }
 })
 export default class FilterFields extends EditableListBase {
-  @Module.Action('addFilterField')
-  public createHandler!: (payload?: {
-    data: FilterField
-    insertAfter?: number
-  }) => void
+  @Module.Action('addListItem')
+  public createHandler!: (payload: any) => void
 
-  @Module.Action('updateFilterField')
-  public updateHandler!: (payload: {
-    updateIndex: number
-    data: FilterField
-  }) => void
+  @Module.Action('updateListItem')
+  public updateHandler!: (payload: any) => void
 
-  @Module.Action('deleteFilterField')
-  public deleteHandler!: (deleteIndex: number) => void
+  @Module.Action('deleteListItem')
+  public deleteHandler!: (payload: any) => void
+
+  constructor() {
+    super()
+    this.stateField = 'filterFields'
+    this.defaultData = {
+      type: 'text',
+      label: '字段文本标签',
+      model: 'param_name'
+    }
+  }
 }
 </script>
