@@ -14,20 +14,20 @@
         <span>查看配置</span>
       </span>
 
-      <ElDropdown trigger="click" placement="bottom-start" size="default">
+      <ElDropdown trigger="click" placement="bottom-start" size="default" @command="handleExport">
         <span :class="$style.act">
           <SvgIcon name="download"/>
           <span>导出</span>
         </span>
-        <ElDropdownMenu slot="dropdown" @command="handleExport">
+        <ElDropdownMenu slot="dropdown">
           <ElDropdownItem command="config">
             <SvgIcon name="object" :class="$style['menu-icon']"/>配置文件
           </ElDropdownItem>
-          <ElDropdownItem command="vue">
-            <SvgIcon name="vue" :class="$style['menu-icon']"/>Vue 页面组件
-          </ElDropdownItem>
           <ElDropdownItem command="html">
             <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
+          </ElDropdownItem>
+          <ElDropdownItem command="vue">
+            <SvgIcon name="vue" :class="$style['menu-icon']"/>Vue 页面组件
           </ElDropdownItem>
         </ElDropdownMenu>
       </ElDropdown>
@@ -52,9 +52,11 @@ export default class Topbar extends Vue {
   public version = version
 
   async checkCurConfig() {
-    const configString = await this.$store.dispatch('getConfigString')
+    const configString = await this.$store.dispatch(
+      'app/getProjectConfigString'
+    )
     const configDialog = codeDialogServices({
-      content: prettify(`const configs = ${configString}`),
+      content: prettify(`const listviewProps = ${configString}`),
       width: '80%',
       height: 500,
       readonly: true,
@@ -63,15 +65,10 @@ export default class Topbar extends Vue {
     })
   }
 
-  handleExport(command: string) {
-    switch (command) {
-      case 'config':
-        break
-      case 'vue':
-        break
-      case 'html':
-        break
-    }
+  async handleExport(command: string) {
+    this.$store.dispatch('app/exportProject', {
+      type: command
+    })
   }
 }
 </script>

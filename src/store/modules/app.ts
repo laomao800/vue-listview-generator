@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import localforage from 'localforage'
+import download from 'downloadjs'
+import json5 from 'json5'
+import { uuid } from '@/utils'
 import { ActionTree, MutationTree } from 'vuex'
 import store from '@/store'
 import { version } from '@/../package.json'
@@ -30,6 +33,60 @@ const state: State = {
 const mutations: MutationTree<State> = {}
 
 const actions: ActionTree<State, any> = {
+  async exportProject({ rootState }, { type = 'config' }) {
+    switch (type) {
+      case 'config':
+        download(
+          JSON.stringify({
+            version,
+            data: json5.stringify(rootState.project)
+          }),
+          `listview_config_${+new Date()}.json`,
+          'text/plain'
+        )
+        break
+      case 'html':
+        break
+      case 'vue':
+        break
+    }
+  },
+
+  getProjectConfig({ dispatch }) {
+    return dispatch('project/getConfig', null, { root: true })
+  },
+
+  async getProjectConfigString({ dispatch }) {
+    const funcDelimiters = ['{{', '}}']
+    const config = await dispatch('getProjectConfig')
+    const funcMap: any = {}
+
+    const configString = json5.stringify(config, function(
+      key: string,
+      value: any
+    ) {
+      if (_.isFunction(value)) {
+        const id = uuid()
+        funcMap[id] = value
+        return `${funcDelimiters[0]}${id}${funcDelimiters[1]}`
+      } else if (key === 'render') {
+        // TODO: return
+      }
+      return value
+    })
+
+    const funcPlaceHolderReg = new RegExp(
+      `['"]${funcDelimiters[0]}(.{6})${funcDelimiters[1]}['"]`,
+      'g'
+    )
+    return configString.replace(funcPlaceHolderReg, function() {
+      try {
+        return funcMap[arguments[1]].toString()
+      } catch (e) {}
+      return "''"
+    })
+  },
+
   checkLastSaved() {
     // const currentProjectB64 = btoa(JSON.stringify(state.project))
     // let lastSavedProjectB64 = await localforage.getItem('gh-last-saved')

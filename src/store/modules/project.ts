@@ -247,7 +247,7 @@ export const actions: ActionTree<typeof state, any> = {
     })
   },
 
-  getConfig({ state, rootState }, runtime = false) {
+  getConfig({ state, rootState }) {
     const finalConfig: any = {}
 
     // Basic
