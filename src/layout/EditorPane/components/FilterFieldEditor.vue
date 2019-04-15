@@ -214,7 +214,7 @@ export default class FilterFieldEditor extends PopEditorBase {
     this.modelName = this.modelName || newVal.model || ''
     if (!_.isEqual(newVal, this.editingData)) {
       const target = this.allFieldData[this.curType!]
-      const newData = _.merge(target, _.cloneDeep(newVal))
+      const newData = _.merge({}, target, _.cloneDeep(newVal))
       this.allFieldData[this.curType!] = newData
     }
   }
