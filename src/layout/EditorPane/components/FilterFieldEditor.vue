@@ -76,8 +76,16 @@
       </template>
 
       <template v-if="['dateRange', 'dateTimeRange'].includes(curType)">
-        <FieldInput title="开始占位内容" placeholder="开始日期"/>
-        <FieldInput title="结束占位内容" placeholder="结束日期"/>
+        <FieldInput
+          v-model="editingData.componentProps.startPlaceholder"
+          title="开始占位内容"
+          placeholder="开始日期"
+        />
+        <FieldInput
+          v-model="editingData.componentProps.endPlaceholder"
+          title="结束占位内容"
+          placeholder="结束日期"
+        />
       </template>
 
       <FieldInput
