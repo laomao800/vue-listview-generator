@@ -89,7 +89,7 @@ const renderFuncString =
 const defaultFormatterFuncString =
   'function formatter(row, column, cellValue, index) {\n' +
   '  // 可进行简单的文本格式处理后返回，如：\n' +
-  '  return row.number_property.toFixed(2)\n' +
+  '  // return row.number_property.toFixed(2)\n' +
   '}'
 
 @Component({
