@@ -44,12 +44,12 @@ const mutations: MutationTree<State> = {}
 
 const actions: ActionTree<State, any> = {
   async exportProject({ rootState, dispatch }, { type = 'config' }) {
-    let fileContent = null
-    let fileName = null
+    let exportFileContent = null
+    let exportFileName = null
     switch (type) {
       case 'config':
-        fileName = `listview_config_${+new Date()}.json`
-        fileContent = JSON.stringify({
+        exportFileName = `listview_config_${+new Date()}.json`
+        exportFileContent = JSON.stringify({
           version,
           listviewVersion,
           data: json5.stringify(rootState.project)
@@ -57,24 +57,28 @@ const actions: ActionTree<State, any> = {
         break
       case 'html':
       case 'vue':
-        fileName = `listview_page_${+new Date()}.${type}`
-        // prettier-ignore
-        // eslint-disable-next-line import/no-webpack-loader-syntax
-        const fileTemplate = require('!!raw-loader!@/constants/exportHtmlTemplate.tpl').default
+        exportFileName = `listview_page_${+new Date()}.${type}`
         // prettier-ignore
         const configString = await dispatch('app/getProjectConfigString', null, { root: true })
-        fileContent = simpleTpl(fileTemplate, {
+        // eslint-disable-next-line import/no-webpack-loader-syntax
+        const templateMap: any = {
+          html: require(`!!raw-loader!@/constants/exportTemplate/html.tpl`)
+            .default,
+          vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`)
+            .default
+        }
+        const templateContent = templateMap[type]
+        exportFileContent = simpleTpl(templateContent, {
           listviewConfig: configString,
           listviewVersion
         })
-        fileContent = prettify(fileContent, {
-          parser: 'html'
+        exportFileContent = prettify(exportFileContent, {
+          parser: type
         })
-        console.log('fileContent', fileContent)
         break
     }
-    if (fileContent && fileName) {
-      download(fileContent, fileName, 'text/plain')
+    if (exportFileContent && exportFileName) {
+      download(exportFileContent, exportFileName, 'text/plain')
     }
   },
 
