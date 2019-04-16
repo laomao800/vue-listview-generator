@@ -3,10 +3,19 @@ import Vue from 'vue'
 import localforage from 'localforage'
 import download from 'downloadjs'
 import json5 from 'json5'
-import { uuid } from '@/utils'
+import { uuid, prettify } from '@/utils'
 import { ActionTree, MutationTree } from 'vuex'
 import store from '@/store'
 import { version } from '@/../package.json'
+import { version as listviewVersion } from '@laomao800/vue-listview/package.json'
+
+function simpleTpl(content: string, variables: any) {
+  const keys = Object.keys(variables)
+  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
+  return content.replace(reg, function(match, p1) {
+    return variables[p1] || ''
+  })
+}
 
 interface State {
   [x: string]: any
@@ -18,7 +27,8 @@ interface State {
 const DATA_KEY = 'project-data'
 
 const state: State = {
-  version: version,
+  version,
+  listviewVersion,
   isSaving: false,
   updatedAt: null,
 
@@ -33,22 +43,38 @@ const state: State = {
 const mutations: MutationTree<State> = {}
 
 const actions: ActionTree<State, any> = {
-  async exportProject({ rootState }, { type = 'config' }) {
+  async exportProject({ rootState, dispatch }, { type = 'config' }) {
+    let fileContent = null
+    let fileName = null
     switch (type) {
       case 'config':
-        download(
-          JSON.stringify({
-            version,
-            data: json5.stringify(rootState.project)
-          }),
-          `listview_config_${+new Date()}.json`,
-          'text/plain'
-        )
+        fileName = `listview_config_${+new Date()}.json`
+        fileContent = JSON.stringify({
+          version,
+          listviewVersion,
+          data: json5.stringify(rootState.project)
+        })
         break
       case 'html':
-        break
       case 'vue':
+        fileName = `listview_page_${+new Date()}.${type}`
+        // prettier-ignore
+        // eslint-disable-next-line import/no-webpack-loader-syntax
+        const fileTemplate = require('!!raw-loader!@/constants/exportHtmlTemplate.tpl').default
+        // prettier-ignore
+        const configString = await dispatch('app/getProjectConfigString', null, { root: true })
+        fileContent = simpleTpl(fileTemplate, {
+          listviewConfig: configString,
+          listviewVersion
+        })
+        fileContent = prettify(fileContent, {
+          parser: 'html'
+        })
+        console.log('fileContent', fileContent)
         break
+    }
+    if (fileContent && fileName) {
+      download(fileContent, fileName, 'text/plain')
     }
   },
 

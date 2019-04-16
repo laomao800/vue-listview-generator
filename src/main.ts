@@ -2,7 +2,6 @@ import Vue from 'vue'
 import 'normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Listview from '@laomao800/vue-listview'
 
 // App base
 import '@/style/common.less'
@@ -32,7 +31,6 @@ import FieldDateType from '@/components/Fields/FieldDateType.vue'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { size: 'small' })
-Vue.use(Listview)
 Vue.component('AceEditor', AceEditor)
 Vue.component('AddItemHolder', AddItemHolder)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)

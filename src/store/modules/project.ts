@@ -3,11 +3,7 @@ import has from 'has-values'
 import { ActionTree, MutationTree } from 'vuex'
 import { TableColumn } from '@laomao800/vue-listview'
 import { createFunction, prettify } from '@/utils'
-import {
-  LIST_STATE_ADD,
-  LIST_STATE_UPDATE,
-  LIST_STATE_DELETE
-} from '@/store/listStateMutations'
+import { LIST_STATE_ADD, LIST_STATE_UPDATE, LIST_STATE_DELETE } from '@/store/listStateMutations'
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 type Merge<M, N> = Omit<M, Extract<keyof M, keyof N>> & N
@@ -160,8 +156,7 @@ export const state = {
   ],
 
   // DataSource
-  requestUrl:
-    'https://easy-mock.com/mock/5aee142c96e73977996d13b6/listview/list',
+  requestUrl: 'https://easy-mock.com/mock/5aee142c96e73977996d13b6/listview/list',
   requestMethod: 'post',
   requestHandler: 'myRequestHandler',
   autoload: true,
@@ -203,17 +198,18 @@ export const state = {
     },
     {
       id: '8a7ef70c',
-      data: { label: '修改时间', prop: 'date', align: 'center', fixed: 'right' }
+      data: { label: '修改时间', prop: 'date', align: 'center' }
     },
     {
       id: '2420d850',
       data: {
         label: '折扣率',
         align: 'center',
-        formatter:
-          'function formatter(row) {\n' +
-          "  return row.hasOwnProperty('discount') && row.discount.toFixed(2)\n" +
-          '}'
+        formatter: `
+          function formatter(row) {
+            return row.hasOwnProperty('discount') && row.discount.toFixed(2)
+          }
+        `
       }
     }
   ]
@@ -310,9 +306,7 @@ export const actions: ActionTree<typeof state, any> = {
       finalConfig['contentMessage'] = state.contentMessage
     }
     if (rootState.app.setResolveResponseErrorMessage) {
-      finalConfig['resolveResponseErrorMessage'] = createFunction(
-        state.resolveResponseErrorMessage
-      )
+      finalConfig['resolveResponseErrorMessage'] = createFunction(state.resolveResponseErrorMessage)
     }
     if (rootState.app.setValidateResponse) {
       finalConfig['validateResponse'] = createFunction(state.validateResponse)

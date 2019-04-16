@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import * as prettier from 'prettier/standalone'
 import * as prettierBabylon from 'prettier/parser-babylon'
+import * as prettierHTML from 'prettier/parser-html'
 
 export function prettify(code: string, prettierOptions = {}) {
   return prettier.format(code, {
@@ -10,7 +11,7 @@ export function prettify(code: string, prettierOptions = {}) {
     semi: false,
     singleQuote: true,
     parser: 'babel',
-    plugins: [prettierBabylon],
+    plugins: [prettierBabylon, prettierHTML],
     ...prettierOptions
   })
 }

@@ -735,12 +735,13 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@laomao800/vue-listview@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.0.2.tgz#eb179721a2ca2d2533fe10781beaf4885d642cdc"
-  integrity sha512-c5/8z0ZGMcPbs1tseqrQ/U0chK+L1QY49pvmDGeIQCXiDl8DysrBaYTUMg0AHUaOfyh8vPOrTxw7VfHeyOirwQ==
+"@laomao800/vue-listview@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.1.2.tgz#302e44f46f1807c9c9338bfae9cb5cf314bb46e3"
+  integrity sha512-JU/hfF7NUCAUO36TfETwiOONTR7Afl8ZvQUPs9BxZkYN3i+cEFYM+1ebY2hR/6ZQNi1LsDhKeaVZUx56rLTUkw==
   dependencies:
     axios "^0.18.0"
+    lodash "^4.17.11"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -7199,6 +7200,14 @@ raw-body@2.3.3:
     http-errors "1.6.3"
     iconv-lite "0.4.23"
     unpipe "1.0.0"
+
+raw-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/raw-loader/-/raw-loader-2.0.0.tgz#e2813d9e1e3f80d1bbade5ad082e809679e20c26"
+  integrity sha512-kZnO5MoIyrojfrPWqrhFNLZemIAX8edMOCp++yC5RKxzFB3m92DqKNhKlU6+FvpOhWtvyh3jOaD7J6/9tpdIKg==
+  dependencies:
+    loader-utils "^1.1.0"
+    schema-utils "^1.0.0"
 
 rc@^1.2.7:
   version "1.2.8"
