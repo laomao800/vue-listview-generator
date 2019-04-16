@@ -3,7 +3,6 @@
     :title="title || '查看'"
     :visible.sync="visible"
     :close-on-click-modal="false"
-    :close-on-press-escape="false"
     :width="width ? width.toString() : 'fit-content'"
     @closed="handleClosed"
   >
@@ -13,6 +12,7 @@
       :height="height"
       :lang="lang"
       :readonly="readonly"
+      :use-worker="useWorker"
       width="100%"
     />
     <slot name="footer" slot="footer">
@@ -42,6 +42,7 @@ export default class CodeDialog extends Vue {
   public buttons: any[] = []
   public lang: string = 'javascript'
   public readonly: boolean = false
+  public useWorker: boolean = true
 
   @Watch('visible')
   async visibleChanged(val: boolean) {

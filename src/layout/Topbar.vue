@@ -9,10 +9,24 @@
         <SvgIcon name="play"/>
         <span>预览</span>
       </span>
-      <span :class="$style.act" @click="checkCurConfig">
-        <SvgIcon name="preview"/>
-        <span>查看配置</span>
-      </span>
+
+      <ElDropdown trigger="click" placement="bottom-start" size="default" @command="checkCurConfig">
+        <span :class="$style.act">
+          <SvgIcon name="preview"/>
+          <span>检查配置</span>
+        </span>
+        <ElDropdownMenu slot="dropdown">
+          <ElDropdownItem command="config">
+            <SvgIcon name="object" :class="$style['menu-icon']"/>Object 配置
+          </ElDropdownItem>
+          <ElDropdownItem command="html">
+            <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
+          </ElDropdownItem>
+          <ElDropdownItem command="vue">
+            <SvgIcon name="vue" :class="$style['menu-icon']"/>Vue 页面组件
+          </ElDropdownItem>
+        </ElDropdownMenu>
+      </ElDropdown>
 
       <ElDropdown trigger="click" placement="bottom-start" size="default" @command="handleExport">
         <span :class="$style.act">
@@ -43,32 +57,106 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { version } from '../../package.json'
+import download from 'downloadjs'
+import json5 from 'json5'
+import { version } from '@/../package.json'
 import codeDialogServices from '@/service/CodeDialog'
 import { prettify } from '@/utils'
+import { version as listviewVersion } from '@laomao800/vue-listview/package.json'
+
+type ConfigContentType = 'config' | 'html' | 'vue'
+
+function simpleTpl(content: string, variables: any) {
+  const keys = Object.keys(variables)
+  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
+  return content.replace(reg, function(match, p1) {
+    return variables[p1] || ''
+  })
+}
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+const templateContentMap: any = {
+  html: require(`!!raw-loader!@/constants/exportTemplate/html.tpl`).default,
+  vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`).default
+}
 
 @Component
 export default class Topbar extends Vue {
   public version = version
 
-  async checkCurConfig() {
-    const configString = await this.$store.dispatch(
-      'app/getProjectConfigString'
-    )
+  async checkCurConfig(type: ConfigContentType) {
+    let content = ''
+    switch (type) {
+      case 'config':
+        const configString = await this.$store.dispatch(
+          'app/getProjectConfigString'
+        )
+        content = prettify(`const listviewProps = ${configString}`)
+        break
+      case 'html':
+      case 'vue':
+        content = await this.getConfigContent(type)
+    }
     const configDialog = codeDialogServices({
-      content: prettify(`const listviewProps = ${configString}`),
+      content,
+      lang: type === 'config' ? 'javascript' : 'html',
       width: '80%',
       height: 500,
       readonly: true,
+      useWorker: false,
       title: '查看配置',
-      buttons: [{ text: '取消', click: () => configDialog.hide() }]
+      buttons: [
+        { text: '取消', click: () => configDialog.hide() },
+        {
+          text: '导出',
+          type: 'primary',
+          click: () => this.handleExport(type, content)
+        }
+      ]
     })
   }
 
-  async handleExport(command: string) {
-    this.$store.dispatch('app/exportProject', {
-      type: command
-    })
+  async handleExport(type: ConfigContentType, content: string) {
+    let exportFileName = null
+    switch (type) {
+      case 'config':
+        exportFileName = `listview_config_${+new Date()}.json`
+        break
+      case 'html':
+      case 'vue':
+        exportFileName = `listview_page_${+new Date()}.${type}`
+    }
+    const fileContent = content || (await this.getConfigContent(type))
+    if (fileContent && exportFileName) {
+      download(fileContent, exportFileName, 'text/plain')
+    }
+  }
+
+  async getConfigContent(type: ConfigContentType): Promise<string> {
+    let content = ''
+    switch (type) {
+      case 'config':
+        content = JSON.stringify({
+          version,
+          listviewVersion,
+          data: json5.stringify(this.$store.state.project)
+        })
+        break
+      case 'html':
+      case 'vue':
+        // prettier-ignore
+        const configString = await this.$store.dispatch('app/getProjectConfigString')
+        const templateContent = templateContentMap[type]
+        content = simpleTpl(templateContent, {
+          listviewConfig: configString,
+          listviewVersion
+        })
+        content = prettify(content, {
+          parser: type
+        })
+        break
+    }
+    return content
   }
 }
 </script>

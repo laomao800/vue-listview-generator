@@ -1,21 +1,12 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import localforage from 'localforage'
-import download from 'downloadjs'
 import json5 from 'json5'
-import { uuid, prettify } from '@/utils'
+import { uuid } from '@/utils'
 import { ActionTree, MutationTree } from 'vuex'
 import store from '@/store'
 import { version } from '@/../package.json'
 import { version as listviewVersion } from '@laomao800/vue-listview/package.json'
-
-function simpleTpl(content: string, variables: any) {
-  const keys = Object.keys(variables)
-  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
-  return content.replace(reg, function(match, p1) {
-    return variables[p1] || ''
-  })
-}
 
 interface State {
   [x: string]: any
@@ -43,45 +34,6 @@ const state: State = {
 const mutations: MutationTree<State> = {}
 
 const actions: ActionTree<State, any> = {
-  async exportProject({ rootState, dispatch }, { type = 'config' }) {
-    let exportFileContent = null
-    let exportFileName = null
-    switch (type) {
-      case 'config':
-        exportFileName = `listview_config_${+new Date()}.json`
-        exportFileContent = JSON.stringify({
-          version,
-          listviewVersion,
-          data: json5.stringify(rootState.project)
-        })
-        break
-      case 'html':
-      case 'vue':
-        exportFileName = `listview_page_${+new Date()}.${type}`
-        // prettier-ignore
-        const configString = await dispatch('app/getProjectConfigString', null, { root: true })
-        // eslint-disable-next-line import/no-webpack-loader-syntax
-        const templateMap: any = {
-          html: require(`!!raw-loader!@/constants/exportTemplate/html.tpl`)
-            .default,
-          vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`)
-            .default
-        }
-        const templateContent = templateMap[type]
-        exportFileContent = simpleTpl(templateContent, {
-          listviewConfig: configString,
-          listviewVersion
-        })
-        exportFileContent = prettify(exportFileContent, {
-          parser: type
-        })
-        break
-    }
-    if (exportFileContent && exportFileName) {
-      download(exportFileContent, exportFileName, 'text/plain')
-    }
-  },
-
   getProjectConfig({ dispatch }) {
     return dispatch('project/getConfig', null, { root: true })
   },

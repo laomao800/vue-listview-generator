@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { Vue } from 'vue-property-decorator'
 import CodeDialog from './CodeDialog.vue'
 
-const DialogConstructor = Vue.extend(CodeDialog)
+const CodeDialogConstructor = Vue.extend(CodeDialog)
 
 export default function(options: any) {
   const defaultOptions = _.isPlainObject(options) ? options : {}
@@ -17,7 +17,7 @@ export default function(options: any) {
   } else {
     data = {}
   }
-  const instance = new DialogConstructor({
+  const instance = new CodeDialogConstructor({
     data: Object.assign({}, defaultOptions, data)
   })
   const vm = instance.$mount()
