@@ -127,7 +127,7 @@ export default class TableColumnEditor extends PopEditorBase {
       width: 800,
       height: 300,
       buttons: [
-        { text: '取消', click: () => formatterDialog.hide() },
+        { text: '关闭', click: () => formatterDialog.hide() },
         {
           text: '确定',
           type: 'primary',

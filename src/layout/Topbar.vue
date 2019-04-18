@@ -5,7 +5,7 @@
       <small>v{{ version }}</small>
     </div>
     <div :class="$style.actionbar">
-      <span :class="$style.act">
+      <span :class="$style.act" @click="showPreview">
         <SvgIcon name="play"/>
         <span>预览</span>
       </span>
@@ -16,9 +16,6 @@
           <span>检查配置</span>
         </span>
         <ElDropdownMenu slot="dropdown">
-          <ElDropdownItem command="config">
-            <SvgIcon name="object" :class="$style['menu-icon']"/>Object 配置
-          </ElDropdownItem>
           <ElDropdownItem command="html">
             <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
           </ElDropdownItem>
@@ -59,6 +56,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import download from 'downloadjs'
 import json5 from 'json5'
+import { mapFields } from 'vuex-map-fields'
 import { version } from '@/../package.json'
 import codeDialogServices from '@/service/CodeDialog'
 import { prettify } from '@/utils'
@@ -80,23 +78,21 @@ const templateContentMap: any = {
   vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`).default
 }
 
-@Component
+@Component({
+  computed: {
+    ...mapFields('app', ['isPreview'])
+  }
+})
 export default class Topbar extends Vue {
+  public isPreview!: boolean
   public version = version
 
+  showPreview() {
+    this.isPreview = true
+  }
+
   async checkCurConfig(type: ConfigContentType) {
-    let content = ''
-    switch (type) {
-      case 'config':
-        const configString = await this.$store.dispatch(
-          'app/getProjectConfigString'
-        )
-        content = prettify(`const listviewProps = ${configString}`)
-        break
-      case 'html':
-      case 'vue':
-        content = await this.getConfigContent(type)
-    }
+    let content = await this.getConfigContent(type)
     const configDialog = codeDialogServices({
       content,
       lang: type === 'config' ? 'javascript' : 'html',
@@ -104,9 +100,9 @@ export default class Topbar extends Vue {
       height: 500,
       readonly: true,
       useWorker: false,
-      title: '查看配置',
+      title: '检查配置',
       buttons: [
-        { text: '取消', click: () => configDialog.hide() },
+        { text: '关闭', click: () => configDialog.hide() },
         {
           text: '导出',
           type: 'primary',

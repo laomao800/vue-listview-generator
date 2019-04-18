@@ -12,15 +12,19 @@ interface State {
   [x: string]: any
   version: String
   isSaving: Boolean
+  isPreview: Boolean
   updatedAt: Date | null
 }
 
 const DATA_KEY = 'project-data'
 
+export const mapFields = true
+
 const state: State = {
   version,
   listviewVersion,
   isSaving: false,
+  isPreview: false,
   updatedAt: null,
 
   // DataSource Pane
@@ -101,5 +105,4 @@ const actions: ActionTree<State, any> = {
   clearProject() {}
 }
 
-export const mapFields = true
 export { state, mutations, actions }
