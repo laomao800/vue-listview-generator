@@ -6,33 +6,22 @@ import { uuid } from '@/utils'
 import { ActionTree, MutationTree } from 'vuex'
 import store from '@/store'
 import { version } from '@/../package.json'
-import { version as listviewVersion } from '@laomao800/vue-listview/package.json'
 
 interface State {
   [x: string]: any
-  version: String
-  isSaving: Boolean
-  isPreview: Boolean
+  isSaving: boolean
+  isPreview: boolean
   updatedAt: Date | null
 }
 
-const DATA_KEY = 'project-data'
+const STORAGE_KEY = `listview_${version}`
 
 export const mapFields = true
 
 const state: State = {
-  version,
-  listviewVersion,
   isSaving: false,
   isPreview: false,
-  updatedAt: null,
-
-  // DataSource Pane
-  requestType: 'default',
-  setContentDataMap: false,
-  setResolveResponseErrorMessage: false,
-  setValidateResponse: false,
-  setContentMessage: false
+  updatedAt: null
 }
 
 const mutations: MutationTree<State> = {}
@@ -73,24 +62,26 @@ const actions: ActionTree<State, any> = {
     })
   },
 
-  checkLastSaved() {
-    // const currentProjectB64 = btoa(JSON.stringify(state.project))
-    // let lastSavedProjectB64 = await localforage.getItem('gh-last-saved')
-    // if (currentProjectB64 === lastSavedProjectB64) {
-    //   commit(types._toggleHasChanges, false)
-    // } else {
-    //   commit(types._toggleHasChanges, true)
-    // }
-    // dispatch(types.saveProject, currentProjectB64)
-  },
+  clearProject() {},
+
+  // checkLastSaved() {
+  //   // const currentProjectB64 = btoa(JSON.stringify(state.project))
+  //   // let lastSavedProjectB64 = await localforage.getItem('gh-last-saved')
+  //   // if (currentProjectB64 === lastSavedProjectB64) {
+  //   //   commit(types._toggleHasChanges, false)
+  //   // } else {
+  //   //   commit(types._toggleHasChanges, true)
+  //   // }
+  //   // dispatch(types.saveProject, currentProjectB64)
+  // },
 
   async saveProject({ commit, state, rootState }, data) {
     const projectData = data || rootState.editor
-    await localforage.setItem(DATA_KEY, projectData)
+    await localforage.setItem(STORAGE_KEY, projectData)
   },
 
   async loadProject({ commit, state }) {
-    const projectData = await localforage.getItem(DATA_KEY)
+    const projectData = await localforage.getItem(STORAGE_KEY)
 
     if (projectData) {
       try {
@@ -100,9 +91,7 @@ const actions: ActionTree<State, any> = {
         Vue.prototype.$message(e)
       }
     }
-  },
-
-  clearProject() {}
+  }
 }
 
 export { state, mutations, actions }

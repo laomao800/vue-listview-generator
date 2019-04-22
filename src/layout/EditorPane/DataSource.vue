@@ -174,7 +174,7 @@ import { mapFields } from 'vuex-map-fields'
       'resolveResponseErrorMessage',
       'requestHandler'
     ]),
-    ...mapFields('app', [
+    ...mapFields('workspace', [
       'requestType',
       'setContentDataMap',
       'setResolveResponseErrorMessage',

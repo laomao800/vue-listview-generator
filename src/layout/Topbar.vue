@@ -5,17 +5,30 @@
       <small>v{{ version }}</small>
     </div>
     <div :class="$style.actionbar">
-      <span :class="$style.act" @click="showPreview">
-        <SvgIcon name="play"/>
-        <span>预览</span>
-      </span>
+      <ElDropdown trigger="hover" placement="bottom-start" size="default" @command="handleCreate">
+        <span :class="$style.act">
+          <SvgIcon name="add-circle"/>
+          <span>项目</span>
+        </span>
+        <ElDropdownMenu slot="dropdown">
+          <ElDropdownItem command="new">
+            <SvgIcon name="create" :class="$style['menu-icon']"/>新建
+          </ElDropdownItem>
+          <ElDropdownItem command="config">
+            <SvgIcon name="object" :class="$style['menu-icon']"/>从配置文件导入
+          </ElDropdownItem>
+        </ElDropdownMenu>
+      </ElDropdown>
 
-      <ElDropdown trigger="click" placement="bottom-start" size="default" @command="checkCurConfig">
+      <ElDropdown trigger="hover" placement="bottom-start" size="default" @command="checkCurConfig">
         <span :class="$style.act">
           <SvgIcon name="preview"/>
           <span>检查配置</span>
         </span>
         <ElDropdownMenu slot="dropdown">
+          <ElDropdownItem command="config">
+            <SvgIcon name="object" :class="$style['menu-icon']"/>配置详情
+          </ElDropdownItem>
           <ElDropdownItem command="html">
             <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
           </ElDropdownItem>
@@ -25,13 +38,13 @@
         </ElDropdownMenu>
       </ElDropdown>
 
-      <ElDropdown trigger="click" placement="bottom-start" size="default" @command="handleExport">
+      <ElDropdown trigger="hover" placement="bottom-start" size="default" @command="handleExport">
         <span :class="$style.act">
           <SvgIcon name="download"/>
           <span>导出</span>
         </span>
         <ElDropdownMenu slot="dropdown">
-          <ElDropdownItem command="config">
+          <ElDropdownItem command="project">
             <SvgIcon name="object" :class="$style['menu-icon']"/>配置文件
           </ElDropdownItem>
           <ElDropdownItem command="html">
@@ -42,6 +55,11 @@
           </ElDropdownItem>
         </ElDropdownMenu>
       </ElDropdown>
+
+      <span :class="$style.act" @click="showPreview">
+        <SvgIcon name="play"/>
+        <span>预览</span>
+      </span>
     </div>
     <div :class="[$style.actionbar, $style.right]">
       <a href="https://laomao800.github.io/vue-listview/" target="_blank" :class="$style.act">
@@ -60,9 +78,8 @@ import { mapFields } from 'vuex-map-fields'
 import { version } from '@/../package.json'
 import codeDialogServices from '@/service/CodeDialog'
 import { prettify } from '@/utils'
-import { version as listviewVersion } from '@laomao800/vue-listview/package.json'
 
-type ConfigContentType = 'config' | 'html' | 'vue'
+type ConfigContentType = 'project' | 'config' | 'html' | 'vue'
 
 function simpleTpl(content: string, variables: any) {
   const keys = Object.keys(variables)
@@ -80,19 +97,60 @@ const templateContentMap: any = {
 
 @Component({
   computed: {
-    ...mapFields('app', ['isPreview'])
+    ...mapFields('app', ['isPreview']),
+    ...mapFields('workspace', ['listviewVersion'])
   }
 })
 export default class Topbar extends Vue {
   public isPreview!: boolean
-  public version = version
+  public listviewVersion!: string
+  public version: string = version
 
   showPreview() {
     this.isPreview = true
   }
 
+  handleCreate(command: string) {
+    if (command === 'config') {
+      this.loadConfigFromLocal()
+    }
+  }
+
+  applyProjectConfig(content: string) {
+    try {
+      const loadedState = JSON.parse(content)
+      const newState = {
+        ...this.$store.state,
+        ...loadedState
+      }
+      this.$store.replaceState(newState)
+      this.$message.success('配置加载成功。')
+    } catch (e) {
+      this.$message.error('配置解析失败。')
+    }
+  }
+
+  loadConfigFromLocal() {
+    const vm = this
+    const $file = document.createElement('input')
+    $file.setAttribute('type', 'file')
+    $file.setAttribute('accept', '.json')
+    $file.addEventListener('change', function() {
+      if (this.files) {
+        const file = this.files[0]
+        const reader = new FileReader()
+        reader.readAsText(file)
+        reader.onload = function(e: any) {
+          const content = e.target.result
+          vm.applyProjectConfig(content)
+        }
+      }
+    })
+    $file.click()
+  }
+
   async checkCurConfig(type: ConfigContentType) {
-    let content = await this.getConfigContent(type)
+    const content = await this.getConfigContent(type)
     const configDialog = codeDialogServices({
       content,
       lang: type === 'config' ? 'javascript' : 'html',
@@ -106,17 +164,47 @@ export default class Topbar extends Vue {
         {
           text: '导出',
           type: 'primary',
-          click: () => this.handleExport(type, content)
+          click: () => this.downloadFile(type, content)
         }
       ]
     })
   }
 
-  async handleExport(type: ConfigContentType, content: string) {
+  async getConfigContent(type: ConfigContentType): Promise<string> {
+    // prettier-ignore
+    const configString = await this.$store.dispatch('app/getProjectConfigString')
+    let content = ''
+    switch (type) {
+      case 'project':
+        content = JSON.stringify(this.$store.state)
+        break
+      case 'config':
+        content = prettify(`const listviewProps = ${configString}`)
+        break
+      case 'html':
+      case 'vue':
+        const templateContent = templateContentMap[type]
+        content = simpleTpl(templateContent, {
+          listviewConfig: configString,
+          listviewVersion: this.listviewVersion
+        })
+        content = prettify(content, {
+          parser: type
+        })
+        break
+    }
+    return content
+  }
+
+  async handleExport(type: ConfigContentType) {
+    this.downloadFile(type)
+  }
+
+  async downloadFile(type: ConfigContentType, content?: string) {
     let exportFileName = null
     switch (type) {
-      case 'config':
-        exportFileName = `listview_config_${+new Date()}.json`
+      case 'project':
+        exportFileName = `listview_${+new Date()}.json`
         break
       case 'html':
       case 'vue':
@@ -126,33 +214,6 @@ export default class Topbar extends Vue {
     if (fileContent && exportFileName) {
       download(fileContent, exportFileName, 'text/plain')
     }
-  }
-
-  async getConfigContent(type: ConfigContentType): Promise<string> {
-    let content = ''
-    switch (type) {
-      case 'config':
-        content = JSON.stringify({
-          version,
-          listviewVersion,
-          data: json5.stringify(this.$store.state.project)
-        })
-        break
-      case 'html':
-      case 'vue':
-        // prettier-ignore
-        const configString = await this.$store.dispatch('app/getProjectConfigString')
-        const templateContent = templateContentMap[type]
-        content = simpleTpl(templateContent, {
-          listviewConfig: configString,
-          listviewVersion
-        })
-        content = prettify(content, {
-          parser: type
-        })
-        break
-    }
-    return content
   }
 }
 </script>
