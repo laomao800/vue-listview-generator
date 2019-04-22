@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Component } from 'vue-property-decorator'
-import PopEditorBase from '../PopEditorBase'
+import PopEditorBase from './PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 
 @Component({

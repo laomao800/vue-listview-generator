@@ -160,7 +160,7 @@ import _ from 'lodash'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { FilterField } from '@laomao800/vue-listview'
 import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
-import PopEditorBase from '../PopEditorBase'
+import PopEditorBase from './PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 import SelectOptionsEditor from '@/service/SelectOptionsEditor'
 

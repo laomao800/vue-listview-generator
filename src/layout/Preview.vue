@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div :class="$style.wrap">
-      <Listview v-if="configLoaded" v-bind="config"/>
-    </div>
+  <div :class="$style.wrap">
+    <Listview v-if="configLoaded" v-bind="config"/>
     <div :class="$style.toolbox">
       <ElTooltip effect="dark" content="检查配置" placement="top">
         <button @click="checkCurConfig">
@@ -43,9 +41,8 @@ export default class Preview extends Vue {
   }
 
   async checkCurConfig() {
-    const configString = await this.$store.dispatch(
-      'app/getProjectConfigString'
-    )
+    // prettier-ignore
+    const configString = await this.$store.dispatch('app/getProjectConfigString')
     const content = prettify(`const listviewProps = ${configString}`)
     const configDialog = codeDialogServices({
       content,
@@ -73,7 +70,7 @@ export default class Preview extends Vue {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  z-index: 10000;
+  z-index: 2000;
   box-sizing: border-box;
   display: flex;
   align-items: center;

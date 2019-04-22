@@ -73,7 +73,7 @@
 <script lang="tsx">
 import _ from 'lodash'
 import { Component } from 'vue-property-decorator'
-import PopEditorBase from '../PopEditorBase'
+import PopEditorBase from './PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 import { isFunctionString, prettify } from '@/utils'
 import codeDialogServices from '@/service/CodeDialog'
