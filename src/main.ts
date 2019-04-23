@@ -2,6 +2,7 @@ import Vue from 'vue'
 import 'normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import localforage from 'localforage'
 
 // App base
 import '@/style/common.less'
@@ -29,6 +30,8 @@ import FieldFilterFieldType from '@/components/Fields/FieldFilterFieldType.vue'
 import FieldDateType from '@/components/Fields/FieldDateType.vue'
 
 Vue.config.productionTip = false
+
+localforage.config({ name: 'ListviewGenerator' })
 
 Vue.use(ElementUI, { size: 'small' })
 Vue.component('AceEditor', AceEditor)

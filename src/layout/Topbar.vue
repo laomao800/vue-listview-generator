@@ -60,6 +60,11 @@
         <SvgIcon name="play"/>
         <span>预览</span>
       </span>
+
+      <span :class="$style.status" title="点击手动保存" @click="$store.dispatch('saveProject', true)">
+        <span v-show="updateAt">上次保存：{{ updateAt }}</span>
+        <i v-show="isLoading" class="el-icon-loading"/>
+      </span>
     </div>
     <div :class="[$style.actionbar, $style.right]">
       <a href="https://laomao800.github.io/vue-listview/" target="_blank" :class="$style.act">
@@ -73,6 +78,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import download from 'downloadjs'
+import dayjs from 'dayjs'
 import json5 from 'json5'
 import { mapFields } from 'vuex-map-fields'
 import { version } from '@/../package.json'
@@ -81,53 +87,34 @@ import { prettify } from '@/utils'
 
 type ConfigContentType = 'project' | 'config' | 'html' | 'vue'
 
-function simpleTpl(content: string, variables: any) {
-  const keys = Object.keys(variables)
-  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
-  return content.replace(reg, function(match, p1) {
-    return variables[p1] || ''
-  })
-}
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-const templateContentMap: any = {
-  html: require(`!!raw-loader!@/constants/exportTemplate/html.tpl`).default,
-  vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`).default
-}
-
-@Component({
-  computed: {
-    ...mapFields('app', ['isPreview']),
-    ...mapFields('workspace', ['listviewVersion'])
-  }
-})
+@Component
 export default class Topbar extends Vue {
   public isPreview!: boolean
-  public listviewVersion!: string
   public version: string = version
 
+  get isLoading() {
+    return this.$store.state.isLoading
+  }
+
+  get updateAt() {
+    return this.$store.state.updateAt
+      ? dayjs(this.$store.state.updateAt).format('YYYY-MM-DD HH:mm:ss')
+      : null
+  }
+
   showPreview() {
-    this.isPreview = true
+    this.$store.dispatch('preview', true)
   }
 
-  handleCreate(command: string) {
-    if (command === 'config') {
-      this.loadConfigFromLocal()
-    }
-  }
-
-  applyProjectConfig(content: string) {
+  async handleCreate(command: string) {
     try {
-      const loadedState = JSON.parse(content)
-      const newState = {
-        ...this.$store.state,
-        ...loadedState
+      await this.$confirm('当前工作区內的内容都会被覆盖，确认操作吗？', '', {
+        type: 'warning'
+      })
+      if (command === 'config') {
+        this.loadConfigFromLocal()
       }
-      this.$store.replaceState(newState)
-      this.$message.success('配置加载成功。')
-    } catch (e) {
-      this.$message.error('配置解析失败。')
-    }
+    } catch (error) {}
   }
 
   loadConfigFromLocal() {
@@ -149,9 +136,18 @@ export default class Topbar extends Vue {
     $file.click()
   }
 
+  applyProjectConfig(content: string) {
+    try {
+      this.$store.dispatch('loadProject', content)
+      // this.$message.success('配置导入成功。')
+    } catch (error) {
+      this.$message.error(`配置解析失败。 ${error}`)
+    }
+  }
+
   async checkCurConfig(type: ConfigContentType) {
-    const content = await this.getConfigContent(type)
-    const configDialog = codeDialogServices({
+    const content = await this.$store.dispatch('getConfigContent', type)
+    const codeDialog = codeDialogServices({
       content,
       lang: type === 'config' ? 'javascript' : 'html',
       width: '80%',
@@ -160,7 +156,7 @@ export default class Topbar extends Vue {
       useWorker: false,
       title: '检查配置',
       buttons: [
-        { text: '关闭', click: () => configDialog.hide() },
+        { text: '关闭', click: () => codeDialog.hide() },
         {
           text: '导出',
           type: 'primary',
@@ -168,32 +164,6 @@ export default class Topbar extends Vue {
         }
       ]
     })
-  }
-
-  async getConfigContent(type: ConfigContentType): Promise<string> {
-    // prettier-ignore
-    const configString = await this.$store.dispatch('app/getProjectConfigString')
-    let content = ''
-    switch (type) {
-      case 'project':
-        content = JSON.stringify(this.$store.state)
-        break
-      case 'config':
-        content = prettify(`const listviewProps = ${configString}`)
-        break
-      case 'html':
-      case 'vue':
-        const templateContent = templateContentMap[type]
-        content = simpleTpl(templateContent, {
-          listviewConfig: configString,
-          listviewVersion: this.listviewVersion
-        })
-        content = prettify(content, {
-          parser: type
-        })
-        break
-    }
-    return content
   }
 
   async handleExport(type: ConfigContentType) {
@@ -210,10 +180,15 @@ export default class Topbar extends Vue {
       case 'vue':
         exportFileName = `listview_page_${+new Date()}.${type}`
     }
-    const fileContent = content || (await this.getConfigContent(type))
+    const fileContent =
+      content || (await this.$store.dispatch('getConfigContent', type))
     if (fileContent && exportFileName) {
       download(fileContent, exportFileName, 'text/plain')
     }
+  }
+
+  saveProject() {
+    this.$store.dispatch('saveProject')
   }
 }
 </script>
@@ -256,6 +231,19 @@ export default class Topbar extends Vue {
 }
 .actionbar {
   display: flex;
+}
+.status {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  font-size: 12px;
+  color: #fff;
+  cursor: default;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 0.6;
+  }
 }
 .right {
   margin-left: auto;

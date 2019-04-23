@@ -1,13 +1,41 @@
 import _ from 'lodash'
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { MutationTree } from 'vuex'
 import modules from './modules'
+import actions from './actions'
 
 Vue.use(Vuex)
 
+interface State {
+  isLoading: boolean
+  isPreview: boolean
+  updateAt: Date | null
+}
+
+const state: State = {
+  isLoading: false,
+  isPreview: false,
+  updateAt: null
+}
+
+const mutations: MutationTree<typeof state> = {
+  SET_LOADING(state, payload: boolean) {
+    state.isLoading = payload
+  },
+  SET_PREVIEW(state, payload: boolean) {
+    state.isPreview = payload
+  },
+  SET_UPDATE_AT(state, payload: Date) {
+    state.updateAt = payload
+  }
+}
+
 const store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
+  state,
   modules,
-  strict: process.env.NODE_ENV !== 'production'
+  mutations,
+  actions
 })
 
 // 自动执行每个模块的 init 方法
@@ -17,5 +45,8 @@ for (const moduleName of Object.keys(modules)) {
     store.dispatch(`${moduleName}/init`).catch()
   }
 }
+
+// 尝试加载浏览器缓存内的项目数据
+store.dispatch('loadProject')
 
 export default store

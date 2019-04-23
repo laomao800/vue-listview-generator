@@ -8,7 +8,7 @@
         </button>
       </ElTooltip>
       <ElTooltip effect="dark" content="退出预览" placement="top">
-        <button @click="isPreview = false">
+        <button @click="$store.dispatch('preview', false)">
           <SvgIcon name="close"/>
         </button>
       </ElTooltip>
@@ -26,9 +26,6 @@ import codeDialogServices from '@/service/CodeDialog'
   // @ts-ignore
   components: {
     Listview: () => import('@laomao800/vue-listview')
-  },
-  computed: {
-    ...mapFields('app', ['isPreview'])
   }
 })
 export default class Preview extends Vue {
@@ -36,13 +33,13 @@ export default class Preview extends Vue {
   public config = {}
 
   async created() {
-    this.config = await this.$store.dispatch('project/getConfig')
+    this.config = await this.$store.dispatch('project/getProjectConfig')
     this.configLoaded = true
   }
 
   async checkCurConfig() {
     // prettier-ignore
-    const configString = await this.$store.dispatch('app/getProjectConfigString')
+    const configString = await this.$store.dispatch('getConfigString')
     const content = prettify(`const listviewProps = ${configString}`)
     const configDialog = codeDialogServices({
       content,

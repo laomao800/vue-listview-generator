@@ -75,3 +75,11 @@ export function createFunction(input: any) {
   } catch (e) {}
   return () => {}
 }
+
+export function simpleTpl(content: string, variables: any) {
+  const keys = Object.keys(variables)
+  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
+  return content.replace(reg, function(match, p1) {
+    return variables[p1] || ''
+  })
+}

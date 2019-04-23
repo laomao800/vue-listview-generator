@@ -116,7 +116,7 @@ export const actions: ActionTree<typeof state, any> = {
     })
   },
 
-  getConfig({ state, rootState }) {
+  getProjectConfig({ state, rootState }) {
     const finalConfig: any = {}
 
     // Basic

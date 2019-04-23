@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import Editor from '@/layout/Editor.vue'
 
 @Component({
@@ -17,7 +17,13 @@ import Editor from '@/layout/Editor.vue'
 })
 export default class App extends Vue {
   get isPreview() {
-    return this.$store.state.app.isPreview
+    return this.$store.state.isPreview
+  }
+
+  @Watch('$store.state.workspace', { deep: true })
+  @Watch('$store.state.project', { deep: true })
+  stateChanged() {
+    this.$store.dispatch('saveProject')
   }
 }
 </script>
