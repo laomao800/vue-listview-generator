@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.topbar">
     <div :class="$style.logo">
-      <span>Listview Editor</span>
+      <span>Listview Generator</span>
       <small>v{{ version }}</small>
     </div>
     <div :class="$style.actionbar">

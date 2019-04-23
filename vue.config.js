@@ -7,7 +7,7 @@ module.exports = {
     config.plugin('html').tap(args => {
       args[0] = {
         ...args[0],
-        title: 'vue-listview-editor',
+        title: 'vue-listview-generator',
         entrySpinner: require('fs').readFileSync(
           './src/constants/spinner.html',
           'utf-8'
