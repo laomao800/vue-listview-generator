@@ -12,10 +12,16 @@
         </span>
         <ElDropdownMenu slot="dropdown">
           <ElDropdownItem command="new">
-            <SvgIcon name="create" :class="$style['menu-icon']"/>新建
+            <SvgIcon name="create" :class="$style['menu-icon']"/>新建空白项目
           </ElDropdownItem>
-          <ElDropdownItem command="config">
+          <ElDropdownItem command="project">
             <SvgIcon name="object" :class="$style['menu-icon']"/>从配置文件导入
+          </ElDropdownItem>
+          <ElDropdownItem command="swagger">
+            <SvgIcon name="swagger" :class="$style['menu-icon']"/>从 Swagger 文档导入
+          </ElDropdownItem>
+          <ElDropdownItem command="sample" divided>
+            <SvgIcon name="sun" :class="$style['menu-icon']"/>加载演示项目“折扣管理”
           </ElDropdownItem>
         </ElDropdownMenu>
       </ElDropdown>
@@ -108,11 +114,25 @@ export default class Topbar extends Vue {
 
   async handleCreate(command: string) {
     try {
+      if (command === 'swagger') {
+        return this.$message.warning('TODO...')
+      }
       await this.$confirm('当前工作区內的内容都会被覆盖，确认操作吗？', '', {
         type: 'warning'
       })
-      if (command === 'config') {
-        this.loadConfigFromLocal()
+      switch (command) {
+        case 'project':
+          this.loadConfigFromLocal()
+          break
+        case 'sample':
+          // @ts-ignore
+          const sample = require('@/constants/sampleDiscount.json')
+          console.log(sample)
+          this.$store.dispatch('loadProject', sample)
+          break
+        case 'new':
+          this.$store.dispatch('newProject')
+          break
       }
     } catch (error) {}
   }

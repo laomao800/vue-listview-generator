@@ -95,6 +95,8 @@ export const mutations: MutationTree<typeof state> = {
 }
 
 export const actions: ActionTree<typeof state, any> = {
+  getInitialState,
+
   addListItem({ commit }, { stateProp, data, insertAfter } = {}) {
     commit('LIST_STATE_ADD', {
       stateProp,

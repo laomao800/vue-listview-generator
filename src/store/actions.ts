@@ -13,7 +13,19 @@ const TEMPLATE_MAP: any = {
   vue: require(`!!raw-loader!@/constants/exportTemplate/vue.tpl`).default
 }
 
+function getInitialState() {
+  return {
+    isLoading: false,
+    isPreview: false,
+    updateAt: null
+  }
+}
+
 const actions: ActionTree<any, any> = {
+  preview({ commit }, status: boolean) {
+    commit('SET_PREVIEW', status)
+  },
+
   getConfig({ dispatch }) {
     return dispatch('project/getProjectConfig', null, { root: true })
   },
@@ -76,6 +88,24 @@ const actions: ActionTree<any, any> = {
     return content
   },
 
+  getInitialState,
+
+  newProject({ dispatch }) {
+    Promise.all([
+      dispatch('getInitialState'),
+      dispatch('project/getInitialState'),
+      dispatch('workspace/getInitialState')
+    ]).then(([app, project, workspace]) => {
+      const newState = {
+        ...app,
+        project,
+        workspace
+      }
+      store.replaceState(newState)
+      localforage.removeItem(STORAGE_KEY)
+    })
+  },
+
   saveProject: _.throttle(async function({ rootState, commit }, force = false) {
     const curProject = _.pick(rootState, ['workspace', 'project'])
     // 强制保存（手动保存时）跳过对比步骤直接进入保存环节
@@ -98,7 +128,7 @@ const actions: ActionTree<any, any> = {
     let loadedState = null
     try {
       if (content !== undefined) {
-        loadedState = JSON.parse(content)
+        loadedState = _.isPlainObject(content) ? content : JSON.parse(content)
       } else {
         loadedState = await localforage.getItem(STORAGE_KEY)
       }
@@ -118,12 +148,6 @@ const actions: ActionTree<any, any> = {
       }
     }
     setTimeout(() => commit('SET_LOADING', false), 500)
-  },
-
-  clearProject() {},
-
-  preview({ commit }, status: boolean) {
-    commit('SET_PREVIEW', status)
   }
 }
 

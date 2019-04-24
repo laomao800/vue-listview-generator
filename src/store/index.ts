@@ -46,7 +46,4 @@ for (const moduleName of Object.keys(modules)) {
   }
 }
 
-// 尝试加载浏览器缓存内的项目数据
-store.dispatch('loadProject')
-
 export default store

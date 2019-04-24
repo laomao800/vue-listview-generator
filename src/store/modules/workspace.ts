@@ -3,14 +3,22 @@ import { version as listviewVersion } from '@laomao800/vue-listview/package.json
 
 export const mapFields = true
 
-export const state = {
-  version,
-  listviewVersion,
+function getInitialState() {
+  return {
+    version,
+    listviewVersion,
 
-  // DataSource Pane
-  requestType: 'default',
-  setContentDataMap: false,
-  setResolveResponseErrorMessage: false,
-  setValidateResponse: false,
-  setContentMessage: false
+    // DataSource Pane
+    requestType: 'default',
+    setContentDataMap: false,
+    setResolveResponseErrorMessage: false,
+    setValidateResponse: false,
+    setContentMessage: false
+  }
+}
+
+export const state = getInitialState()
+
+export const actions = {
+  getInitialState
 }
