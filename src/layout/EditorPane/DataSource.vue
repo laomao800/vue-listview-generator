@@ -21,7 +21,6 @@
               <ElOption label="POST" value="post"/>
             </ElSelect>
           </ElInput>
-          <ElButton type="primary" icon="el-icon-refresh" style="margin-left:10px">测试接口</ElButton>
         </div>
       </ElFormItem>
     </template>
@@ -75,15 +74,34 @@
           <code>items: object[]</code> （用于表格数据）和
           <code>total: number</code> （用于分页组件）。
         </TipsBlock>
-        <ElRow :gutter="10">
+        <ElRow :gutter="10" class="content-data-map-wrap">
           <ElCol :span="8">
             <PaneTitle
               level="2"
               title="映射配置"
               subtitle="contentDataMap"
               inline
-              style="margin-bottom:5px"
-            />
+              style="margin-bottom:6px;margin-top:8px;"
+            >
+              <ElTooltip
+                slot="right"
+                :disabled="requestType !== 'custom'"
+                effect="dark"
+                content="测试映射仅在 Url 模式下提供"
+                placement="top"
+              >
+                <!-- 按钮禁用状态时需要多一层 span 用于触发父级 tooltip -->
+                <span>
+                  <ElButton
+                    :disabled="requestType === 'custom'"
+                    :loading="testMapLoading"
+                    type="primary"
+                    size="mini"
+                    @click="testContentDataMap"
+                  >测试映射结果</ElButton>
+                </span>
+              </ElTooltip>
+            </PaneTitle>
             <AceEditor
               ref="contentDataMapEditor"
               :content="interContentDataMap"
@@ -93,21 +111,24 @@
             />
           </ElCol>
           <ElCol :span="16">
-            <PaneTitle
-              level="2"
-              title="映射数据"
-              subtitle="contentDataMap"
-              inline
-              style="margin-bottom:5px"
-            >
-              <ElButton slot="right" type="primary" size="mini">测试映射结果</ElButton>
-            </PaneTitle>
-            <AceEditor
-              :content="prettifyJson(contentDataResult)"
-              :readonly="true"
-              height="200px"
-              lang="javascript"
-            />
+            <ElTabs class="response__tabs" type="card">
+              <ElTabPane label="映射结果">
+                <AceEditor
+                  :content="prettifyJsonStringify(contentDataResult)"
+                  :readonly="true"
+                  height="200"
+                  lang="javascript"
+                />
+              </ElTabPane>
+              <ElTabPane label="接口原始响应">
+                <AceEditor
+                  :content="prettifyJsonStringify(responseBody)"
+                  :readonly="true"
+                  height="200"
+                  lang="javascript"
+                />
+              </ElTabPane>
+            </ElTabs>
           </ElCol>
         </ElRow>
       </div>
@@ -156,10 +177,17 @@
 
 <script lang="ts">
 import _ from 'lodash'
+import json5 from 'json5'
+import axios from 'axios'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { debounce } from 'decko'
 import { ListviewProps } from '@laomao800/vue-listview'
-import { prettifyJson, isFunctionString, prettifyJsonStringify } from '@/utils'
+import {
+  prettifyJson,
+  isFunctionString,
+  prettifyJsonStringify,
+  dataMapping
+} from '@/utils'
 import { mapFields } from 'vuex-map-fields'
 
 @Component({
@@ -183,7 +211,8 @@ import { mapFields } from 'vuex-map-fields'
     ])
   },
   methods: {
-    prettifyJson
+    prettifyJson,
+    prettifyJsonStringify
   }
 })
 export default class DataSource extends Vue {
@@ -206,6 +235,9 @@ export default class DataSource extends Vue {
     info: { color: '#459ffc', icon: 'el-icon-info' },
     error: { color: '#f56c6c', icon: 'el-icon-error' }
   }
+  public testMapLoading = false
+  public responseBody = null
+  public contentDataResult = null
 
   @Watch('setContentMessage')
   @Watch('interContentMessage', { deep: true })
@@ -240,5 +272,56 @@ export default class DataSource extends Vue {
         break
     }
   }
+
+  async testContentDataMap() {
+    this.testMapLoading = true
+    let contentDataMap
+    const contentDataMapString = this.$refs.contentDataMapEditor.getValue()
+    try {
+      contentDataMap = json5.parse(contentDataMapString)
+    } catch (e) {
+      return this.$message.error(`映射配置解析失败。${e.toString()}`)
+    }
+    try {
+      await this.testRequestUrl()
+    } catch (e) {
+      this.testMapLoading = false
+      return this.$message.error(e.toString())
+    }
+    if (_.isPlainObject(this.responseBody)) {
+      this.contentDataResult = dataMapping(this.responseBody, contentDataMap)
+    }
+    this.testMapLoading = false
+  }
+
+  async testRequestUrl() {
+    const url = this.requestUrl
+    if (!url) {
+      return this.$message.error('请先填写数据接口。')
+    }
+    const axiosService = axios.create()
+    const method = this.requestMethod
+    const requestConfig: AxiosRequestConfig = {
+      url,
+      method,
+      withCredentials: true
+    }
+    try {
+      const response = await axiosService(requestConfig)
+      this.responseBody = response.data
+    } catch (e) {
+      this.responseBody = e.toString()
+    }
+  }
 }
 </script>
+
+<style lang="less" scoped>
+.content-data-map-wrap {
+  margin-top: 5px;
+
+  /deep/ .el-tabs__header {
+    margin-bottom: 5px;
+  }
+}
+</style>

@@ -83,3 +83,19 @@ export function simpleTpl(content: string, variables: any) {
     return variables[p1] || ''
   })
 }
+
+export function dataMapping(data = {}, dataMap = {}) {
+  const get = require('get-value')
+  const result = {}
+  const keysMap = Object.keys(dataMap)
+
+  keysMap.forEach(key => {
+    try {
+      const dataKey = key.toString()
+      const dataValue = get(data, dataMap[key])
+      result[dataKey] = dataValue
+    } catch (e) {}
+  })
+
+  return result
+}
