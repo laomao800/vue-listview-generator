@@ -1,5 +1,5 @@
-<template>
-  <div :class="[$style.tips, (inline && $style.inline)]">
+<template functional>
+  <div :class="[$style.tips, (props.inline && $style.inline)]">
     <slot/>
   </div>
 </template>

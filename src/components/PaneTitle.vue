@@ -1,8 +1,15 @@
-<template>
-  <div :class="[$style.wrap, (level && $style[`level-${level}`]), (inline && $style.inline)]">
+<template functional>
+  <div
+    :class="{
+      [$style.wrap]: true,
+      [$style[`level-${props.level}`]]: props.level,
+      [$style.inline]: props.inline
+    }"
+    :style="data.staticStyle"
+  >
     <div :class="$style.title">
-      {{ title }}
-      <small v-if="subtitle" :class="$style.subtitle">{{ subtitle }}</small>
+      {{ props.title }}
+      <small v-if="props.subtitle" :class="$style.subtitle">{{ props.subtitle }}</small>
     </div>
     <span v-if="$slots.right" :class="$style.right">
       <slot name="right"/>

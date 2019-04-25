@@ -1,6 +1,6 @@
-<template>
+<template functional>
   <svg class="svg-icon" aria-hidden="true">
-    <use v-bind="{ 'xlink:href': iconName }"></use>
+    <use v-bind="{ 'xlink:href': `#icon-${props.name}` }"></use>
   </svg>
 </template>
 
@@ -19,10 +19,6 @@ export default class SvgIcon extends Vue {
     default: ''
   })
   public name!: string
-
-  get iconName() {
-    return `#icon-${this.name}`
-  }
 }
 </script>
 
