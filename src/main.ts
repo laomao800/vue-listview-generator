@@ -14,6 +14,7 @@ import store from '@/store'
 import AceEditor from '@/components/AceEditor.vue'
 import AddItemHolder from '@/components/AddItemHolder.vue'
 import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
+import IconMenuItem from '@/components/IconMenuItem.vue'
 import PaneTitle from '@/components/PaneTitle.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import TipsBlock from '@/components/TipsBlock.vue'
@@ -37,6 +38,7 @@ Vue.use(ElementUI, { size: 'small' })
 Vue.component('AceEditor', AceEditor)
 Vue.component('AddItemHolder', AddItemHolder)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
+Vue.component('IconMenuItem', IconMenuItem)
 Vue.component('PaneTitle', PaneTitle)
 Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)

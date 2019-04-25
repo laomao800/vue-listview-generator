@@ -11,18 +11,10 @@
           <span>项目</span>
         </span>
         <ElDropdownMenu slot="dropdown">
-          <ElDropdownItem command="new">
-            <SvgIcon name="create" :class="$style['menu-icon']"/>新建空白项目
-          </ElDropdownItem>
-          <ElDropdownItem command="project">
-            <SvgIcon name="object" :class="$style['menu-icon']"/>从配置文件导入
-          </ElDropdownItem>
-          <ElDropdownItem command="swagger">
-            <SvgIcon name="swagger" :class="$style['menu-icon']"/>从 Swagger 文档导入
-          </ElDropdownItem>
-          <ElDropdownItem command="sample" divided>
-            <SvgIcon name="sun" :class="$style['menu-icon']"/>加载演示项目“折扣管理”
-          </ElDropdownItem>
+          <IconMenuItem command="new" icon="create" text="新建空白项目"/>
+          <IconMenuItem command="project" icon="object" text="从配置文件导入"/>
+          <IconMenuItem command="swagger" icon="swagger" text="从 Swagger 文档导入"/>
+          <IconMenuItem command="sample" icon="sun" text="加载演示项目“折扣管理”" divided/>
         </ElDropdownMenu>
       </ElDropdown>
 
@@ -32,15 +24,9 @@
           <span>检查配置</span>
         </span>
         <ElDropdownMenu slot="dropdown">
-          <ElDropdownItem command="config">
-            <SvgIcon name="object" :class="$style['menu-icon']"/>配置详情
-          </ElDropdownItem>
-          <ElDropdownItem command="html">
-            <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
-          </ElDropdownItem>
-          <ElDropdownItem command="vue">
-            <SvgIcon name="vue" :class="$style['menu-icon']"/>Vue 页面组件
-          </ElDropdownItem>
+          <IconMenuItem command="config" icon="object" text="配置详情"/>
+          <IconMenuItem command="html" icon="html" text="HTML 页面"/>
+          <IconMenuItem command="vue" icon="vue" text="Vue 页面组件"/>
         </ElDropdownMenu>
       </ElDropdown>
 
@@ -50,15 +36,9 @@
           <span>导出</span>
         </span>
         <ElDropdownMenu slot="dropdown">
-          <ElDropdownItem command="project">
-            <SvgIcon name="object" :class="$style['menu-icon']"/>配置文件
-          </ElDropdownItem>
-          <ElDropdownItem command="html">
-            <SvgIcon name="html" :class="$style['menu-icon']"/>HTML 页面
-          </ElDropdownItem>
-          <ElDropdownItem command="vue">
-            <SvgIcon name="vue" :class="$style['menu-icon']"/>Vue 页面组件
-          </ElDropdownItem>
+          <IconMenuItem command="project" icon="object" text="配置文件"/>
+          <IconMenuItem command="html" icon="html" text="HTML 页面"/>
+          <IconMenuItem command="vue" icon="vue" text="Vue 页面组件"/>
         </ElDropdownMenu>
       </ElDropdown>
 
@@ -291,9 +271,5 @@ export default class Topbar extends Vue {
     color: @topbar-text-color;
     background-color: rgba(255, 255, 255, 0.1);
   }
-}
-.menu-icon {
-  margin-right: 5px;
-  font-size: 18px;
 }
 </style>
