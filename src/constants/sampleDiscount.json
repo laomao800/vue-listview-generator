@@ -3,8 +3,8 @@
   "isPreview": false,
   "updateAt": "2019-04-24T18:27:15.411Z",
   "project": {
-    "headerTitle": "",
-    "headerNav": [],
+    "headerTitle": "折扣管理",
+    "headerNav": [{ "text": "销售平台" }, { "text": "活动管理" }],
     "fullHeight": true,
     "height": "",
     "usePage": true,
@@ -242,7 +242,7 @@
         "data": {
           "label": "修改人/修改时间",
           "prop": "",
-          "formatter": "function formatter(row, column, cellValue, index) {\n  return row.last_modify + '\\n' + row.last_modify_at\n}\n"
+          "formatter": "function formatter(row, column, cellValue, index) {\n  return row.last_modify + '<br />' + row.last_modify_at\n}\n"
         }
       }
     ]

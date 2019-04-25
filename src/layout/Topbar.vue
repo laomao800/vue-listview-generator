@@ -14,7 +14,7 @@
           <IconMenuItem command="new" icon="create" text="新建空白项目"/>
           <IconMenuItem command="project" icon="object" text="从配置文件导入"/>
           <IconMenuItem command="swagger" icon="swagger" text="从 Swagger 文档导入"/>
-          <IconMenuItem command="sample" icon="sun" text="加载演示项目“折扣管理”" divided/>
+          <IconMenuItem command="sample" icon="sun" text="加载演示项目《折扣管理》" divided/>
         </ElDropdownMenu>
       </ElDropdown>
 
