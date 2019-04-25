@@ -216,6 +216,9 @@ import { mapFields } from 'vuex-map-fields'
   }
 })
 export default class DataSource extends Vue {
+  public $refs: any
+  public requestUrl!: string
+  public requestMethod!: string
   public contentDataMap!: ListviewProps['contentDataMap']
   public contentMessage!: ListviewProps['contentMessage']
   public validateResponse!: string
@@ -237,7 +240,6 @@ export default class DataSource extends Vue {
   }
   public testMapLoading = false
   public responseBody = null
-  public contentDataResult = null
 
   @Watch('setContentMessage')
   @Watch('interContentMessage', { deep: true })
@@ -301,7 +303,7 @@ export default class DataSource extends Vue {
     }
     const axiosService = axios.create()
     const method = this.requestMethod
-    const requestConfig: AxiosRequestConfig = {
+    const requestConfig = {
       url,
       method,
       withCredentials: true

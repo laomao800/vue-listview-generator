@@ -107,7 +107,6 @@ export default class Topbar extends Vue {
         case 'sample':
           // @ts-ignore
           const sample = require('@/constants/sampleDiscount.json')
-          console.log(sample)
           this.$store.dispatch('loadProject', sample)
           break
         case 'new':
