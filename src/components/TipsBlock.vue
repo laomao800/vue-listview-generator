@@ -1,5 +1,8 @@
 <template functional>
-  <div :class="[$style.tips, (props.inline && $style.inline)]">
+  <div
+    :class="[data.staticClass, $style.tips, (props.inline && $style.inline)]"
+    :style="data.staticStyle"
+  >
     <slot/>
   </div>
 </template>

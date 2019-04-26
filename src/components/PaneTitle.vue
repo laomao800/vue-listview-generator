@@ -1,10 +1,11 @@
 <template functional>
   <div
-    :class="{
-      [$style.wrap]: true,
-      [$style[`level-${props.level}`]]: props.level,
-      [$style.inline]: props.inline
-    }"
+    :class="[
+      data.staticClass,
+      $style.wrap,
+      props.level && $style[`level-${props.level}`],
+      props.inline && $style.inline,
+    ]"
     :style="data.staticStyle"
   >
     <div :class="$style.title">

@@ -1,6 +1,7 @@
 <template functional>
   <div
     :class="[
+      data.staticClass,
       $style.preview,
       $style[`preview--${props.type}`],
       props.plain && $style['preview--plain']

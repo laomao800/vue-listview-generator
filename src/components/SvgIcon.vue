@@ -1,5 +1,5 @@
 <template functional>
-  <svg class="svg-icon" aria-hidden="true">
+  <svg :class="[data.staticClass, 'svg-icon']" aria-hidden="true">
     <use v-bind="{ 'xlink:href': `#icon-${props.name}` }"></use>
   </svg>
 </template>
@@ -22,7 +22,7 @@ export default class SvgIcon extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .svg-icon {
   width: 1em;
   height: 1em;
