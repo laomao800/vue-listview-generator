@@ -166,7 +166,7 @@ export const actions: ActionTree<typeof state, any> = {
     if (!state.autoload) {
       finalConfig['autoload'] = false
     }
-    if (state.requestMethod !== 'get') {
+    if (state.requestMethod !== 'post') {
       finalConfig['requestMethod'] = state.requestMethod
     }
     if (rootState.workspace.requestType === 'default') {

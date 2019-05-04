@@ -735,12 +735,13 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@laomao800/vue-listview@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.1.2.tgz#302e44f46f1807c9c9338bfae9cb5cf314bb46e3"
-  integrity sha512-JU/hfF7NUCAUO36TfETwiOONTR7Afl8ZvQUPs9BxZkYN3i+cEFYM+1ebY2hR/6ZQNi1LsDhKeaVZUx56rLTUkw==
+"@laomao800/vue-listview@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@laomao800/vue-listview/-/vue-listview-1.2.1.tgz#e62a43720fd9aa79201ffcb77b5d8e1e8231d947"
+  integrity sha512-tWIYVL7cBeWyaG4scFpISdtEc+HIzWiZNoa4WGsD4MK2F8QmFYRvKHku2TpZEqeHz1hTaHPaSYS5j6vuhehEAQ==
   dependencies:
     axios "^0.18.0"
+    has-values "^2.0.1"
     lodash "^4.17.11"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
