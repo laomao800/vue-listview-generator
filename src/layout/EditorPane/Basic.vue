@@ -17,7 +17,7 @@
         :disable-transitions="false"
         style="margin-right:10px"
         @close="removeHeaderNav(index)"
-      >{{ nav.text }}</ElTag>
+      >{{ nav }}</ElTag>
       <ElInput
         v-if="navInputVisible"
         ref="navInput"
@@ -127,7 +127,8 @@ export default class Basic extends Vue {
 
   addHeaderNav() {
     if (this.navText) {
-      this.headerNav = [...this.headerNav, { text: this.navText }]
+      // headerNav 为 vuex 内 state ，需要通过赋值触发更新 action
+      this.headerNav = [...this.headerNav, this.navText]
       this.navText = ''
     }
     this.navInputVisible = false
