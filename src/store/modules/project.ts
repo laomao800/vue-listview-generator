@@ -39,18 +39,9 @@ export const mapFields = true
 
 function getInitialState(): State {
   return {
-    // Basic
-    headerTitle: '',
-    headerNav: [],
-    fullHeight: true,
-    height: '',
-    usePage: true,
-    pageSize: 20,
-    pageSizes: [20, 50, 100],
-
     // DataSource
-    requestUrl: '',
     requestMethod: 'post',
+    requestUrl: '',
     requestHandler: 'myRequestHandler',
     autoload: true,
     contentMessage: null,
@@ -76,6 +67,15 @@ function getInitialState(): State {
       }
     }
   `),
+
+    // Basic
+    headerTitle: '',
+    headerNav: [],
+    fullHeight: true,
+    height: '',
+    usePage: true,
+    pageSize: 20,
+    pageSizes: [20, 50, 100],
 
     // Filterbar
     filterButtons: [],
@@ -121,6 +121,33 @@ export const actions: ActionTree<typeof state, any> = {
   getProjectConfig({ state, rootState }) {
     const finalConfig: any = {}
 
+    // DataSource
+    if (state.requestMethod !== 'post') {
+      finalConfig['requestMethod'] = state.requestMethod
+    }
+    if (rootState.workspace.requestType === 'default') {
+      finalConfig['requestUrl'] = state.requestUrl
+    } else {
+      finalConfig['requestHandler'] = state.requestHandler
+    }
+    if (rootState.workspace.setContentDataMap) {
+      finalConfig['contentDataMap'] = state.contentDataMap
+    }
+    if (!state.autoload) {
+      finalConfig['autoload'] = false
+    }
+    if (rootState.workspace.setContentMessage) {
+      finalConfig['contentMessage'] = state.contentMessage
+    }
+    if (rootState.workspace.setValidateResponse) {
+      finalConfig['validateResponse'] = createFunction(state.validateResponse)
+    }
+    if (rootState.workspace.setResolveResponseErrorMessage) {
+      finalConfig['resolveResponseErrorMessage'] = createFunction(
+        state.resolveResponseErrorMessage
+      )
+    }
+
     // Basic
     if (state.headerTitle) {
       finalConfig['headerTitle'] = state.headerTitle
@@ -160,33 +187,6 @@ export const actions: ActionTree<typeof state, any> = {
           return resData
         }
       })
-    }
-
-    // DataSource
-    if (!state.autoload) {
-      finalConfig['autoload'] = false
-    }
-    if (state.requestMethod !== 'post') {
-      finalConfig['requestMethod'] = state.requestMethod
-    }
-    if (rootState.workspace.requestType === 'default') {
-      finalConfig['requestUrl'] = state.requestUrl
-    } else {
-      finalConfig['requestHandler'] = state.requestHandler
-    }
-    if (rootState.workspace.setContentDataMap) {
-      finalConfig['contentDataMap'] = state.contentDataMap
-    }
-    if (rootState.workspace.setContentMessage) {
-      finalConfig['contentMessage'] = state.contentMessage
-    }
-    if (rootState.workspace.setResolveResponseErrorMessage) {
-      finalConfig['resolveResponseErrorMessage'] = createFunction(
-        state.resolveResponseErrorMessage
-      )
-    }
-    if (rootState.workspace.setValidateResponse) {
-      finalConfig['validateResponse'] = createFunction(state.validateResponse)
     }
 
     // Content
