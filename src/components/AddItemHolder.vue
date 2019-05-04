@@ -1,8 +1,8 @@
-<template functional>
-  <div :class="[data.staticClass, $style.item]" :style="data.staticStyle" v-on="$listeners">
-    <SvgIcon v-if="props.icon" :name="props.icon" style="margin-right:5px;"/>
+<template>
+  <div :class="$style.item" v-on="$listeners">
+    <SvgIcon v-if="icon" :name="icon" style="margin-right:5px;"/>
     <span>
-      <slot>{{ props.text }}</slot>
+      <slot>{{ text }}</slot>
     </span>
   </div>
 </template>
