@@ -4,7 +4,7 @@
   "updateAt": "2019-04-24T18:27:15.411Z",
   "project": {
     "headerTitle": "折扣管理",
-    "headerNav": [{ "text": "销售平台" }, { "text": "活动管理" }],
+    "headerNav": ["销售平台", "活动管理"],
     "fullHeight": true,
     "height": "",
     "usePage": true,
