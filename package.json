@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@laomao800/vue-listview": "^1.2.1",
+    "@sentry/browser": "^5.3.0",
+    "@sentry/integrations": "^5.3.1",
     "brace": "^0.11.1",
     "dayjs": "^1.8.12",
     "decko": "^1.2.0",

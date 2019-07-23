@@ -30,6 +30,20 @@ import FieldInput from '@/components/Fields/FieldInput.vue'
 import FieldFilterFieldType from '@/components/Fields/FieldFilterFieldType.vue'
 import FieldDateType from '@/components/Fields/FieldDateType.vue'
 
+if (process.env.NODE_ENV === 'production') {
+  const Sentry = require('@sentry/browser')
+  const Integrations = require('@sentry/integrations')
+  Sentry.init({
+    dsn: 'https://eee5983bc12d4d3ab8bd75426536c93e@sentry.io/1446697',
+    integrations: [
+      new Integrations.Vue({
+        Vue,
+        attachProps: true
+      })
+    ]
+  })
+}
+
 Vue.config.productionTip = false
 
 localforage.config({ name: 'ListviewGenerator' })
