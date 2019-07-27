@@ -2,7 +2,7 @@ import _ from 'lodash'
 import localforage from 'localforage'
 import json5 from 'json5'
 import { uuid, prettify, simpleTpl } from '@/utils'
-import { ActionTree, MutationTree } from 'vuex'
+import { ActionTree } from 'vuex'
 import store from '@/store'
 
 const STORAGE_KEY = 'LISTVIEW_PROJECT'

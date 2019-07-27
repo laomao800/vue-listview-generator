@@ -60,6 +60,7 @@ export default class Preview extends Vue {
 
 .wrap {
   height: 100%;
+  overflow: auto;
   background-color: #fff;
 }
 

@@ -1,5 +1,5 @@
 <template functional>
-  <svg :class="[data.staticClass, 'svg-icon']" aria-hidden="true">
+  <svg :class="[data.class, 'svg-icon']" aria-hidden="true">
     <use v-bind="{ 'xlink:href': `#icon-${props.name}` }"></use>
   </svg>
 </template>
