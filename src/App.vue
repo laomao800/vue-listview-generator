@@ -1,17 +1,20 @@
 <template>
-  <keep-alive :exclude="['Preview']">
+  <SwaggerImporter />
+  <!-- <keep-alive :exclude="['Preview']">
     <Editor v-if="!isPreview"/>
     <Preview v-else/>
-  </keep-alive>
+  </keep-alive> -->
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import Editor from '@/layout/Editor.vue'
+import SwaggerImporter from '@/components/SwaggerImporter/index.vue'
 import { debounce } from 'decko'
 
 @Component({
   components: {
+    SwaggerImporter,
     Editor,
     Preview: () => import('@/layout/Preview.vue')
   }

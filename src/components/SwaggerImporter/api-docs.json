@@ -1,0 +1,835 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "提供人才盘点相关接口",
+    "version": "1.0.0",
+    "title": "人才盘点",
+    "termsOfService": "[set termsOfServiceUrl via 'swagger.termsOfServiceUrl']",
+    "contact": { "name": "公共人事组" },
+    "license": {
+      "name": "License",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "ppstest.banggood.cn:8066",
+  "basePath": "/talentinventory",
+  "tags": [
+    { "name": "common-controller", "description": "通用控制器" },
+    { "name": "inventory-change-controller", "description": "变更历史管理" },
+    { "name": "permission-controller", "description": "Permission Controller" },
+    { "name": "talent-inventory-controller", "description": "人才盘点管理" }
+  ],
+  "paths": {
+    "/common/get_user_permission": {
+      "get": {
+        "tags": ["common-controller"],
+        "summary": "获取当前登录人的权限",
+        "description": "返回当前登录人的权限",
+        "operationId": "getUserPermissionUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/UserPermission" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/common/sync_department": {
+      "get": {
+        "tags": ["common-controller"],
+        "summary": "同步部门树",
+        "operationId": "syncDepartmentUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/common/sync_department_manager": {
+      "get": {
+        "tags": ["common-controller"],
+        "summary": "同步部门负责人",
+        "operationId": "syncDepartmentManagerUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/common/sync_user_type": {
+      "get": {
+        "tags": ["common-controller"],
+        "summary": "同步用户类型",
+        "operationId": "syncUserTypeUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/permission/hasPermissionByPermissionUri": {
+      "get": {
+        "tags": ["permission-controller"],
+        "summary": "是否有权限",
+        "operationId": "hasPermissionByPermissionUriUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "permission_uri",
+            "in": "query",
+            "description": "权限标签",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "boolean" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inventory/delete": {
+      "post": {
+        "tags": ["talent-inventory-controller"],
+        "summary": "删除人才盘点",
+        "description": "删除人才盘点详情",
+        "operationId": "deleteUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "talentInventoryDeleteDTO",
+            "description": "talentInventoryDeleteDTO",
+            "required": true,
+            "schema": { "$ref": "#/definitions/TalentInventoryDeleteDTO" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inventory/download_template": {
+      "get": {
+        "tags": ["talent-inventory-controller"],
+        "summary": "下载人才盘点模板",
+        "description": "下载模板",
+        "operationId": "downloadExcelTemplateUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inventory/export_excel": {
+      "get": {
+        "tags": ["talent-inventory-controller"],
+        "summary": "导出excel",
+        "description": "导出excel",
+        "operationId": "exportTalentInventoryUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "search_dto",
+            "in": "query",
+            "description": "搜索条件",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inventory/import_excel": {
+      "post": {
+        "tags": ["talent-inventory-controller"],
+        "summary": "导入excel",
+        "description": "导入excel",
+        "operationId": "importExcelUsingPOST",
+        "consumes": ["multipart/form-data"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/importExcelResultVO«ExcelTalentInventoryModel»"
+            }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inventory/search": {
+      "post": {
+        "tags": ["talent-inventory-controller"],
+        "summary": "获取人才盘点列表",
+        "description": "获取人才盘点列表详情",
+        "operationId": "searchUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "talentInventorySearchDTO",
+            "description": "talentInventorySearchDTO",
+            "required": true,
+            "schema": { "$ref": "#/definitions/TalentInventorySearchDTO" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/PagedResult«TalentInventoryVO»" }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/talent_inverntory_change/get_inventory_change_list": {
+      "get": {
+        "tags": ["inventory-change-controller"],
+        "summary": "获取变更历史",
+        "description": "根据变更历史ID获取详情，查询不到则返回空",
+        "operationId": "getInventoryChangeListUsingGET",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "talent_inventory_id",
+            "in": "query",
+            "description": "人才盘点Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/InventoryChangeVO" }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AtomicInteger": {
+      "type": "object",
+      "properties": {
+        "and_decrement": { "type": "integer", "format": "int32" },
+        "and_increment": { "type": "integer", "format": "int32" }
+      },
+      "title": "AtomicInteger"
+    },
+    "CellStyle": {
+      "type": "object",
+      "properties": {
+        "alignment": { "type": "integer", "format": "int32" },
+        "alignment_enum": {
+          "type": "string",
+          "enum": [
+            "GENERAL",
+            "LEFT",
+            "CENTER",
+            "RIGHT",
+            "FILL",
+            "JUSTIFY",
+            "CENTER_SELECTION",
+            "DISTRIBUTED"
+          ]
+        },
+        "border_bottom": { "type": "integer", "format": "int32" },
+        "border_bottom_enum": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "THIN",
+            "MEDIUM",
+            "DASHED",
+            "DOTTED",
+            "THICK",
+            "DOUBLE",
+            "HAIR",
+            "MEDIUM_DASHED",
+            "DASH_DOT",
+            "MEDIUM_DASH_DOT",
+            "DASH_DOT_DOT",
+            "MEDIUM_DASH_DOT_DOT",
+            "SLANTED_DASH_DOT"
+          ]
+        },
+        "border_left": { "type": "integer", "format": "int32" },
+        "border_left_enum": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "THIN",
+            "MEDIUM",
+            "DASHED",
+            "DOTTED",
+            "THICK",
+            "DOUBLE",
+            "HAIR",
+            "MEDIUM_DASHED",
+            "DASH_DOT",
+            "MEDIUM_DASH_DOT",
+            "DASH_DOT_DOT",
+            "MEDIUM_DASH_DOT_DOT",
+            "SLANTED_DASH_DOT"
+          ]
+        },
+        "border_right": { "type": "integer", "format": "int32" },
+        "border_right_enum": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "THIN",
+            "MEDIUM",
+            "DASHED",
+            "DOTTED",
+            "THICK",
+            "DOUBLE",
+            "HAIR",
+            "MEDIUM_DASHED",
+            "DASH_DOT",
+            "MEDIUM_DASH_DOT",
+            "DASH_DOT_DOT",
+            "MEDIUM_DASH_DOT_DOT",
+            "SLANTED_DASH_DOT"
+          ]
+        },
+        "border_top": { "type": "integer", "format": "int32" },
+        "border_top_enum": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "THIN",
+            "MEDIUM",
+            "DASHED",
+            "DOTTED",
+            "THICK",
+            "DOUBLE",
+            "HAIR",
+            "MEDIUM_DASHED",
+            "DASH_DOT",
+            "MEDIUM_DASH_DOT",
+            "DASH_DOT_DOT",
+            "MEDIUM_DASH_DOT_DOT",
+            "SLANTED_DASH_DOT"
+          ]
+        },
+        "bottom_border_color": { "type": "integer", "format": "int32" },
+        "data_format": { "type": "integer", "format": "int32" },
+        "data_format_string": { "type": "string" },
+        "fill_background_color": { "type": "integer", "format": "int32" },
+        "fill_background_color_color": { "$ref": "#/definitions/Color" },
+        "fill_foreground_color": { "type": "integer", "format": "int32" },
+        "fill_foreground_color_color": { "$ref": "#/definitions/Color" },
+        "fill_pattern": { "type": "integer", "format": "int32" },
+        "fill_pattern_enum": {
+          "type": "string",
+          "enum": [
+            "NO_FILL",
+            "SOLID_FOREGROUND",
+            "FINE_DOTS",
+            "ALT_BARS",
+            "SPARSE_DOTS",
+            "THICK_HORZ_BANDS",
+            "THICK_VERT_BANDS",
+            "THICK_BACKWARD_DIAG",
+            "THICK_FORWARD_DIAG",
+            "BIG_SPOTS",
+            "BRICKS",
+            "THIN_HORZ_BANDS",
+            "THIN_VERT_BANDS",
+            "THIN_BACKWARD_DIAG",
+            "THIN_FORWARD_DIAG",
+            "SQUARES",
+            "DIAMONDS",
+            "LESS_DOTS",
+            "LEAST_DOTS"
+          ]
+        },
+        "font_index": { "type": "integer", "format": "int32" },
+        "hidden": { "type": "boolean" },
+        "indention": { "type": "integer", "format": "int32" },
+        "index": { "type": "integer", "format": "int32" },
+        "left_border_color": { "type": "integer", "format": "int32" },
+        "locked": { "type": "boolean" },
+        "quote_prefixed": { "type": "boolean" },
+        "right_border_color": { "type": "integer", "format": "int32" },
+        "rotation": { "type": "integer", "format": "int32" },
+        "shrink_to_fit": { "type": "boolean" },
+        "top_border_color": { "type": "integer", "format": "int32" },
+        "vertical_alignment": { "type": "integer", "format": "int32" },
+        "vertical_alignment_enum": {
+          "type": "string",
+          "enum": ["TOP", "CENTER", "BOTTOM", "JUSTIFY", "DISTRIBUTED"]
+        },
+        "wrap_text": { "type": "boolean" }
+      },
+      "title": "CellStyle"
+    },
+    "Color": { "type": "object", "title": "Color" },
+    "ErrorInfo": {
+      "type": "object",
+      "properties": {
+        "error_msg": {
+          "type": "string",
+          "description": "错误信息",
+          "allowEmptyValue": false
+        },
+        "row_no": {
+          "type": "integer",
+          "format": "int32",
+          "description": "行号",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "ErrorInfo"
+    },
+    "ExcelData«ExcelTalentInventoryModel»": {
+      "type": "object",
+      "properties": {
+        "model_data": { "$ref": "#/definitions/ExcelTalentInventoryModel" },
+        "row_no": { "type": "integer", "format": "int32" },
+        "sheet_name": { "type": "string" },
+        "sheet_no": { "type": "integer", "format": "int32" }
+      },
+      "title": "ExcelData«ExcelTalentInventoryModel»"
+    },
+    "ExcelTalentInventoryModel": {
+      "type": "object",
+      "properties": {
+        "begin_date": { "type": "string" },
+        "cell_style_map": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/CellStyle" }
+        },
+        "echelon_number": { "type": "string" },
+        "echelon_qualify_number": { "type": "string" },
+        "employee_number": { "type": "string" },
+        "end_date": { "type": "string" },
+        "establishment_number": { "type": "string" },
+        "five_level_department": { "type": "string" },
+        "four_level_department": { "type": "string" },
+        "in_job_number": { "type": "string" },
+        "job_number": { "type": "string" },
+        "one_level_department": { "type": "string" },
+        "pass_rate": { "type": "string" },
+        "qualify_number": { "type": "string" },
+        "qualify_rate": { "type": "string" },
+        "seven_level_department": { "type": "string" },
+        "six_level_department": { "type": "string" },
+        "three_level_department": { "type": "string" },
+        "two_level_department": { "type": "string" }
+      },
+      "title": "ExcelTalentInventoryModel"
+    },
+    "InventoryChangeVO": {
+      "type": "object",
+      "properties": {
+        "after_content": {
+          "type": "string",
+          "description": "变更后内容",
+          "allowEmptyValue": false
+        },
+        "before_content": {
+          "type": "string",
+          "description": "变更前内容",
+          "allowEmptyValue": false
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间",
+          "allowEmptyValue": false
+        },
+        "creator_user_id": {
+          "type": "string",
+          "description": "创建人",
+          "allowEmptyValue": false
+        },
+        "field": {
+          "type": "string",
+          "description": "字段",
+          "allowEmptyValue": false
+        },
+        "field_name": {
+          "type": "string",
+          "description": "字段名",
+          "allowEmptyValue": false
+        },
+        "talent_inventory_change_id": {
+          "type": "string",
+          "description": "变更历史主键id",
+          "allowEmptyValue": false
+        },
+        "talent_inventory_id": {
+          "type": "string",
+          "description": "人才盘点主键id",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "InventoryChangeVO"
+    },
+    "PagedResult«TalentInventoryVO»": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TalentInventoryVO" }
+        },
+        "total_count": { "type": "integer", "format": "int64" }
+      },
+      "title": "PagedResult«TalentInventoryVO»"
+    },
+    "TalentInventoryDeleteDTO": {
+      "type": "object",
+      "required": ["talent_inventory_id_list"],
+      "properties": {
+        "talent_inventory_id_list": {
+          "type": "array",
+          "description": "id集合",
+          "allowEmptyValue": false,
+          "items": { "type": "integer", "format": "int64" }
+        }
+      },
+      "title": "TalentInventoryDeleteDTO"
+    },
+    "TalentInventorySearchDTO": {
+      "type": "object",
+      "properties": {
+        "egt_begin_date": {
+          "type": "string",
+          "description": "盘点开始时间",
+          "allowEmptyValue": false
+        },
+        "elt_end_date": {
+          "type": "string",
+          "description": "盘点结束时间",
+          "allowEmptyValue": false
+        },
+        "eq_department_id": {
+          "type": "string",
+          "description": "部门",
+          "allowEmptyValue": false
+        },
+        "page_index": {
+          "type": "integer",
+          "format": "int32",
+          "example": "int,第几页",
+          "allowEmptyValue": false
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "example": "int,每页数量",
+          "allowEmptyValue": false
+        },
+        "search_all": {
+          "type": "boolean",
+          "example": false,
+          "allowEmptyValue": false
+        },
+        "sort_name": {
+          "type": "string",
+          "example": "string,排序字段名",
+          "allowEmptyValue": false
+        },
+        "sort_order": {
+          "type": "string",
+          "example": "string,排序顺序(asc|desc)",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "TalentInventorySearchDTO"
+    },
+    "TalentInventoryVO": {
+      "type": "object",
+      "properties": {
+        "begin_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "盘点开始时间",
+          "allowEmptyValue": false
+        },
+        "current_node": {
+          "type": "string",
+          "description": "当前节点",
+          "allowEmptyValue": false
+        },
+        "department_id": {
+          "type": "string",
+          "description": "部门id",
+          "allowEmptyValue": false
+        },
+        "department_name": {
+          "type": "string",
+          "description": "末级部门名",
+          "allowEmptyValue": false
+        },
+        "department_path": {
+          "type": "string",
+          "description": "部门路径",
+          "allowEmptyValue": false
+        },
+        "echelon_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位第一梯队人数",
+          "allowEmptyValue": false
+        },
+        "echelon_qualify_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位第一梯队胜任人数",
+          "allowEmptyValue": false
+        },
+        "employee_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "部门在职人数",
+          "allowEmptyValue": false
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "盘点结束时间",
+          "allowEmptyValue": false
+        },
+        "establishment_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位编制人数",
+          "allowEmptyValue": false
+        },
+        "flow_run_id": {
+          "type": "string",
+          "description": "流水号",
+          "allowEmptyValue": false
+        },
+        "flow_state": {
+          "type": "integer",
+          "format": "int32",
+          "description": "工作流状态 [enum: 0草稿 1待审核 2已驳回 3已废弃 4已完成 6已撤回]",
+          "allowEmptyValue": false,
+          "minimum": -128,
+          "maximum": 127
+        },
+        "in_job_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位在岗人数",
+          "allowEmptyValue": false
+        },
+        "job_echelon_pass_rate": {
+          "type": "string",
+          "description": "关键岗位第一梯队合格率",
+          "allowEmptyValue": false
+        },
+        "job_echelon_vacancy_rate": {
+          "type": "string",
+          "description": "关键岗位第一梯队空缺率",
+          "allowEmptyValue": false
+        },
+        "job_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位个数",
+          "allowEmptyValue": false
+        },
+        "job_qualify_rate": {
+          "type": "string",
+          "description": "关键岗位胜任率",
+          "allowEmptyValue": false
+        },
+        "last_modification_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间",
+          "allowEmptyValue": false
+        },
+        "last_modifier_user_id": {
+          "type": "string",
+          "description": "当前节点",
+          "allowEmptyValue": false
+        },
+        "last_modifier_user_name": {
+          "type": "string",
+          "description": "更新人用户名",
+          "allowEmptyValue": false
+        },
+        "pass_rate": {
+          "type": "string",
+          "description": "关键岗位继任者合格率(年度目标)",
+          "allowEmptyValue": false
+        },
+        "qualify_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "关键岗位在岗的胜任人数",
+          "allowEmptyValue": false
+        },
+        "qualify_rate": {
+          "type": "string",
+          "description": "关键岗位人员胜任率(年度目标)",
+          "allowEmptyValue": false
+        },
+        "talent_inventory_id": {
+          "type": "string",
+          "description": "主键id",
+          "allowEmptyValue": false
+        },
+        "version_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "版本id",
+          "allowEmptyValue": false
+        }
+      },
+      "title": "TalentInventoryVO"
+    },
+    "UserPermission": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "用户id",
+          "allowEmptyValue": false
+        },
+        "user_name": {
+          "type": "string",
+          "description": "用户名",
+          "allowEmptyValue": false
+        },
+        "user_permission_list": {
+          "type": "array",
+          "description": "用户权限[enum add:新增, modify:修改, import:导入, export:导出, delete:删除]",
+          "allowEmptyValue": false,
+          "items": { "type": "string" }
+        },
+        "user_role": {
+          "description": "用户角色",
+          "allowEmptyValue": false,
+          "$ref": "#/definitions/UserRole"
+        }
+      },
+      "title": "UserPermission"
+    },
+    "UserRole": {
+      "type": "object",
+      "properties": {
+        "is_admin": {
+          "type": "boolean",
+          "example": false,
+          "description": "是否管理员",
+          "allowEmptyValue": false
+        },
+        "is_leader": {
+          "type": "boolean",
+          "example": false,
+          "description": "是否负责人",
+          "allowEmptyValue": false
+        },
+        "user_id": {
+          "type": "string",
+          "description": "用户id",
+          "allowEmptyValue": false
+        },
+        "user_name": {
+          "type": "string",
+          "description": "用户名",
+          "allowEmptyValue": false
+        },
+        "user_role_type_list": {
+          "type": "array",
+          "description": "用户角色[enum bp:BRBP, organize:组织发展部, leader:部门负责人, admin:管理员]",
+          "allowEmptyValue": false,
+          "items": { "type": "string" }
+        }
+      },
+      "title": "UserRole"
+    },
+    "importExcelResultVO«ExcelTalentInventoryModel»": {
+      "type": "object",
+      "properties": {
+        "error_count": {
+          "description": "导入错误个数",
+          "allowEmptyValue": false,
+          "$ref": "#/definitions/AtomicInteger"
+        },
+        "error_info_list": {
+          "type": "array",
+          "description": "导入错误信息",
+          "allowEmptyValue": false,
+          "items": { "$ref": "#/definitions/ErrorInfo" }
+        },
+        "success_count": {
+          "description": "导入成功个数",
+          "allowEmptyValue": false,
+          "$ref": "#/definitions/AtomicInteger"
+        },
+        "success_data": {
+          "type": "array",
+          "description": "导入成功信息",
+          "allowEmptyValue": false,
+          "items": {
+            "$ref": "#/definitions/ExcelData«ExcelTalentInventoryModel»"
+          }
+        }
+      },
+      "title": "importExcelResultVO«ExcelTalentInventoryModel»"
+    }
+  }
+}
