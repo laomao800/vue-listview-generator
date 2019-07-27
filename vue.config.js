@@ -3,6 +3,16 @@ const path = require('path')
 module.exports = {
   publicPath: './',
 
+  configureWebpack: config => {
+    const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+    config.plugins.push(
+      new MonacoWebpackPlugin({
+        // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        languages: ['javascript', 'json']
+      })
+    )
+  },
+
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0] = {

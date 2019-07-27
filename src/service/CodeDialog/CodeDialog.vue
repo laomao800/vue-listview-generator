@@ -6,14 +6,12 @@
     :width="width ? width.toString() : 'fit-content'"
     @closed="handleClosed"
   >
-    <AceEditor
-      ref="aceEditor"
+    <MonacoEditor
+      ref="codeEditor"
       :content="content"
       :height="height"
       :lang="lang"
       :readonly="readonly"
-      :use-worker="useWorker"
-      width="100%"
     />
     <slot name="footer" slot="footer">
       <ElButton
@@ -48,13 +46,13 @@ export default class CodeDialog extends Vue {
   async visibleChanged(val: boolean) {
     if (val) {
       await this.$nextTick()
-      this.$refs.aceEditor.editor.focus()
+      this.$refs.codeEditor.editor.focus()
     }
   }
 
   handleButtonClick(button: any) {
     if (_.isFunction(button.click)) {
-      const content = this.$refs.aceEditor.editor.getValue()
+      const content = this.$refs.codeEditor.editor.getValue()
       button.click(content)
     }
   }

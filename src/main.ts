@@ -11,7 +11,7 @@ import App from '@/App.vue'
 import store from '@/store'
 
 // Base components
-import AceEditor from '@/components/AceEditor.vue'
+import MonacoEditor from '@/components/MonacoEditor.vue'
 import AddItemHolder from '@/components/AddItemHolder.vue'
 import ButtonTypePreviewBlock from '@/components/ButtonTypePreviewBlock.vue'
 import IconMenuItem from '@/components/IconMenuItem.vue'
@@ -35,7 +35,7 @@ Vue.config.productionTip = false
 localforage.config({ name: 'ListviewGenerator' })
 
 Vue.use(ElementUI, { size: 'small' })
-Vue.component('AceEditor', AceEditor)
+Vue.component('MonacoEditor', MonacoEditor)
 Vue.component('AddItemHolder', AddItemHolder)
 Vue.component('ButtonTypePreviewBlock', ButtonTypePreviewBlock)
 Vue.component('IconMenuItem', IconMenuItem)

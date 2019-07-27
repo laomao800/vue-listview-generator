@@ -102,10 +102,10 @@
                 </span>
               </ElTooltip>
             </PaneTitle>
-            <AceEditor
+            <MonacoEditor
               ref="contentDataMapEditor"
               :content="interContentDataMap"
-              lang="javascript"
+              lang="json"
               height="200px"
               @change="val => editorContentChange('contentDataMap', val)"
             />
@@ -113,7 +113,7 @@
           <ElCol :span="16">
             <ElTabs class="response__tabs" type="card">
               <ElTabPane label="映射结果">
-                <AceEditor
+                <MonacoEditor
                   :content="prettifyJsonStringify(contentDataResult)"
                   :readonly="true"
                   height="200"
@@ -121,7 +121,7 @@
                 />
               </ElTabPane>
               <ElTabPane label="接口原始响应">
-                <AceEditor
+                <MonacoEditor
                   :content="prettifyJsonStringify(responseBody)"
                   :readonly="true"
                   height="200"
@@ -142,7 +142,7 @@
         <code>true</code> 。
       </TipsBlock>
       <div v-show="setValidateResponse">
-        <AceEditor
+        <MonacoEditor
           :content="interValidateResponse"
           height="200px"
           lang="javascript"
@@ -164,7 +164,7 @@
         <code>false</code> 表示请求失败后，会调用以下方法解析错误提示信息用于显示于页面中央。
       </TipsBlock>
       <div v-show="setResolveResponseErrorMessage">
-        <AceEditor
+        <MonacoEditor
           :content="interResErrMsg"
           height="200px"
           lang="javascript"
@@ -224,7 +224,7 @@ export default class DataSource extends Vue {
   public validateResponse!: string
   public resolveResponseErrorMessage!: string
 
-  public contentDataResult = null
+  public contentDataResult = ''
   public interContentDataMap = ''
   public interContentMessage: any = {
     type: 'info',
@@ -239,7 +239,7 @@ export default class DataSource extends Vue {
     error: { color: '#f56c6c', icon: 'el-icon-error' }
   }
   public testMapLoading = false
-  public responseBody = null
+  public responseBody = ''
 
   @Watch('setContentMessage')
   @Watch('interContentMessage', { deep: true })

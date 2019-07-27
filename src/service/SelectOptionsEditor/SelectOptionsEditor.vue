@@ -63,7 +63,7 @@
         </ElTabPane>
         <ElTabPane label="编辑选项 JSON" name="json">
           <div class="options-editor-json">
-            <AceEditor ref="aceEditor" :content="optionJSONString" height="300" lang="json"/>
+            <MonacoEditor ref="codeEditor" :content="optionJSONString" height="300" lang="json"/>
           </div>
         </ElTabPane>
       </ElTabs>
@@ -176,7 +176,7 @@ export default class SelectOptionsEditor extends Vue {
 
   jsonToOptions(): OptionType[] | null {
     try {
-      const parsedData = json5.parse(this.$refs.aceEditor.getValue())
+      const parsedData = json5.parse(this.$refs.codeEditor.getValue())
       if (validateOptionsData(parsedData)) {
         return parsedData
       } else {
