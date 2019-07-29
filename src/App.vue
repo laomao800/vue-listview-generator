@@ -1,9 +1,8 @@
 <template>
-  <SwaggerImporter />
-  <!-- <keep-alive :exclude="['Preview']">
-    <Editor v-if="!isPreview"/>
-    <Preview v-else/>
-  </keep-alive> -->
+  <keep-alive :exclude="['Preview']">
+    <Editor v-if="!isPreview" />
+    <Preview v-else />
+  </keep-alive>
 </template>
 
 <script lang="ts">
@@ -33,7 +32,7 @@ export default class App extends Vue {
 
   created() {
     // 尝试加载浏览器缓存内的项目数据
-    this.$store.dispatch('loadProject')
+    this.$store.dispatch('loadAppState')
   }
 }
 </script>

@@ -19,7 +19,7 @@ const state: State = {
 }
 
 const mutations: MutationTree<typeof state> = {
-  SET_LOADING(state, payload: boolean) {
+  SET_APP_LOADING(state, payload: boolean) {
     state.isLoading = payload
   },
   SET_PREVIEW(state, payload: boolean) {

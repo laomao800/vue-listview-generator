@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import _ from 'lodash'
-import codeDialogServices from '@/service/CodeDialog'
+import CodeDialogService from '@/service/CodeDialog'
 import { prettifyJsonStringify } from '@/utils'
 
 function optionsValidator(data: any) {
@@ -30,7 +30,7 @@ function parseOptionsCode(code = '') {
 
 export default function({ options = [] }) {
   return new Promise((resolve, reject) => {
-    const codeDialog = codeDialogServices({
+    const codeDialog = CodeDialogService({
       content: prettifyJsonStringify(options),
       title: '选项编辑',
       width: 800,

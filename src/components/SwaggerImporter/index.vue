@@ -8,18 +8,26 @@
     <div v-if="active === 1" class="step-pane step-pane--1">
       <ElUpload drag action="undefined" :show-file-list="false" :http-request="uploadHandler">
         <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">
+          将文件拖到此处，或
+          <em>点击上传</em>
+        </div>
         <div class="el-upload__tip" slot="tip">上传 Swagger 的 api-docs.json 文件</div>
       </ElUpload>
     </div>
     <div v-if="active === 2" class="step-pane step-pane--2">
-      <pre style="height:200px;overflow:auto;">{{ listviewProps }}</pre>
       <SwaggerPage v-model="chosenApi" :api-docs="importData" />
       <div class="footer">
         <ElButton size="large" @click="active = 1">上一步</ElButton>
         <ElButton size="large" type="primary" :disabled="!chosenApi" @click="handleSwaggerParse">下一步</ElButton>
       </div>
     </div>
+    <div
+      v-if="active === 3"
+      v-loading="true"
+      element-loading-text="正在生成..."
+      class="step-pane step-pane--3"
+    />
   </div>
 </template>
 
@@ -37,19 +45,12 @@ import { swaggerToListview } from './swaggerHelpers'
 })
 export default class SwaggerImporter extends Vue {
   active = 1
-  importData = {}
+  importData: any = {}
   chosenApi: NormalizedPathData | null = null
-  listviewProps: any = null
-
-  created() {
-    // temp
-    this.importData = require('./api-docs.json')
-    this.active = 2
-  }
 
   uploadHandler(config: HttpRequestOptions) {
     const reader = new FileReader()
-    reader.onload = (e) => {
+    reader.onload = e => {
       try {
         const fileContent = (e.target as any).result
         this.importData = JSON.parse(fileContent)
@@ -58,13 +59,27 @@ export default class SwaggerImporter extends Vue {
         this.$message.error('文件无法解析。' + error)
       }
     }
-    reader.readAsText(config.file.raw)
+    reader.readAsText(config.file as any)
   }
 
   async handleSwaggerParse() {
     if (this.chosenApi) {
       try {
-        this.listviewProps = await swaggerToListview(this.chosenApi)
+        const { host, basePath } = this.importData
+        const baseUrl = `http://${host}${basePath}`
+        const {
+          requestUrl,
+          requestMethod,
+          filterFields,
+          tableColumns
+        } = await swaggerToListview(this.chosenApi, baseUrl)
+        this.active = 3
+        this.$emit('success', {
+          requestUrl,
+          requestMethod,
+          filterFields,
+          tableColumns
+        })
       } catch (e) {
         this.chosenApi = null
         console.error(e.toString())
@@ -90,11 +105,16 @@ export default class SwaggerImporter extends Vue {
 
 .step-pane {
   flex: 1;
-  padding: 10px;
 
   &--1 {
-    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+
+    > div {
+      margin-top: -80px;
+    }
   }
 
   &--2 {
@@ -112,5 +132,4 @@ export default class SwaggerImporter extends Vue {
     }
   }
 }
-
 </style>

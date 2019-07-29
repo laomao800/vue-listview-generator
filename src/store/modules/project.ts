@@ -7,7 +7,7 @@ import {
   FilterField,
   FilterButton
 } from '@laomao800/vue-listview'
-import { createFunction, prettify } from '@/utils'
+import { createFunction, prettify, uuid } from '@/utils'
 import {
   LIST_STATE_ADD,
   LIST_STATE_UPDATE,
@@ -34,6 +34,12 @@ type InnerState = Merge<
   }
 >
 type State = Partial<InnerState>
+
+const ARRAY_STATE = ['filterFields', 'tableColumns']
+
+function isArrayState(key: any) {
+  return ARRAY_STATE.includes(key)
+}
 
 export const mapFields = true
 
@@ -91,7 +97,22 @@ export const state = getInitialState()
 export const mutations: MutationTree<typeof state> = {
   LIST_STATE_ADD,
   LIST_STATE_UPDATE,
-  LIST_STATE_DELETE
+  LIST_STATE_DELETE,
+  UPDATE_PROJECT_STATE(state, payload: any) {
+    if (_.isPlainObject(payload)) {
+      Object.entries(payload).forEach(([key, value]) => {
+        if (state.hasOwnProperty(key)) {
+          if (isArrayState(key) && Array.isArray(value)) {
+            // @ts-ignore
+            state[key] = value.map(data => ({ id: uuid(), data }))
+          } else {
+            // @ts-ignore
+            state[key] = value
+          }
+        }
+      })
+    }
+  }
 }
 
 export const actions: ActionTree<typeof state, any> = {
@@ -116,6 +137,10 @@ export const actions: ActionTree<typeof state, any> = {
       stateProp,
       deleteIndex
     })
+  },
+
+  updateProject({ commit }, payload) {
+    commit('UPDATE_PROJECT_STATE', payload)
   },
 
   getProjectConfig({ state, rootState }) {

@@ -189,13 +189,20 @@ function resolveTableColumns(
 }
 
 export async function swaggerToListview(
-  pathData: NormalizedPathData
-): Promise<Partial<ListviewProps>> {
+  pathData: NormalizedPathData,
+  baseUrl: string = ''
+): Promise<
+  Pick<
+    ListviewProps,
+    'requestUrl' | 'requestMethod' | 'filterFields' | 'tableColumns'
+  >
+> {
   try {
+    const requestUrl = `${baseUrl}${pathData.path}`
     const requestMethod = pathData.method
     const filterFields = await resolveFilterFields(pathData)
     const tableColumns = await resolveTableColumns(pathData)
-    return resolve({ requestMethod, filterFields, tableColumns })
+    return resolve({ requestUrl, requestMethod, filterFields, tableColumns })
   } catch (e) {
     throw e
   }

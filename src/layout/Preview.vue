@@ -20,7 +20,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { mapFields } from 'vuex-map-fields'
 import { prettify } from '@/utils'
-import codeDialogServices from '@/service/CodeDialog'
+import CodeDialogService from '@/service/CodeDialog'
 
 @Component({
   // @ts-ignore
@@ -41,13 +41,12 @@ export default class Preview extends Vue {
     // prettier-ignore
     const configString = await this.$store.dispatch('getConfigString')
     const content = prettify(`const listviewProps = ${configString}`)
-    const configDialog = codeDialogServices({
+    const configDialog = CodeDialogService({
       content,
       lang: 'javascript',
       width: '80%',
       height: 500,
       readonly: true,
-      useWorker: false,
       title: '检查配置',
       buttons: [{ text: '关闭', click: () => configDialog.hide() }]
     })

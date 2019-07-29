@@ -79,13 +79,13 @@ export default class SwaggerPage extends Vue {
 }
 
 .header {
-  display: none;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   color: #3b4151;
 
   &__title {
     margin: 0;
-    font-family: Open Sans,sans-serif;
+    font-family: Open Sans, sans-serif;
     font-size: 36px;
 
     small {
@@ -111,7 +111,7 @@ export default class SwaggerPage extends Vue {
 
   &__desc {
     margin-top: 10px;
-    font-family: Open Sans,sans-serif;
+    font-family: Open Sans, sans-serif;
     font-size: 14px;
   }
 }
@@ -149,7 +149,7 @@ export default class SwaggerPage extends Vue {
   cursor: pointer;
   border: 1px solid #000;
   border-radius: 4px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 
   &__check {
     margin-right: 10px;
@@ -162,7 +162,7 @@ export default class SwaggerPage extends Vue {
     font-weight: 700;
     color: #fff;
     text-align: center;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
     background: #000;
     border-radius: 3px;
@@ -181,55 +181,55 @@ export default class SwaggerPage extends Vue {
 
   &__desc {
     flex: 1;
-    font-family: Open Sans,sans-serif;
+    font-family: Open Sans, sans-serif;
     font-size: 13px;
     color: #3b4151;
   }
 
   &--post {
-    background: rgba(73, 204, 144, .1);
+    background: rgba(73, 204, 144, 0.1);
     border-color: #49cc90;
   }
   &--post &__method {
     background: #49cc90;
   }
   &--put {
-    background: rgba(252, 161, 48, .1);
+    background: rgba(252, 161, 48, 0.1);
     border-color: #fca130;
   }
   &--put &__method {
     background: #fca130;
   }
   &--delete {
-    background: rgba(249, 62, 62, .1);
+    background: rgba(249, 62, 62, 0.1);
     border-color: #f93e3e;
   }
   &--delete &__method {
     background: #f93e3e;
   }
   &--get {
-    background: rgba(97,  175,  254,  0.1);
+    background: rgba(97, 175, 254, 0.1);
     border-color: #61affe;
   }
   &--get &__method {
     background: #61affe;
   }
   &--patch {
-    background: rgba(80, 227, 194, .1);
+    background: rgba(80, 227, 194, 0.1);
     border-color: #50e3c2;
   }
   &--patch &__method {
     background: #50e3c2;
   }
   &--head {
-    background: rgba(144, 18, 254, .1);
+    background: rgba(144, 18, 254, 0.1);
     border-color: #9012fe;
   }
   &--head &__method {
     background: #9012fe;
   }
   &--options {
-    background: rgba(13, 90, 167, .1);
+    background: rgba(13, 90, 167, 0.1);
     border-color: #0d5aa7;
   }
   &--options &__method {

@@ -117,14 +117,14 @@ const actions: ActionTree<any, any> = {
         return
       }
     }
-    commit('SET_LOADING', true)
+    commit('SET_APP_LOADING', true)
     await localforage.setItem(STORAGE_KEY, curProject)
     commit('SET_UPDATE_AT', new Date())
-    setTimeout(() => commit('SET_LOADING', false), 500)
+    setTimeout(() => commit('SET_APP_LOADING', false), 500)
   }, 5000),
 
-  async loadProject({ rootState, dispatch, commit }, content?: string) {
-    commit('SET_LOADING', true)
+  async loadAppState({ rootState, dispatch, commit }, content?: string) {
+    commit('SET_APP_LOADING', true)
     let loadedState = null
     try {
       if (content !== undefined) {
@@ -147,7 +147,7 @@ const actions: ActionTree<any, any> = {
         dispatch('saveProject')
       }
     }
-    setTimeout(() => commit('SET_LOADING', false), 500)
+    setTimeout(() => commit('SET_APP_LOADING', false), 500)
   }
 }
 

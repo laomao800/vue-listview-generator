@@ -40,7 +40,6 @@ export default class CodeDialog extends Vue {
   public buttons: any[] = []
   public lang: string = 'javascript'
   public readonly: boolean = false
-  public useWorker: boolean = true
 
   @Watch('visible')
   async visibleChanged(val: boolean) {

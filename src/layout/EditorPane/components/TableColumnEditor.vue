@@ -76,7 +76,7 @@ import { Component } from 'vue-property-decorator'
 import PopEditorBase from './PopEditorBase'
 import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
 import { isFunctionString, prettify } from '@/utils'
-import codeDialogServices from '@/service/CodeDialog'
+import CodeDialogService from '@/service/CodeDialog'
 
 const renderFuncString =
   'function render(scope) {\n' +
@@ -121,7 +121,7 @@ export default class TableColumnEditor extends PopEditorBase {
     }
     funcString = funcString || defaultFormatterFuncString
 
-    const formatterDialog = codeDialogServices({
+    const formatterDialog = CodeDialogService({
       title: 'formatter()',
       content: prettify(funcString),
       width: 800,

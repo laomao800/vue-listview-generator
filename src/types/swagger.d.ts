@@ -48,4 +48,5 @@ export interface SwaggerPathData {
 
 export interface NormalizedPathData extends SwaggerPathData {
   method: 'get' | 'delete' | 'head' | 'options' | 'post' | 'put' | 'patch'
+  path: string
 }
