@@ -194,7 +194,10 @@ export const actions: ActionTree<typeof state, any> = {
       finalConfig['tableColumns'] = state.tableColumns!.map(item => {
         const cloneColumn = _.cloneDeep(item.data) as StoreTableColumn
         if (_.isString(cloneColumn.formatter)) {
-          cloneColumn.formatter = createFunction(cloneColumn.formatter)
+          const formatter = createFunction(cloneColumn.formatter, true)
+          if (formatter) {
+            cloneColumn.formatter = formatter
+          }
         }
         // TODO:
         // if (isFunctionString(item.data.render)) {

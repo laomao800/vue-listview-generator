@@ -1,5 +1,9 @@
 import jsonSchemaRefParser from 'json-schema-ref-parser'
-import { ListviewProps, FilterField } from '@laomao800/vue-listview'
+import {
+  ListviewProps,
+  FilterField,
+  TableColumn
+} from '@laomao800/vue-listview'
 import {
   PropertySchema,
   SwaggerPathData,
@@ -134,14 +138,74 @@ function resolveFilterFields(
 function resolveTableColumns(
   pathData: NormalizedPathData
 ): Promise<ListviewProps['tableColumns']> {
-  return resolve([])
+  const successRes = pathData.responses['200']
+  if (!successRes) {
+    return reject(
+      '[tableColumns 解析失败] 所选接口无法获取 responses[200] 响应内容。'
+    )
+  }
+
+  const schema = successRes.schema
+  if (!schema) {
+    return reject('[tableColumns 解析失败] 所选接口不包含 schema 属性。')
+  }
+
+  const properties = schema.properties
+  let contentPropName = null
+  for (const prop in properties) {
+    if (properties[prop]['type'] === 'array') {
+      contentPropName = prop
+      break
+    }
+  }
+  if (!contentPropName) {
+    return reject(
+      '[tableColumns 解析失败] 响应内容没有 type 为 "array" 的属性。'
+    )
+  }
+  try {
+    const contentProps: object =
+      properties[contentPropName][contentPropName].properties
+    const tableColumns: ListviewProps['tableColumns'] = []
+    Object.entries(contentProps).forEach(([prop, propConfig]) => {
+      const { description } = propConfig
+      const column: TableColumn = {}
+      const enums = parseEnums(description)
+      if (enums) {
+        const { label } = enums
+        column.label = label
+        // @ts-ignore
+        column.fn$formatter = `function formatter(row) {\n  return row['${prop}']\n}`
+      } else {
+        column.label = description
+        column.prop = prop
+      }
+      tableColumns.push(column)
+    })
+    return resolve(tableColumns)
+  } catch (e) {
+    return reject('[tableColumns 解析失败] 无法获取 properties 。')
+  }
+}
+
+export async function swaggerToListview(
+  pathData: NormalizedPathData
+): Promise<Partial<ListviewProps>> {
+  try {
+    const requestMethod = pathData.method
+    const filterFields = await resolveFilterFields(pathData)
+    const tableColumns = await resolveTableColumns(pathData)
+    return resolve({ requestMethod, filterFields, tableColumns })
+  } catch (e) {
+    throw e
+  }
 }
 
 /**
  * 根据 Swagger 接口文档 tags 属性分类，并解析 $refs 引用
  * @param apiDocs 原始 Swagger api-docs JSON 实体
  */
-export async function classifyPathDataWithTags(
+export async function classifyPathDataByTags(
   _apiDocs: any
 ): Promise<{ [tag: string]: NormalizedPathData }> {
   const apiDocs = await jsonSchemaRefParser.dereference(_apiDocs)
@@ -149,8 +213,8 @@ export async function classifyPathDataWithTags(
   const paths = (apiDocs as SwaggerDoc).paths
   if (paths) {
     Object.entries(paths).forEach(([path, methods]) => {
-      Object.entries(methods).forEach(([method, pathData]) => {
-        ;(pathData as SwaggerPathData).tags.forEach((tag: string) => {
+      Object.entries<SwaggerPathData>(methods).forEach(([method, pathData]) => {
+        pathData.tags.forEach((tag: string) => {
           const target = category[tag] || (category[tag] = [])
           target.push({
             path,
@@ -164,17 +228,4 @@ export async function classifyPathDataWithTags(
     })
   }
   return category
-}
-
-export async function swaggerToListview(
-  pathData: NormalizedPathData
-): Promise<Partial<ListviewProps>> {
-  try {
-    const requestMethod = pathData.method
-    const filterFields = await resolveFilterFields(pathData)
-    const tableColumns = await resolveTableColumns(pathData)
-    return resolve({ requestMethod, filterFields, tableColumns })
-  } catch (e) {
-    return reject(e)
-  }
 }

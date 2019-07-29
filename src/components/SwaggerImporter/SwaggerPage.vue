@@ -17,7 +17,7 @@
             <small>{{ cate.description }}</small>
           </div>
           <div
-            v-for="path in normalizedPathData[cate.name]"
+            v-for="path in pathDataByTags[cate.name]"
             :class="['controller', `controller--${path.method}`]"
             :key="path.path"
             @click="chosenPath = path"
@@ -35,15 +35,14 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Model } from 'vue-property-decorator'
-import { NormalizedPathData } from '@/types/swagger'
-import { classifyPathDataWithTags } from './swaggerHelpers'
+import { classifyPathDataByTags } from './swaggerHelpers'
 
 @Component
 export default class SwaggerPage extends Vue {
   @Prop({ default: () => ({}) }) apiDocs!: any
   @Model('update:value', { default: null }) value!: any
 
-  normalizedPathData = {}
+  pathDataByTags = {}
 
   get chosenPath() {
     return this.value
@@ -66,7 +65,7 @@ export default class SwaggerPage extends Vue {
 
   @Watch('apiDocs', { immediate: true })
   async docsChanged() {
-    this.normalizedPathData = await classifyPathDataWithTags(this.apiDocs)
+    this.pathDataByTags = await classifyPathDataByTags(this.apiDocs)
   }
 }
 </script>

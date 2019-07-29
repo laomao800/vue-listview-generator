@@ -39,11 +39,11 @@ export interface SwaggerDoc {
 }
 
 export interface SwaggerPathData {
-  responses?: { [code: string]: Response }
+  tags: string[]
+  responses: { [code: string]: Response }
+  parameters?: Parameter | Parameter[]
   summary?: string
   description?: string
-  parameters?: Parameter | Parameter[]
-  tags: string[]
 }
 
 export interface NormalizedPathData extends SwaggerPathData {

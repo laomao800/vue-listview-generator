@@ -58,14 +58,13 @@ export function uuid() {
 
 export function isFunctionString(input: any) {
   try {
-    // eslint-disable-next-line no-new-func
-    const func = new Function(`return ${input}`)()
-    return _.isFunction(func)
-  } catch (e) {}
-  return false
+    return _.isFunction(createFunction(input))
+  } catch (e) {
+    return false
+  }
 }
 
-export function createFunction(input: any) {
+export function createFunction(input: any, returnBlankFn = false) {
   try {
     // eslint-disable-next-line no-new-func
     const func = new Function(`return ${input.trim()}`)()
@@ -73,7 +72,7 @@ export function createFunction(input: any) {
       return func
     }
   } catch (e) {}
-  return () => {}
+  return returnBlankFn ? null : () => {}
 }
 
 export function simpleTpl(content: string, variables: any) {

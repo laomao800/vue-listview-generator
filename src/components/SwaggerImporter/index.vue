@@ -67,7 +67,7 @@ export default class SwaggerImporter extends Vue {
         this.listviewProps = await swaggerToListview(this.chosenApi)
       } catch (e) {
         this.chosenApi = null
-        console.error(e)
+        console.error(e.toString())
         this.$message.error({
           message: e
         })
