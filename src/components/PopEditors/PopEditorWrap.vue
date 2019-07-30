@@ -10,10 +10,10 @@
     v-bind="$attrs"
   >
     <span slot="reference" :class="$style.more">
-      <SvgIcon name="more"/>
+      <SvgIcon name="more" />
     </span>
     <div :class="$style.content">
-      <slot/>
+      <slot />
     </div>
   </ElPopover>
 </template>

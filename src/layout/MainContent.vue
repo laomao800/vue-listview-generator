@@ -5,27 +5,27 @@
         <ElForm label-width="160px" @submit.native.prevent style="height:100%">
           <ElTabs class="editor-tabs" v-model="activeTab" type="card">
             <ElTabPane label="数据源" name="dataSource">
-              <DataSource/>
+              <DataSource />
             </ElTabPane>
             <ElTabPane label="搜索栏" name="filterbar">
               <ElRow :gutter="16">
                 <ElCol :span="8">
-                  <FilterButtons/>
+                  <FilterButtons />
                 </ElCol>
                 <ElCol :span="10">
-                  <FilterFields/>
+                  <FilterFields />
                 </ElCol>
               </ElRow>
             </ElTabPane>
             <ElTabPane label="内容" name="content">
-              <Content/>
+              <Content />
             </ElTabPane>
           </ElTabs>
         </ElForm>
       </div>
       <div :class="$style.sidebar">
         <ElForm label-position="top" @submit.native.prevent>
-          <Basic/>
+          <Basic />
         </ElForm>
       </div>
     </div>

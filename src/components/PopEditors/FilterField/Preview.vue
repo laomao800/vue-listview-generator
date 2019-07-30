@@ -2,7 +2,7 @@
   <div :class="$style.wrap">
     <div :class="$style.icon">
       <ElTooltip :content="iconTips" :enterable="false" placement="top">
-        <SvgIcon :name="iconName"/>
+        <SvgIcon :name="iconName" />
       </ElTooltip>
     </div>
     <ElTag v-if="label" :class="$style.label">{{ label }}</ElTag>

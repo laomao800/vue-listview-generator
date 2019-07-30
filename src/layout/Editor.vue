@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.wrap">
-    <Topbar/>
+    <Topbar />
     <div :class="$style.content">
-      <Sidebar :class="$style.sidebar"/>
-      <EditorMain :class="$style.main"/>
+      <Sidebar :class="$style.sidebar" />
+      <MainContent :class="$style.main" />
     </div>
   </div>
 </template>
@@ -12,13 +12,13 @@
 import { Vue, Component } from 'vue-property-decorator'
 import Topbar from '@/layout/Topbar.vue'
 import Sidebar from '@/layout/Sidebar.vue'
-import EditorMain from '@/layout/EditorMain.vue'
+import MainContent from '@/layout/MainContent.vue'
 
 @Component({
   components: {
     Topbar,
     Sidebar,
-    EditorMain
+    MainContent
   }
 })
 export default class Editor extends Vue {}

@@ -8,7 +8,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
-export default class FieldDivider extends Vue {
+export default class EditorItemDivider extends Vue {
   @Prop({ type: String, default: '' })
   public title!: string
 }

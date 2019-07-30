@@ -5,10 +5,10 @@
     </div>
     <div class="field-input__content" :style="{ maxWidth: inputMaxWidth }">
       <ElInput ref="input" v-model="internalValue" v-bind="$attrs" size="mini">
-        <slot slot="prefix" name="prefix"/>
-        <slot slot="suffix" name="suffix"/>
-        <slot slot="prepend" name="prepend"/>
-        <slot slot="append" name="append"/>
+        <slot slot="prefix" name="prefix" />
+        <slot slot="suffix" name="suffix" />
+        <slot slot="prepend" name="prepend" />
+        <slot slot="append" name="append" />
       </ElInput>
     </div>
   </div>
@@ -21,7 +21,7 @@ import { parseSizeWithUnit } from '@/utils'
 @Component({
   inheritAttrs: false
 })
-export default class FieldInput extends Vue {
+export default class EditorItemInput extends Vue {
   @Model('input', { type: [String, Number], default: '' }) public value!: string
   @Prop({ type: String, default: '' }) title!: string
   @Prop({ type: Boolean, default: false }) block!: boolean

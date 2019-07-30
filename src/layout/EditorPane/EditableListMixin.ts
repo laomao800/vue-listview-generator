@@ -1,4 +1,4 @@
-import { Vue } from 'vue-property-decorator'
+import { Vue, Component, Mixins } from 'vue-property-decorator'
 
 export interface CreatePayload {
   stateProp: string
@@ -15,7 +15,8 @@ export interface DeletePayload {
   deleteIndex: number
 }
 
-export default class EditableListBase extends Vue {
+@Component
+class EditableListMixin extends Vue {
   public createHandler(payload?: CreatePayload) {
     throw new Error('createHandler 未实现')
   }
@@ -74,3 +75,5 @@ export default class EditableListBase extends Vue {
     } catch (e) {}
   }
 }
+
+export default Mixins(EditableListMixin)

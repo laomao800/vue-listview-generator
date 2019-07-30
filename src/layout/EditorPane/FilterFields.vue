@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PaneTitle level="2" title="搜索栏字段" subtitle="filterFields" inline style="margin-bottom:8px"/>
+    <PaneTitle level="2" title="搜索栏字段" subtitle="filterFields" inline style="margin-bottom:8px" />
     <SortableList
       v-model="filterFields"
       lock-axis="y"
@@ -9,7 +9,7 @@
       :use-drag-handle="true"
     >
       <SortableItem v-for="(item, index) in filterFields" :index="index" :key="item.id">
-        <FilterFieldPreview v-bind="item.data"/>
+        <FilterFieldPreview v-bind="item.data" />
         <FilterFieldEditor
           ref="itemEditors"
           slot="right"
@@ -20,7 +20,7 @@
         />
       </SortableItem>
     </SortableList>
-    <AddItemHolder text="新建字段" @click="() => createItem()"/>
+    <AddItemHolder text="新建字段" @click="() => createItem()" />
   </div>
 </template>
 
@@ -30,22 +30,22 @@ import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { FilterField } from '@laomao800/vue-listview'
 import { mapFields } from 'vuex-map-fields'
-import EditableListBase from './EditableListBase'
-import FilterFieldPreview from '@/layout/EditorPane/components/FilterFieldPreview.vue'
-import FilterFieldEditor from '@/layout/EditorPane/components/FilterFieldEditor.vue'
+import EditableListMixin from './EditableListMixin'
+import FilterFieldEditor from '@/components/PopEditors/FilterField/Editor.vue'
+import FilterFieldPreview from '@/components/PopEditors/FilterField/Preview.vue'
 
 const Module = namespace('project')
 
 @Component({
   components: {
-    FilterFieldPreview,
-    FilterFieldEditor
+    FilterFieldEditor,
+    FilterFieldPreview
   },
   computed: {
     ...mapFields('project', ['filterFields'])
   }
 })
-export default class FilterFields extends EditableListBase {
+export default class FilterFields extends EditableListMixin {
   @Module.Action('addListItem')
   public createHandler!: (payload: any) => void
 

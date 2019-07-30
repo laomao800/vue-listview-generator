@@ -8,7 +8,7 @@
     </ElFormItem>
 
     <ElFormItem v-if="requestType === 'custom'" label="请求方法名">
-      <ElInput v-model.trim="requestHandler" placeholder="requestHandler"/>
+      <ElInput v-model.trim="requestHandler" placeholder="requestHandler" />
       <TipsBlock>自定义请求方法，需要返回 Promise ，会将响应的内容往后传递给响应值验证及映射等后续流程处理。</TipsBlock>
     </ElFormItem>
 
@@ -17,8 +17,8 @@
         <div style="display:flex">
           <ElInput v-model.trim="requestUrl" placeholder="请求接口地址">
             <ElSelect slot="prepend" v-model="requestMethod" style="width:100px">
-              <ElOption label="GET" value="get"/>
-              <ElOption label="POST" value="post"/>
+              <ElOption label="GET" value="get" />
+              <ElOption label="POST" value="post" />
             </ElSelect>
           </ElInput>
         </div>
@@ -26,14 +26,14 @@
     </template>
 
     <ElFormItem>
-      <PaneTitle slot="label" title="自动加载" subtitle="autoload"/>
-      <ElSwitch v-model="autoload"/>
+      <PaneTitle slot="label" title="自动加载" subtitle="autoload" />
+      <ElSwitch v-model="autoload" />
       <TipsBlock inline>初始化后是否自动加载第一页内容。</TipsBlock>
     </ElFormItem>
 
     <ElFormItem v-show="!autoload">
-      <PaneTitle slot="label" title="初始文案" subtitle="contentMessage"/>
-      <ElSwitch v-model="setContentMessage"/>
+      <PaneTitle slot="label" title="初始文案" subtitle="contentMessage" />
+      <ElSwitch v-model="setContentMessage" />
       <TipsBlock inline>是否使用自定义初始文案，若不设置，对于默认表格视图会显示“暂无数据”。</TipsBlock>
       <div v-show="setContentMessage" style="display:flex;padding-top:10px;">
         <ElSelect
@@ -51,7 +51,7 @@
           </span>
           <ElOption value>无图标</ElOption>
           <ElOption v-for="(item, index) in iconMap" :key="index" :value="index">
-            <i :class="item.icon" :style="`color:${item.color}`"/>
+            <i :class="item.icon" :style="`color:${item.color}`" />
             {{ index }}
           </ElOption>
         </ElSelect>
@@ -64,8 +64,8 @@
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" title="响应值映射" subtitle="contentDataMap"/>
-      <ElSwitch v-model="setContentDataMap"/>
+      <PaneTitle slot="label" title="响应值映射" subtitle="contentDataMap" />
+      <ElSwitch v-model="setContentDataMap" />
       <TipsBlock inline>数据接口响应内容映射，在接口响应格式与内置默认取值格式不一致时使用。</TipsBlock>
       <div v-show="setContentDataMap">
         <TipsBlock>
@@ -135,8 +135,8 @@
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" title="响应验证" subtitle="validateResponse"/>
-      <ElSwitch v-model="setValidateResponse"/>
+      <PaneTitle slot="label" title="响应验证" subtitle="validateResponse" />
+      <ElSwitch v-model="setValidateResponse" />
       <TipsBlock inline>
         验证接口响应是否成功。若接口响应格式字段有差异，可修改该配置，如果无需错误处理可直接返回
         <code>true</code> 。
@@ -152,8 +152,8 @@
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" title="解析响应错误" subtitle="resolveResponseErrorMessage"/>
-      <ElSwitch v-model="setResolveResponseErrorMessage"/>
+      <PaneTitle slot="label" title="解析响应错误" subtitle="resolveResponseErrorMessage" />
+      <ElSwitch v-model="setResolveResponseErrorMessage" />
       <TipsBlock inline>
         在
         <strong>

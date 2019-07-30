@@ -1,5 +1,5 @@
 <template>
-  <FieldItemBasic ref="field" icon="field-type" title="字段类型">
+  <EditorItemBase ref="field" icon="field-type" title="字段类型">
     <div style="font-size:12px;color:#999">{{ showValue }}</div>
     <div slot="pop" :class="$style.popper">
       <div
@@ -8,11 +8,11 @@
         :class="item.type === value && $style.selected"
         @click="handleChange(item.type)"
       >
-        <SvgIcon :class="$style.icon" :name="item.icon"/>
+        <SvgIcon :class="$style.icon" :name="item.icon" />
         <span>{{ item.name }}</span>
       </div>
     </div>
-  </FieldItemBasic>
+  </EditorItemBase>
 </template>
 
 <script lang="ts">
@@ -23,7 +23,7 @@ import {
 } from '@/constants/filterFieldTypes'
 
 @Component
-export default class FieldFilterFieldType extends Vue {
+export default class EditorItemFilterFieldType extends Vue {
   @Model('input', { type: String, default: 'text' })
   public value!: string
 

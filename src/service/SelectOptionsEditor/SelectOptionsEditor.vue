@@ -7,10 +7,10 @@
             <table cellspacing="0" cellpadding="0">
               <thead>
                 <tr>
-                  <th class="col-handle"/>
+                  <th class="col-handle" />
                   <th class="col-label">显示文本</th>
                   <th class="col-value">选项值</th>
-                  <th class="col-action"/>
+                  <th class="col-action" />
                 </tr>
               </thead>
               <Draggable
@@ -28,7 +28,7 @@
                 >
                   <td class="col-handle">
                     <div class="drag-handle">
-                      <SvgIcon name="drag"/>
+                      <SvgIcon name="drag" />
                     </div>
                   </td>
                   <td class="col-label">
@@ -53,7 +53,7 @@
                       tabindex="-1"
                       @click="deleteOption(index)"
                     >
-                      <i class="el-icon-delete"/>
+                      <i class="el-icon-delete" />
                     </ElButton>
                   </td>
                 </tr>
@@ -63,7 +63,7 @@
         </ElTabPane>
         <ElTabPane label="编辑选项 JSON" name="json">
           <div class="options-editor-json">
-            <MonacoEditor ref="codeEditor" :content="optionJSONString" height="300" lang="json"/>
+            <MonacoEditor ref="codeEditor" :content="optionJSONString" height="300" lang="json" />
           </div>
         </ElTabPane>
       </ElTabs>

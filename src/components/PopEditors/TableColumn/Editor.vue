@@ -1,6 +1,6 @@
 <template>
   <PopEditorWrap v-model="visible">
-    <FieldInput
+    <EditorItemInput
       ref="focusInput"
       v-model="editingData.label"
       title="列头文本"
@@ -8,36 +8,36 @@
       maxlength="16"
     />
 
-    <FieldInput v-model.number="editingData.width" title="列宽" type="number" clearable>
+    <EditorItemInput v-model.number="editingData.width" title="列宽" type="number" clearable>
       <template slot="append">px</template>
-    </FieldInput>
+    </EditorItemInput>
 
-    <FieldItemBasic title="对齐" static style="margin-top:4px">
+    <EditorItemBase title="对齐" static style="margin-top:4px">
       <ElRadioGroup v-model="editingData.align" size="mini">
         <ElRadioButton :label="undefined">
-          <SvgIcon name="align-left"/>
+          <SvgIcon name="align-left" />
         </ElRadioButton>
         <ElRadioButton label="center">
-          <SvgIcon name="align-center"/>
+          <SvgIcon name="align-center" />
         </ElRadioButton>
         <ElRadioButton label="right">
-          <SvgIcon name="align-right"/>
+          <SvgIcon name="align-right" />
         </ElRadioButton>
       </ElRadioGroup>
-    </FieldItemBasic>
+    </EditorItemBase>
 
-    <FieldItemBasic title="固定列" static>
+    <EditorItemBase title="固定列" static>
       <ElRadioGroup v-model="editingData.fixed" size="mini">
         <ElRadioButton title="左对齐" :label="undefined">无</ElRadioButton>
         <ElRadioButton title="居中对齐" :label="true">左</ElRadioButton>
         <ElRadioButton title="右对齐" label="right">右</ElRadioButton>
       </ElRadioGroup>
-    </FieldItemBasic>
+    </EditorItemBase>
 
     <template v-if="!useJsx">
-      <FieldDivider/>
+      <EditorItemDivider />
 
-      <FieldInput
+      <EditorItemInput
         v-if="!editingData.formatter"
         v-model="editingData.prop"
         title="属性名"
@@ -46,35 +46,35 @@
         style="margin-bottom:8px"
       />
 
-      <FieldItemBasic icon="gear" title="自定义内容" @click.native="openFormatterEditor">
+      <EditorItemBase icon="gear" title="自定义内容" @click.native="openFormatterEditor">
         <span
           v-if="editingData.formatter"
           style="font-size:12px;color:#009EF7;"
           @click.stop="deleteFormatter(editingData)"
         >清除</span>
-      </FieldItemBasic>
+      </EditorItemBase>
     </template>
 
     <!--
-      <FieldDivider/>
+      <EditorItemDivider/>
 
-      <FieldItemBasic icon="code" title="使用 JSX 内容" @click.native="useJsx = !useJsx">
-        <ElSwitch :value="useJsx" size="mini"/>
-      </FieldItemBasic>
-      <FieldItemBasic v-if="useJsx" icon="function" title="编辑内容" @click.native="openJsxEditor"/>
+      <EditorItemBase icon="code" title="使用 JSX 内容" @click.native="useJsx = !useJsx">
+        <ElSwitch :value="useJsx" size="mini" />
+      </EditorItemBase>
+      <EditorItemBase v-if="useJsx" icon="function" title="编辑内容" @click.native="openJsxEditor" />
     -->
-    <FieldDivider/>
+    <EditorItemDivider />
 
-    <FieldItemBasic icon="copy" title="复制" @click.native="emitCopy"/>
-    <FieldItemBasic icon="delete" title="删除" @click.native="emitDelete"/>
+    <EditorItemBase icon="copy" title="复制" @click.native="emitCopy" />
+    <EditorItemBase icon="delete" title="删除" @click.native="emitDelete" />
   </PopEditorWrap>
 </template>
 
 <script lang="tsx">
 import _ from 'lodash'
 import { Component } from 'vue-property-decorator'
-import PopEditorBase from './PopEditorBase'
-import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
+import PopEditorMixin from '@/components/PopEditors/PopEditorMixin'
+import PopEditorWrap from '@/components/PopEditors/PopEditorWrap.vue'
 import { isFunctionString, prettify } from '@/utils'
 import CodeDialogService from '@/service/CodeDialog'
 
@@ -97,7 +97,7 @@ const defaultFormatterFuncString =
     PopEditorWrap
   }
 })
-export default class TableColumnEditor extends PopEditorBase {
+export default class TableColumnEditor extends PopEditorMixin {
   public useJsx = false
 
   async deleteFormatter() {

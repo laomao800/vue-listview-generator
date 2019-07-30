@@ -13,7 +13,7 @@
       <small v-if="props.subtitle" :class="$style.subtitle">{{ props.subtitle }}</small>
     </div>
     <span v-if="$slots.right" :class="$style.right">
-      <slot name="right"/>
+      <slot name="right" />
     </span>
   </div>
 </template>

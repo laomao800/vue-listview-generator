@@ -21,14 +21,14 @@ import TipsBlock from '@/components/TipsBlock.vue'
 import SortableList from '@/components/SortableList.vue'
 import SortableItem from '@/components/SortableItem.vue'
 
-// Field config components
-import FieldDivider from '@/components/Fields/FieldDivider.vue'
-import FieldItemBasic from '@/components/Fields/FieldItemBasic.vue'
-import FieldButtonType from '@/components/Fields/FieldButtonType.vue'
-import FieldIcons from '@/components/Fields/FieldIcons.vue'
-import FieldInput from '@/components/Fields/FieldInput.vue'
-import FieldFilterFieldType from '@/components/Fields/FieldFilterFieldType.vue'
-import FieldDateType from '@/components/Fields/FieldDateType.vue'
+// /PopEditors/ menu item components
+import EditorItemBase from '@/components/PopEditors/EditorItemBase.vue'
+import EditorItemDivider from '@/components/PopEditors/EditorItems/Divider.vue'
+import EditorItemButtonType from '@/components/PopEditors/EditorItems/ButtonType.vue'
+import EditorItemIcons from '@/components/PopEditors/EditorItems/Icons.vue'
+import EditorItemInput from '@/components/PopEditors/EditorItems/Input.vue'
+import EditorItemFilterFieldType from '@/components/PopEditors/EditorItems/FilterFieldType.vue'
+import EditorItemDateType from '@/components/PopEditors/EditorItems/DateType.vue'
 
 Vue.config.productionTip = false
 
@@ -44,13 +44,13 @@ Vue.component('SvgIcon', SvgIcon)
 Vue.component('TipsBlock', TipsBlock)
 Vue.component('SortableList', SortableList)
 Vue.component('SortableItem', SortableItem)
-Vue.component('FieldDivider', FieldDivider)
-Vue.component('FieldItemBasic', FieldItemBasic)
-Vue.component('FieldButtonType', FieldButtonType)
-Vue.component('FieldIcons', FieldIcons)
-Vue.component('FieldInput', FieldInput)
-Vue.component('FieldFilterFieldType', FieldFilterFieldType)
-Vue.component('FieldDateType', FieldDateType)
+Vue.component('EditorItemDivider', EditorItemDivider)
+Vue.component('EditorItemBase', EditorItemBase)
+Vue.component('EditorItemButtonType', EditorItemButtonType)
+Vue.component('EditorItemIcons', EditorItemIcons)
+Vue.component('EditorItemInput', EditorItemInput)
+Vue.component('EditorItemFilterFieldType', EditorItemFilterFieldType)
+Vue.component('EditorItemDateType', EditorItemDateType)
 
 new Vue({
   store,

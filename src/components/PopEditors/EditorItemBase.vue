@@ -2,7 +2,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
-export default class FieldItemBasic extends Vue {
+export default class EditorItemBase extends Vue {
   @Prop({ type: String, default: '' }) public icon!: string
   @Prop({ type: String, default: '' }) public title!: string
   @Prop({ type: Boolean, default: false }) public static!: boolean

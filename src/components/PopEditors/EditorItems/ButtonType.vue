@@ -1,6 +1,6 @@
 <template>
-  <FieldItemBasic ref="field" title="按钮样式">
-    <ButtonTypePreviewBlock :type="value" :plain="plain" style="margin-top:2px"/>
+  <EditorItemBase ref="field" title="按钮样式">
+    <ButtonTypePreviewBlock :type="value" :plain="plain" style="margin-top:2px" />
     <div slot="pop" :class="$style.popper">
       <div
         v-for="type in buttonTypes"
@@ -16,7 +16,7 @@
         <span>{{ type }}</span>
       </div>
     </div>
-  </FieldItemBasic>
+  </EditorItemBase>
 </template>
 
 <script lang="ts">
@@ -31,7 +31,7 @@ type buttonTypes =
   | 'danger'
 
 @Component
-export default class FieldButtonType extends Vue {
+export default class EditorItemButtonType extends Vue {
   @Model('input', { type: String, default: 'default' })
   public value!: buttonTypes
 

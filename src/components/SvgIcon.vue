@@ -1,6 +1,6 @@
 <template functional>
   <svg :class="[data.class, 'svg-icon']" aria-hidden="true">
-    <use v-bind="{ 'xlink:href': `#icon-${props.name}` }"></use>
+    <use v-bind="{ 'xlink:href': `#icon-${props.name}` }" />
   </svg>
 </template>
 

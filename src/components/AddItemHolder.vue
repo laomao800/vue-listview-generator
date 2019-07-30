@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.item" v-on="$listeners">
-    <SvgIcon v-if="icon" :name="icon" style="margin-right:5px;"/>
+    <SvgIcon v-if="icon" :name="icon" style="margin-right:5px;" />
     <span>
       <slot>{{ text }}</slot>
     </span>

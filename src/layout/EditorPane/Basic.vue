@@ -1,15 +1,15 @@
 <template>
   <div class="basic-wrap" :class="$style.wrap">
-    <PaneTitle level="1" title="顶部通栏配置"/>
+    <PaneTitle level="1" title="顶部通栏配置" />
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="页面标题" subtitle="headerTitle" inline/>
-      <ElInput v-model.trim="headerTitle"/>
+      <PaneTitle slot="label" level="2" title="页面标题" subtitle="headerTitle" inline />
+      <ElInput v-model.trim="headerTitle" />
       <TipsBlock>显示于顶部面包屑左侧的列表标题</TipsBlock>
     </ElFormItem>
 
     <ElFormItem>
-      <PaneTitle slot="label" level="2" title="面包屑" subtitle="headerNav" inline/>
+      <PaneTitle slot="label" level="2" title="面包屑" subtitle="headerNav" inline />
       <ElTag
         v-for="(nav, index) in headerNav"
         :key="index"
@@ -41,11 +41,11 @@
       </TipsBlock>
     </ElFormItem>
 
-    <PaneTitle level="1" title="布局配置"/>
+    <PaneTitle level="1" title="布局配置" />
 
     <ElFormItem>
       <PaneTitle slot="label" level="2" title="拉伸高度" subtitle="fullHeight" inline>
-        <ElSwitch slot="right" v-model="fullHeight"/>
+        <ElSwitch slot="right" v-model="fullHeight" />
       </PaneTitle>
       <TipsBlock>
         全屏效果，开启后
@@ -55,31 +55,31 @@
     </ElFormItem>
 
     <ElFormItem v-show="!fullHeight">
-      <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline/>
-      <ElInput v-model.trim="height" style="width:100px"/>
+      <PaneTitle slot="label" level="2" title="指定高度" subtitle="height" inline />
+      <ElInput v-model.trim="height" style="width:100px" />
       <TipsBlock inline>(300, 300px, 50%)</TipsBlock>
       <TipsBlock>设置整体布局高度，包含顶部标题栏、搜索栏、正文区域、页码区域所有内容的高度，支持百分比。若不指定则为根据内容自动高度。</TipsBlock>
     </ElFormItem>
 
     <ElFormItem>
       <PaneTitle slot="label" level="2" title="使用分页" subtitle="usePage" inline>
-        <ElSwitch slot="right" v-model="usePage"/>
+        <ElSwitch slot="right" v-model="usePage" />
       </PaneTitle>
       <TipsBlock>开启分页会在请求时参数自动附加上 page_index 和 page_size 2 个参数。</TipsBlock>
       <!-- TODO: 自定义分页参数名 -->
     </ElFormItem>
 
     <ElFormItem v-show="usePage">
-      <PaneTitle slot="label" level="2" title="默认分页" subtitle="pageSize" inline/>
+      <PaneTitle slot="label" level="2" title="默认分页" subtitle="pageSize" inline />
       <ElRadioGroup v-model="pageSize" :class="$style.optionsGrid">
-        <ElRadio v-for="(size, index) in inputPageSizes" :key="index" :label="size"/>
+        <ElRadio v-for="(size, index) in inputPageSizes" :key="index" :label="size" />
       </ElRadioGroup>
     </ElFormItem>
     <ElFormItem v-show="usePage">
-      <PaneTitle slot="label" level="2" title="可选分页" subtitle="pageSizes" inline/>
+      <PaneTitle slot="label" level="2" title="可选分页" subtitle="pageSizes" inline />
       <TipsBlock>用于在分页“每页数量”可选值，至少保留一项。</TipsBlock>
       <ElCheckboxGroup v-model="inputPageSizes" :min="1" :class="$style.optionsGrid">
-        <ElCheckbox v-for="(val, index) in 10" :key="index" :value="val * 10" :label="val * 10"/>
+        <ElCheckbox v-for="(val, index) in 10" :key="index" :value="val * 10" :label="val * 10" />
       </ElCheckboxGroup>
     </ElFormItem>
   </div>

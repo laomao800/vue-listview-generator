@@ -3,7 +3,7 @@
     :class="[data.staticClass, $style.tips, (props.inline && $style.inline)]"
     :style="data.staticStyle"
   >
-    <slot/>
+    <slot />
   </div>
 </template>
 

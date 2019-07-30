@@ -1,23 +1,23 @@
 <template>
-  <PopEditorWrap v-model="visible">
-    <FieldFilterFieldType v-model="curType"/>
+  <PopEditorWrap ref="popper" v-model="visible">
+    <EditorItemFilterFieldType v-model="curType" />
 
-    <FieldDivider title="公共属性"/>
+    <EditorItemDivider title="公共属性" />
 
-    <FieldInput
+    <EditorItemInput
       ref="focusInput"
       v-model="editingData.label"
       title="文本标签"
       placeholder="文本标签"
       maxlength="16"
     />
-    <FieldInput
+    <EditorItemInput
       v-if="editingData.type !== 'label'"
       v-model="modelName"
       title="参数名"
       placeholder="参数名"
     />
-    <FieldInput
+    <EditorItemInput
       v-model.number="editingData.width"
       :placeholder="widthPlaceholder"
       title="宽度"
@@ -25,29 +25,29 @@
       clearable
     >
       <template slot="append">px</template>
-    </FieldInput>
+    </EditorItemInput>
 
-    <FieldDivider v-if="curType !== 'label'" title="字段配置"/>
+    <EditorItemDivider v-if="curType !== 'label'" title="字段配置" />
 
     <template v-if="curType === 'text'">
-      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
-      <FieldIcons title="后置图标" v-model="editingData.componentProps.suffixIcon"/>
+      <EditorItemIcons title="前置图标" v-model="editingData.componentProps.prefixIcon" />
+      <EditorItemIcons title="后置图标" v-model="editingData.componentProps.suffixIcon" />
     </template>
 
     <template v-else-if="curType === 'number'">
-      <FieldInput
+      <EditorItemInput
         title="最小值"
         v-model.number="editingData.componentProps.min"
         type="number"
         input-width="70"
       />
-      <FieldInput
+      <EditorItemInput
         title="最大值"
         v-model.number="editingData.componentProps.max"
         type="number"
         input-width="70"
       />
-      <FieldInput
+      <EditorItemInput
         title="控制器步进值"
         v-model.number="editingData.componentProps.step"
         type="number"
@@ -58,44 +58,44 @@
 
     <!-- 下拉选择类 -->
     <template v-else-if="['select', 'multipleSelect', 'cascader'].includes(curType)">
-      <FieldItemBasic icon="gear" title="配置选项" @click.native="showOptionsDialog">
+      <EditorItemBase icon="gear" title="配置选项" @click.native="showOptionsDialog">
         <span style="color:#999;">({{ editingData.options.length }}项)</span>
-      </FieldItemBasic>
+      </EditorItemBase>
     </template>
 
     <!-- 日期类 -->
     <template v-else-if="['date', 'dateRange', 'dateTime', 'dateTimeRange'].includes(curType)">
       <template v-if="curType === 'date'">
-        <FieldDateType v-model="editingData.componentProps.type"/>
+        <EditorItemDateType v-model="editingData.componentProps.type" />
       </template>
 
-      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+      <EditorItemIcons title="前置图标" v-model="editingData.componentProps.prefixIcon" />
 
       <template v-if="curType === 'dateTime'">
         <!-- 无 -->
       </template>
 
       <template v-if="['dateRange', 'dateTimeRange'].includes(curType)">
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.startPlaceholder"
           title="开始占位内容"
           placeholder="开始日期"
         />
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.endPlaceholder"
           title="结束占位内容"
           placeholder="结束日期"
         />
       </template>
 
-      <FieldInput
+      <EditorItemInput
         v-model="editingData.componentProps.format"
         block
         :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
         title="显示格式"
         clearable
       />
-      <FieldInput
+      <EditorItemInput
         v-model="editingData.componentProps.valueFormat"
         block
         :placeholder="curType.indexOf('dateTime') > -1 ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd'"
@@ -106,19 +106,19 @@
 
     <!-- 时间类 -->
     <template v-else-if="['timeSelect', 'timePicker', 'timePickerRange'].includes(curType)">
-      <FieldIcons title="前置图标" v-model="editingData.componentProps.prefixIcon"/>
+      <EditorItemIcons title="前置图标" v-model="editingData.componentProps.prefixIcon" />
       <template v-if="curType === 'timeSelect'">
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.pickerOptions.start"
           title="开始时间"
           placeholder="09:00"
         />
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.pickerOptions.end"
           title="结束时间"
           placeholder="18:00"
         />
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.pickerOptions.step"
           title="选项跨度"
           placeholder="00:30"
@@ -128,18 +128,18 @@
         <!-- 无 -->
       </template>
       <template v-else-if="curType === 'timePickerRange'">
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.startPlaceholder"
           title="开始占位内容"
           placeholder="开始时间"
         />
-        <FieldInput
+        <EditorItemInput
           v-model="editingData.componentProps.endPlaceholder"
           title="结束占位内容"
           placeholder="结束时间"
         />
       </template>
-      <FieldInput
+      <EditorItemInput
         v-model="editingData.componentProps.valueFormat"
         title="提交格式"
         placeholder="yyyy-MM-dd HH:mm:ss"
@@ -148,10 +148,10 @@
       />
     </template>
 
-    <FieldDivider title="操作"/>
+    <EditorItemDivider title="操作" />
 
-    <FieldItemBasic icon="copy" title="复制" @click.native="emitCopy"/>
-    <FieldItemBasic icon="delete" title="删除" @click.native="emitDelete"/>
+    <EditorItemBase icon="copy" title="复制" @click.native="emitCopy" />
+    <EditorItemBase icon="delete" title="删除" @click.native="emitDelete" />
   </PopEditorWrap>
 </template>
 
@@ -160,8 +160,8 @@ import _ from 'lodash'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { FilterField } from '@laomao800/vue-listview'
 import { filterFieldTypesMap } from '@/constants/filterFieldTypes'
-import PopEditorBase from './PopEditorBase'
-import PopEditorWrap from '@/layout/EditorPane/components/PopEditorWrap.vue'
+import PopEditorMixin from '@/components/PopEditors/PopEditorMixin'
+import PopEditorWrap from '@/components/PopEditors/PopEditorWrap.vue'
 import SelectOptionsEditor from '@/service/SelectOptionsEditor'
 
 interface AllFieldData {
@@ -207,7 +207,7 @@ const widthPresetMap: {
     PopEditorWrap
   }
 })
-export default class FilterFieldEditor extends PopEditorBase {
+export default class FilterFieldEditor extends PopEditorMixin {
   public allFieldData = getAllFieldData()
   public curType = this.data.type!
   public modelName = ''

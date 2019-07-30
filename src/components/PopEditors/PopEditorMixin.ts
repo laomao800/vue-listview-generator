@@ -1,8 +1,9 @@
 import _ from 'lodash'
-import { Vue, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch, Mixins } from 'vue-property-decorator'
 import { debounce } from 'decko'
 
-export default class PopEditorBase extends Vue {
+@Component
+class PopEditorMixin extends Vue {
   @Prop({ type: Object, default: () => ({}) })
   public data!: any
 
@@ -58,3 +59,5 @@ export default class PopEditorBase extends Vue {
     this.$emit('delete')
   }
 }
+
+export default Mixins(PopEditorMixin)

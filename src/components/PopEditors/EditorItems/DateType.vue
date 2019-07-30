@@ -1,5 +1,5 @@
 <template>
-  <FieldItemBasic ref="field" title="日期单位">
+  <EditorItemBase ref="field" title="日期单位">
     <div style="font-size:12px;color:#999">{{ showValue }}</div>
     <div slot="pop" :class="$style.popper">
       <div
@@ -9,7 +9,7 @@
         @click="handleChange(item.value)"
       >{{ item.label }}</div>
     </div>
-  </FieldItemBasic>
+  </EditorItemBase>
 </template>
 
 <script lang="ts">
@@ -28,7 +28,7 @@ const listData = [
 const listDataMap = _.keyBy(listData, 'value')
 
 @Component
-export default class FieldDateType extends Vue {
+export default class EditorItemDateType extends Vue {
   @Model('input', { type: String, default: 'default' })
   public value!: string
 

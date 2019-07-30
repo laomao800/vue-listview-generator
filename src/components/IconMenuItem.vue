@@ -1,6 +1,6 @@
 <template functional>
   <ElDropdownItem :command="props.command" v-bind="data.attrs" class="menu-item">
-    <SvgIcon :name="props.icon" class="menu-item__icon"/>
+    <SvgIcon :name="props.icon" class="menu-item__icon" />
     {{props.text}}
   </ElDropdownItem>
 </template>

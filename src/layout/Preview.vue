@@ -1,15 +1,15 @@
 <template>
   <div :class="$style.wrap">
-    <Listview v-if="configLoaded" v-bind="config"/>
+    <Listview v-if="configLoaded" v-bind="config" />
     <div :class="$style.toolbox">
       <ElTooltip effect="dark" content="检查配置" placement="top">
         <button @click="checkCurConfig">
-          <SvgIcon name="code"/>
+          <SvgIcon name="code" />
         </button>
       </ElTooltip>
       <ElTooltip effect="dark" content="退出预览" placement="top">
         <button @click="$store.dispatch('preview', false)">
-          <SvgIcon name="close"/>
+          <SvgIcon name="close" />
         </button>
       </ElTooltip>
     </div>

@@ -1,14 +1,14 @@
 <template>
   <div :class="$style.item">
     <div v-handle class="drag-handle" :class="$style.handle">
-      <SvgIcon name="drag"/>
+      <SvgIcon name="drag" />
     </div>
     <div :class="$style.inner">
       <div :class="$style.content">
-        <slot/>
+        <slot />
       </div>
       <div v-if="$slots.right" :class="$style.right">
-        <slot name="right"/>
+        <slot name="right" />
       </div>
     </div>
   </div>
