@@ -174,7 +174,7 @@ function getAllFieldData() {
     const data: FilterField = {
       type: typeName as FilterField['type'],
       label: typeData.name,
-      model: typeName,
+      model: null,
       componentProps: typeName === 'timeSelect' ? { pickerOptions: {} } : {}
     }
     if (['select', 'multipleSelect', 'cascader'].includes(typeName)) {
@@ -221,15 +221,18 @@ export default class FilterFieldEditor extends PopEditorMixin {
     this.curType = newVal.type!
     this.modelName = this.modelName || newVal.model || ''
     if (!_.isEqual(newVal, this.editingData)) {
-      const target = this.allFieldData[this.curType!]
+      const target = this.allFieldData[this.curType]
       const newData = _.merge({}, target, _.cloneDeep(newVal))
-      this.allFieldData[this.curType!] = newData
+      this.allFieldData[this.curType] = newData
     }
   }
 
   @Watch('curType')
   async typeChanged() {
+    const _model = this.editingData.model
     this.editingData = this.allFieldData[this.curType]
+    // 参数名不再生成默认值，修改为在切换类型时进行默认值填充判断
+    this.editingData.model = _model || this.editingData.type
     // 切换类型弹出内容可能有变化，需更新 popper 位置
     await this.$nextTick()
     this.$refs.popper.updatePopper()
