@@ -82,6 +82,7 @@ export default class SwaggerImporter extends Vue {
         })
       } catch (e) {
         this.chosenApi = null
+        // eslint-disable-next-line no-console
         console.error(e.toString())
         this.$message.error({
           message: e

@@ -19,7 +19,7 @@
           <div
             v-for="path in pathDataByTags[cate.name]"
             :class="['controller', `controller--${path.method}`]"
-            :key="path.path"
+            :key="`${path.method}:${path.path}`"
             @click="chosenPath = path"
           >
             <ElCheckbox class="controller__check" :value="chosenPath === path" />

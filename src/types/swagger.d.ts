@@ -1,31 +1,27 @@
 interface Response {
-  description: string
-  schema?: {
-    type: string
-    title: string
-    properties: {
-      [k: string]: any
-    }
-  }
+  description?: string
+  schema?: Schema
 }
 
 interface Schema {
-  properties: PropertySchema
-  title: string
   type: string
+  title?: string
+  items?: Schema
+  properties?: PropertySchema
 }
 
 interface PropertySchema {
+  [k: string]: any
   type: string
-  description: string
+  description?: string
   format?: string
 }
 
 export interface Parameter {
   name: string
-  in: string
-  description: string
-  required: boolean
+  in?: string
+  description?: string
+  required?: boolean
   type?: string
   schema?: Schema
 }
@@ -41,7 +37,7 @@ export interface SwaggerDoc {
 export interface SwaggerPathData {
   tags: string[]
   responses: { [code: string]: Response }
-  parameters?: Parameter | Parameter[]
+  parameters?: Parameter[]
   summary?: string
   description?: string
 }

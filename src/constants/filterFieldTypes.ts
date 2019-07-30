@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { FilterField } from '@laomao800/vue-listview'
 
 const filterFieldTypes = [
   { name: '文本标签', icon: 'string', type: 'label' },

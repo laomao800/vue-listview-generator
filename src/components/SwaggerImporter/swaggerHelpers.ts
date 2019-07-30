@@ -36,12 +36,12 @@ function reject(msg: any) {
  * TODO: 支持解析原始 enum 属性
  * @param str 接口描述文字
  */
-function parseEnums(str: string) {
+function parseEnums(str: any) {
   try {
     const enumsString = str.match(/(.+)\[enum: (.+)\]/)
     if (enumsString) {
       const options: any[] = []
-      enumsString[2].split(' ').map(item => {
+      enumsString[2].split(' ').map((item: string) => {
         const matchs = item.match(/(\d+)(.+)/)
         if (matchs) {
           options.push({
@@ -104,23 +104,15 @@ function resolveFilterFields(
   pathData: NormalizedPathData
 ): Promise<ListviewProps['filterFields']> {
   const parameters = pathData.parameters
-  if (!parameters) {
-    return reject(`[filterFields 解析失败] 无法获取 parameters。`)
+  if (!(Array.isArray(parameters) && parameters.length > 0)) {
+    return reject(`[filterFields 解析失败] 无法获取 parameters 。`)
   }
-  const schema = Array.isArray(parameters)
-    ? parameters[0].schema
-    : parameters.schema
-  if (!schema) {
-    return reject('[filterFields 解析失败] 所选接口不包含 schema 属性。')
-  } else if (schema.type !== 'object') {
-    return reject(
-      // prettier-ignore
-      `[filterFields 解析失败] 只支持解析 object 类型的 schema ，所选接口 schema type 为 ${schema.type} 。`
-    )
-  }
-
   const filterFields: ListviewProps['filterFields'] = []
-  Object.entries(schema.properties).forEach(([prop, propConfig]) => {
+  const isRefSchema = parameters.length === 1 && parameters[0].schema
+  const properties = isRefSchema
+    ? parameters[0].schema!.properties
+    : _.keyBy(parameters, 'name')
+  Object.entries(properties as PropertySchema).forEach(([prop, propConfig]) => {
     if (!IGNORE_PROPERTIES.includes(prop)) {
       const fieldConfig = getSingleFieldConfig(prop, propConfig)
       if (fieldConfig) {
@@ -150,22 +142,29 @@ function resolveTableColumns(
     return reject('[tableColumns 解析失败] 所选接口不包含 schema 属性。')
   }
 
-  const properties = schema.properties
+  let contentProps!: PropertySchema | undefined
   let contentPropName = null
-  for (const prop in properties) {
-    if (properties[prop]['type'] === 'array') {
-      contentPropName = prop
-      break
+  if (schema.type === 'object' && schema.properties) {
+    const properties = schema.properties
+    for (const prop in properties) {
+      if (properties[prop]['type'] === 'array') {
+        contentPropName = prop
+        break
+      }
     }
+    if (contentPropName) {
+      contentProps = properties[contentPropName][contentPropName].properties
+    }
+  } else if (schema.type === 'array') {
+    contentProps = schema.items!.properties
   }
-  if (!contentPropName) {
+  if (!contentProps) {
     return reject(
       '[tableColumns 解析失败] 响应内容没有 type 为 "array" 的属性。'
     )
   }
+
   try {
-    const contentProps: object =
-      properties[contentPropName][contentPropName].properties
     const tableColumns: ListviewProps['tableColumns'] = []
     Object.entries(contentProps).forEach(([prop, propConfig]) => {
       const { description } = propConfig
@@ -173,17 +172,18 @@ function resolveTableColumns(
       const enums = parseEnums(description)
       if (enums) {
         const { label } = enums
-        column.label = label
+        column.label = label || prop
         // @ts-ignore
         column.fn$formatter = `function formatter(row) {\n  return row['${prop}']\n}`
       } else {
-        column.label = description
+        column.label = description || prop
         column.prop = prop
       }
       tableColumns.push(column)
     })
     return resolve(tableColumns)
   } catch (e) {
+    console.error(e)
     return reject('[tableColumns 解析失败] 无法获取 properties 。')
   }
 }
