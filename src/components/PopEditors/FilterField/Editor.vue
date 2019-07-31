@@ -174,7 +174,7 @@ function getAllFieldData() {
     const data: FilterField = {
       type: typeName as FilterField['type'],
       label: typeData.name,
-      model: null,
+      model: undefined,
       componentProps: typeName === 'timeSelect' ? { pickerOptions: {} } : {}
     }
     if (['select', 'multipleSelect', 'cascader'].includes(typeName)) {
