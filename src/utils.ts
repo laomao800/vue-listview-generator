@@ -75,14 +75,6 @@ export function createFunction(input: any, returnBlankFn = false) {
   return returnBlankFn ? null : () => {}
 }
 
-export function simpleTpl(content: string, variables: any) {
-  const keys = Object.keys(variables)
-  const reg = new RegExp(`<%= ?(${keys.join('|')}) ?%>`, 'g')
-  return content.replace(reg, function(match, p1) {
-    return variables[p1] || ''
-  })
-}
-
 export function dataMapping(data: any = {}, dataMap: any = {}) {
   const get = require('get-value')
   const result: any = {}

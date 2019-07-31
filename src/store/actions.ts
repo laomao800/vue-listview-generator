@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import localforage from 'localforage'
 import json5 from 'json5'
-import { uuid, prettify, simpleTpl } from '@/utils'
+import { uuid, prettify } from '@/utils'
 import { ActionTree } from 'vuex'
 import store from '@/store'
 
@@ -74,7 +74,7 @@ const actions: ActionTree<any, any> = {
       case 'html':
       case 'vue':
         const templateContent = TEMPLATE_MAP[type]
-        content = simpleTpl(templateContent, {
+        content = _.template(templateContent)({
           listviewConfig: configString,
           listviewVersion: rootState.workspace.listviewVersion
         })
