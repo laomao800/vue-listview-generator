@@ -184,7 +184,6 @@ function resolveTableColumns(
     })
     return resolve(tableColumns)
   } catch (e) {
-    console.error(e)
     return reject('[tableColumns 解析失败] 无法获取 properties 。')
   }
 }
