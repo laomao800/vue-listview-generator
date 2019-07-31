@@ -106,8 +106,20 @@
               ref="contentDataMapEditor"
               :content="interContentDataMap"
               lang="json"
-              height="200px"
+              height="200"
               @change="val => editorContentChange('contentDataMap', val)"
+            />
+            <PaneTitle
+              level="2"
+              title="测试映射结果请求参数"
+              inline
+              style="margin-bottom:6px;margin-top:8px;"
+            />
+            <MonacoEditor
+              ref="requestDataEditor"
+              content="{}"
+              lang="json"
+              height="154"
             />
           </ElCol>
           <ElCol :span="16">
@@ -116,7 +128,7 @@
                 <MonacoEditor
                   :content="prettifyJsonStringify(contentDataResult)"
                   :readonly="true"
-                  height="200"
+                  height="400"
                   lang="javascript"
                 />
               </ElTabPane>
@@ -124,7 +136,7 @@
                 <MonacoEditor
                   :content="prettifyJsonStringify(responseBody)"
                   :readonly="true"
-                  height="200"
+                  height="400"
                   lang="javascript"
                 />
               </ElTabPane>
@@ -306,8 +318,22 @@ export default class DataSource extends Vue {
     const requestConfig = {
       url,
       method,
-      withCredentials: true
+      withCredentials: true,
+      data: null,
+      params: null
     }
+    // 获取用户自定义参数，无法通过 json 解析则使用原始字符串
+    let requestData = this.$refs.requestDataEditor.getValue()
+    try {
+      requestData = json5.parse(requestData)
+    } catch (e) {}
+
+    if (method === 'post') {
+      requestConfig.data = requestData
+    } else {
+      requestConfig.params = requestData
+    }
+
     try {
       const response = await axiosService(requestConfig)
       this.responseBody = response.data
