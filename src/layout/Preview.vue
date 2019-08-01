@@ -24,6 +24,7 @@ import CodeDialogService from '@/service/CodeDialog'
 
 @Component({
   // @ts-ignore
+  name: 'Preview', // 此处必须指定 name 属性，以修正 build 之后 keep-alive exclude 失效问题
   components: {
     Listview: () => import('@laomao800/vue-listview')
   }
