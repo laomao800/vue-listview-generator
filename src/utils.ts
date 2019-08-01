@@ -72,7 +72,7 @@ export function createFunction(input: any, returnBlankFn = false) {
       return func
     }
   } catch (e) {}
-  return returnBlankFn ? null : () => {}
+  return returnBlankFn ? () => {} : null
 }
 
 export function dataMapping(data: any = {}, dataMap: any = {}) {
