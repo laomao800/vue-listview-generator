@@ -34,11 +34,11 @@ export function prettifyJsonStringify(data: any): string {
  * '50px' -> '50px'
  * '50.5px' -> '50px'
  * '50%' -> '50%'
- * '50.5%' -> '50%'
+ * '50.5%' -> '50.5%'
  * 'a' -> null
  */
 export function parseSizeWithUnit(value: any): string | null {
-  if (/^-?\d+(.\d+)?(%|(px))$/.test(value)) {
+  if (/^-?((\d+px)|(\d+(.\d+)?%))$/.test(value)) {
     return value
   } else if (typeof value === 'number') {
     return `${value}px`
