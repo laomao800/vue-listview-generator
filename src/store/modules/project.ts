@@ -139,7 +139,8 @@ export const actions: ActionTree<typeof state, any> = {
     })
   },
 
-  updateProject({ commit }, payload) {
+  async updateProject({ commit, dispatch }, payload) {
+    await dispatch('newProject', null, { root: true })
     commit('UPDATE_PROJECT_STATE', payload)
   },
 

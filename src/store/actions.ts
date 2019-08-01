@@ -91,7 +91,7 @@ const actions: ActionTree<any, any> = {
   getInitialState,
 
   newProject({ dispatch }) {
-    Promise.all([
+    return Promise.all([
       dispatch('getInitialState'),
       dispatch('project/getInitialState'),
       dispatch('workspace/getInitialState')
