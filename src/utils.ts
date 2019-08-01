@@ -57,22 +57,18 @@ export function uuid() {
 }
 
 export function isFunctionString(input: any) {
-  try {
-    return _.isFunction(createFunction(input))
-  } catch (e) {
-    return false
-  }
+  return _.isFunction(createFunction(input))
 }
 
-export function createFunction(input: any, returnBlankFn = false) {
+export function createFunction(input: any) {
   try {
     // eslint-disable-next-line no-new-func
-    const func = new Function(`return ${input.trim()}`)()
-    if (_.isFunction(func)) {
-      return func
+    const newFunc = new Function(`return ${input.trim()}`)()
+    if (_.isFunction(newFunc)) {
+      return newFunc
     }
   } catch (e) {}
-  return returnBlankFn ? () => {} : null
+  return null
 }
 
 export function dataMapping(data: any = {}, dataMap: any = {}) {
