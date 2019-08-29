@@ -18,7 +18,7 @@ module.exports = {
       const SentryWebpackPlugin = require('@sentry/webpack-plugin')
       config.plugins.push(
         new SentryWebpackPlugin({
-          release: process.env.RELEASE_TAG || version,
+          release: process.env.VERSION || version,
           include: '.',
           ignore: ['node_modules']
         })
