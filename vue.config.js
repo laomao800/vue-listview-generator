@@ -1,4 +1,5 @@
 const path = require('path')
+const { version } = require('./package.json')
 
 module.exports = {
   publicPath: './',
@@ -12,6 +13,17 @@ module.exports = {
         output: 'monaco-editor'
       })
     )
+
+    if (process.env.NODE_ENV === 'production') {
+      const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+      config.plugins.push(
+        new SentryWebpackPlugin({
+          release: process.env.RELEASE_TAG || version,
+          include: '.',
+          ignore: ['node_modules']
+        })
+      )
+    }
   },
 
   chainWebpack: config => {
