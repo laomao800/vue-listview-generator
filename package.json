@@ -22,7 +22,7 @@
     "json-schema-ref-parser": "^7.1.0",
     "json5": "^2.1.0",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "monaco-editor": "^0.17.1",
     "normalize.css": "^8.0.1",
     "prettier": "^1.16.4",
