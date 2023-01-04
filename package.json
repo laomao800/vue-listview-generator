@@ -20,7 +20,7 @@
     "get-value": "^3.0.1",
     "has-values": "^2.0.1",
     "json-schema-ref-parser": "^7.1.0",
-    "json5": "^2.1.0",
+    "json5": "^2.2.2",
     "localforage": "^1.7.3",
     "lodash": "^4.17.19",
     "monaco-editor": "^0.17.1",
